@@ -201,22 +201,14 @@ si sistem pentru  logarea unui utilizator
 2. Fluxul revine la pasul 2\.
 
 ---
-
-    **Nume** :  Administreaza prezenta manual
-
-    **Descriere** : Adminul poate modifica manual prezența unui student (ex: dacă a uitat să se marcheze).
-
-    **Actor**: Admin (main) 
-
-    **Eveniment Declansator** : Adminul selectează un eveniment trecut/curent.
-
-    **Preconditii** : Evenimentul există, utilizatorul există.
-
-    **Postconditii** : Prezențele sunt actualizate.
-
-    **Referinte incrucisate**:
-
-    **Flux principal**:
+**Nume** :  Administreaza prezenta manual
+**Descriere** : Adminul poate modifica manual prezența unui student (ex: dacă a uitat să se marcheze).
+**Actor**: Admin (main) 
+**Eveniment Declansator** : Adminul selectează un eveniment trecut/curent.
+**Preconditii** : Evenimentul există, utilizatorul există.
+**Postconditii** : Prezențele sunt actualizate.
+**Referinte incrucisate**:
+**Flux principal**:
 
 | ADMIN | SISTEM |
 | :---- | :---- |
