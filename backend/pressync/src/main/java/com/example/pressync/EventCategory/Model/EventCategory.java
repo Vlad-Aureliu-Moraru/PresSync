@@ -15,7 +15,26 @@ public class EventCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private Integer id;
+    @Column(name = "name")
+    private String name;
+    @Column(name = "startingTime")
+    private String startingTime;
+    @Column(name = "endTime")
+    private String endTime;
+    @Column(name = "attendanceTimeStart")
+    private String attendanceTimeStart;
+    @Column(name = "attendanceDuration")
+    private String attendanceDuration;
+    @Column(name = "repeatable")
+    private  boolean repeatable;
+    @Column(name = "repeatableType")
+    private  String repeatableType;
+    @Column(name = "repeatsAfterFinished")
+    private  boolean repeatsAfterFinished;
+    @Column(name = "repeatsOnSpecificDay")
+    private  String repeatsOnSpecificDay;
+
 
 
 }

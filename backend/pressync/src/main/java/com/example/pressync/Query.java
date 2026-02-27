@@ -2,6 +2,6 @@ package com.example.pressync;
 
 import org.springframework.http.ResponseEntity;
 
-public interface Command <E,T>{
-    ResponseEntity<T> execute(E entity);
+public interface Query <I, O> {
+    ResponseEntity<O> execute(I input);
 }
