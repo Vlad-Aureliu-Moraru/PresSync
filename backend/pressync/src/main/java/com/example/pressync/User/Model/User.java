@@ -7,23 +7,28 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Table(name = "user")
+@Table(name = "UserEntity")
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "email", unique = true)
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
-    @Column(name = "name")
+    @Column(name = "password",nullable = false)
+    private String password;
+    @Column(name = "name",nullable = false)
     private String name;
-    @Column(name = "surname")
+    @Column(name = "surname",nullable = false)
     private String surname;
-    @Column(name = "role")
-    private String role;
-    @Column(name = "active")
-    private Boolean active;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role",nullable = false)
+    private UserRoles role = UserRoles.USER;
+
+    @Column(name = "active", nullable = false)
+    private Boolean active = true;
 
 
 }
