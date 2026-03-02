@@ -20,7 +20,7 @@ public class UpdateEventCategoryCommand implements Command<EventCategoryUpdateDT
         int id = entity.getId();
         EventCategory eventCategory = entity.getEventCategory();
         if(!eventCategoryRepository.existsById(id)){
-            return ResponseEntity.notFound().build();
+            throw new IllegalArgumentException("Event category with id " + id + " does not exist.");
         }
         eventCategory.setId(id);
         eventCategoryRepository.save(eventCategory);

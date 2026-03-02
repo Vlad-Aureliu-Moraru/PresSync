@@ -1,10 +1,15 @@
 package com.example.pressync.EventCategory.Model;
 
+import com.example.pressync.Event.Model.Event;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Generated;
 import lombok.NoArgsConstructor;
+
+import java.sql.Time;
+import java.util.List;
 
 @Data
 @Entity
@@ -14,27 +19,29 @@ import lombok.NoArgsConstructor;
 public class EventCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Integer id;
-    @Column(name = "name")
-    private String name;
-    @Column(name = "startingTime")
-    private String startingTime;
-    @Column(name = "endTime")
-    private String endTime;
-    @Column(name = "attendanceTimeStart")
-    private String attendanceTimeStart;
-    @Column(name = "attendanceDuration")
-    private String attendanceDuration;
-    @Column(name = "repeatable")
-    private  boolean repeatable;
-    @Column(name = "repeatableType")
-    private  String repeatableType;
-    @Column(name = "repeatsAfterFinished")
-    private  boolean repeatsAfterFinished;
-    @Column(name = "repeatsOnSpecificDay")
+    @Column(name = "Id")
+    private Integer Id;
+    @Column(name = "Name")
+    private String Name;
+    @Column(name = "StartingTime")
+    private Time StartingTime;
+    @Column(name = "EndTime")
+    private Time EndTime;
+    @Column(name = "AttendanceTimeStart")
+    private Time AttendanceTimeStart;
+    @Column(name = "AttendanceDuration")
+    private Integer AttendanceDuration;
+    @Column(name = "Repeatable")
+    private  Boolean Repeatable;
+    @Column(name = "RepeatableType")
+    private  String RepeatableType;
+    @Column(name = "RepeatsAfterFinished")
+    private  Boolean RepeatsAfterFinished;
+    @Column(name = "RepeatsOnSpecificDay")
     private  String repeatsOnSpecificDay;
-
+    @OneToMany(mappedBy = "eventCategory")
+    @JsonIgnore
+    private List<Event> events;
 
 
 }

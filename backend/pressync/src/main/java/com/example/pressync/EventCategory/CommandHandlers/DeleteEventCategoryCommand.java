@@ -17,7 +17,7 @@ public class DeleteEventCategoryCommand implements Command<Integer, HttpResponse
     public ResponseEntity<HttpResponse> execute(Integer entity) {
         EventCategory found =  eventCategoryRepository.findById(entity).orElse(null);
         if(found == null){
-            return ResponseEntity.notFound().build();
+            throw new IllegalArgumentException("Event category with id " + entity + " does not exist.");
         }
         eventCategoryRepository.delete(found);
         return ResponseEntity.ok().build();
