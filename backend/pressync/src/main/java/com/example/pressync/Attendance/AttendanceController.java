@@ -7,24 +7,23 @@ import com.example.pressync.Attendance.Model.AttendanceCreateDTO;
 import com.example.pressync.Attendance.Model.AttendanceUpdateDTO;
 import com.example.pressync.Attendance.QueryHandler.GetAllAttendanceQuery;
 import com.example.pressync.Attendance.QueryHandler.GetAttendanceByIdQuery;
+import com.example.pressync.Attendance.QueryHandler.GetAttendanceByUserIdQuery;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/Attendance")
+@RequestMapping("/attendance")
+@RequiredArgsConstructor
 public class AttendanceController {
-    private CreateAttendanceCommand createAttendanceCommand;
-    private UpdateAttendanceCommand updateAttendanceCommand;
-    private GetAllAttendanceQuery getAllAttendanceQuery;
-    private GetAttendanceByIdQuery getAttendanceByIdQuery;
-    public AttendanceController(GetAttendanceByIdQuery getAttendanceByIdQuery,CreateAttendanceCommand createAttendanceCommand, UpdateAttendanceCommand updateAttendanceCommand, GetAllAttendanceQuery getAllAttendanceQuery) {
-        this.createAttendanceCommand = createAttendanceCommand;
-        this.updateAttendanceCommand = updateAttendanceCommand;
-        this.getAllAttendanceQuery = getAllAttendanceQuery;
-        this.getAttendanceByIdQuery = getAttendanceByIdQuery;
-    }
+    private final CreateAttendanceCommand createAttendanceCommand;
+    private final UpdateAttendanceCommand updateAttendanceCommand;
+    private final GetAllAttendanceQuery getAllAttendanceQuery;
+    private final GetAttendanceByIdQuery getAttendanceByIdQuery;
+    private final GetAttendanceByUserIdQuery getAttendanceByUserIdQuery;
+
     @GetMapping
     public ResponseEntity<List<Attendance>> getAllAttendance() {
         return getAllAttendanceQuery.execute(null);
@@ -33,9 +32,14 @@ public class AttendanceController {
     public ResponseEntity<Attendance> getAttendanceById(@PathVariable  int id) {
         return getAttendanceByIdQuery.execute(id);
     }
-    @PostMapping
-    public ResponseEntity<Attendance> createAttendance(@RequestBody AttendanceCreateDTO attendance) {
-        return createAttendanceCommand.execute(attendance);
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<Attendance>> getAttendanceByUserID (@PathVariable  int userId) {
+        return getAttendanceByUserIdQuery.execute(userId);
+    }
+    @PostMapping("/{id}")
+    public ResponseEntity<Attendance> createAttendance(@PathVariable int id) {
+        return createAttendanceCommand.execute(id);
     }
 
     @PutMapping("/{id}")

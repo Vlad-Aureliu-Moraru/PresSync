@@ -1,4 +1,4 @@
-package com.example.pressync.User.Model;
+package com.example.pressync.User.Model.DTOs;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -7,27 +7,22 @@ import com.example.pressync.Event.Model.Event;
 import com.example.pressync.Event.Model.EventDTO;
 import com.example.pressync.Event.QueryHandlers.GetAllEventsQuery;
 import com.example.pressync.Event.QueryHandlers.GetEventByIdQuery;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/Event")
+@RequestMapping("/event")
+@RequiredArgsConstructor
 public class EventController {
-    private CreateEventCommand createEventCommand;
-    private DeleteEventCommand deleteEventCommand;
-    private UpdateEventCommand updateEventCommand;
-    private GetAllEventsQuery getAllEventsQuery;
-    private GetEventByIdQuery getEventByIdQuery;
+    private final CreateEventCommand createEventCommand;
+    private final DeleteEventCommand deleteEventCommand;
+    private final UpdateEventCommand updateEventCommand;
+    private final GetAllEventsQuery getAllEventsQuery;
+    private final GetEventByIdQuery getEventByIdQuery;
 
-    public EventController(GetEventByIdQuery getEventByIdQuery,CreateEventCommand createEventCommand, DeleteEventCommand deleteEventCommand, UpdateEventCommand updateEventCommand, GetAllEventsQuery getAllEventsQuery) {
-        this.createEventCommand = createEventCommand;
-        this.deleteEventCommand = deleteEventCommand;
-        this.updateEventCommand = updateEventCommand;
-        this.getAllEventsQuery= getAllEventsQuery;
-        this.getEventByIdQuery = getEventByIdQuery;
-    }
 
     @GetMapping
     public ResponseEntity<List<Event>> getAllEvents(){

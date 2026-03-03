@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface AttendanceRepository extends JpaRepository<Attendance, Integer> {
 
-    List<Attendance> findAllByUser(Integer id);
+    List<Attendance> findAllByUserId(Integer id);
+    Boolean existsByUserIdAndEventId(Integer userId, Integer eventId);
 }

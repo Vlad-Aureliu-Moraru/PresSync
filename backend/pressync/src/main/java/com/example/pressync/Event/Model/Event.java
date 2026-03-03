@@ -14,13 +14,13 @@ import lombok.NoArgsConstructor;
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Id")
-    private Integer Id;
+    @Column(name = "id")
+    private Integer id;
     @ManyToOne
     private EventCategory eventCategory;
-    @Column(name = "Active")
-    private Boolean Active;
-    @Column(name = "Archived")
-    private Boolean Archived;
+    @Column(name = "active")
+    private Boolean active;
+    @Column(name = "archived")
+    private Boolean archived;
 
 }

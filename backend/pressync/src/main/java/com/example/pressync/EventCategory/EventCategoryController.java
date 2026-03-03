@@ -7,6 +7,7 @@ import com.example.pressync.EventCategory.Model.EventCategory;
 import com.example.pressync.EventCategory.Model.EventCategoryUpdateDTO;
 import com.example.pressync.EventCategory.QueryHandlers.GetAllEventCategoriesQuerry;
 import com.example.pressync.EventCategory.QueryHandlers.GetEventCategoryQuery;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,20 +15,14 @@ import java.net.http.HttpResponse;
 import java.util.List;
 
 @RestController
-@RequestMapping("/EventCategory")
+@RequestMapping("/eventCategory")
+@RequiredArgsConstructor
 public class EventCategoryController {
-    private CreateEventCategoryCommand createEventCategoryCommand;
-    private GetAllEventCategoriesQuerry getAllEventCategoriesQuerry;
-    private GetEventCategoryQuery  getEventCategoryQuery;
-    private DeleteEventCategoryCommand deleteEventCategoryCommand;
-    private UpdateEventCategoryCommand updateEventCategoryCommand;
-    public EventCategoryController(DeleteEventCategoryCommand deleteEventCategoryCommand,UpdateEventCategoryCommand updateEventCategoryCommand,GetEventCategoryQuery getEventCategoryQuery,CreateEventCategoryCommand createEventCategoryCommand, GetAllEventCategoriesQuerry getAllEventCategoriesQuerry) {
-        this.createEventCategoryCommand= createEventCategoryCommand;
-        this.getAllEventCategoriesQuerry=getAllEventCategoriesQuerry;
-        this.deleteEventCategoryCommand=deleteEventCategoryCommand;
-        this.updateEventCategoryCommand=updateEventCategoryCommand;
-        this.getEventCategoryQuery=getEventCategoryQuery;
-    }
+    private final CreateEventCategoryCommand createEventCategoryCommand;
+    private final GetAllEventCategoriesQuerry getAllEventCategoriesQuerry;
+    private final GetEventCategoryQuery  getEventCategoryQuery;
+    private final DeleteEventCategoryCommand deleteEventCategoryCommand;
+    private final UpdateEventCategoryCommand updateEventCategoryCommand;
 
 
     @GetMapping

@@ -8,39 +8,32 @@ import com.example.pressync.Event.EventRepository;
 import com.example.pressync.Event.Model.Event;
 import com.example.pressync.User.Model.User;
 import com.example.pressync.User.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 
 @Service
-public class CreateAttendanceCommand implements Command<AttendanceCreateDTO,String> {
-    private AttendanceRepository attendanceRepository;
-    private UserRepository userRepository;
-    private EventRepository eventRepository;
-    public CreateAttendanceCommand(EventRepository eventRepository,UserRepository userRepository,AttendanceRepository attendanceRepository) {
-        this.attendanceRepository = attendanceRepository;
-        this.userRepository = userRepository;
-        this.eventRepository = eventRepository;
-    }
-    @Override
-    public ResponseEntity execute(AttendanceCreateDTO  attendanceCreateDTO) {
-        Attendance attendance = new Attendance();
-        int user_id = attendanceCreateDTO.getUserId();
-        int event_id= attendanceCreateDTO.getEventId();
-        if(!userRepository.existsById(user_id)){
-            throw new IllegalArgumentException("User does not exist");
-        }
-        if(!eventRepository.existsById(event_id)){
-            throw new IllegalArgumentException("Event does not exist");
-        }
+@RequiredArgsConstructor
+public class CreateAttendanceCommand implements Command<Integer,String> {
+    private final AttendanceRepository attendanceRepository;
+    private final UserRepository userRepository;
+    private final EventRepository eventRepository;
 
-        User user = userRepository.findById(user_id).get();
-        Event event = eventRepository.findById(event_id).get();
+    @Override
+    public ResponseEntity execute(Integer id) {
+        Attendance attendance = new Attendance();
+        User user = userRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("User not found"));
+        Event event = eventRepository.findFirstByActiveTrue().orElseThrow(()-> new IllegalArgumentException("Event not found"));
+
+        if (attendanceRepository.existsByUserIdAndEventId(user.getId(), event.getId())) {
+            throw new IllegalArgumentException("Attendance already exists");
+        }
 
 
         attendance.setUser(user);
         attendance.setEvent(event);
         attendanceRepository.save(attendance);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body("Succesfully joined attendance");
     }
 }
