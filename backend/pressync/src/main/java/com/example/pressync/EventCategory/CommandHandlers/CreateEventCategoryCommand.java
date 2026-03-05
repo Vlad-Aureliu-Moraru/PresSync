@@ -3,6 +3,8 @@ package com.example.pressync.EventCategory.CommandHandlers;
 import com.example.pressync.Command;
 import com.example.pressync.EventCategory.EventCategoryRepository;
 import com.example.pressync.EventCategory.Model.EventCategory;
+import com.example.pressync.EventCategory.Model.RepeatableType;
+import com.example.pressync.EventCategory.Model.RepeatsOnSpecificDay;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -53,5 +55,32 @@ public class CreateEventCategoryCommand implements Command<EventCategory,String>
 
         eventCategoryRepository.save(entity);
         return ResponseEntity.ok().body(entity.toString());
+    }
+
+
+    private boolean isColidingWithSomething(EventCategory newCat) {
+        for (EventCategory existing : eventCategoryRepository.findAll()) {
+            if (newCat.getId() != null && newCat.getId().equals(existing.getId())) continue;
+
+            if (doDaysOverlap(newCat, existing)) {
+                if (newCat.getStartingTime().before(existing.getEndTime()) &&
+                        newCat.getEndTime().after(existing.getStartingTime())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean doDaysOverlap(EventCategory a, EventCategory b) {
+        if (a.getRepeatableType() == RepeatableType.DAILY ||
+                b.getRepeatableType() == RepeatableType.DAILY) return true;
+
+        if (a.getRepeatsOnSpecificDay() != RepeatsOnSpecificDay.NO &&
+                b.getRepeatsOnSpecificDay() != RepeatsOnSpecificDay.NO) {
+            return a.getRepeatsOnSpecificDay() == b.getRepeatsOnSpecificDay();
+        }
+
+        return a.getBaseDate().getDayOfWeek() == b.getBaseDate().getDayOfWeek();
     }
 }
