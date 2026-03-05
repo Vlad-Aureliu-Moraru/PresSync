@@ -7,6 +7,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -33,11 +35,11 @@ public class EventCategory {
     @Column(name = "repeatable")
     private  Boolean repeatable;
     @Column(name = "repeatableType")
-    private  String repeatableType;
-    @Column(name = "repeatsAfterFinished")
-    private  Boolean repeatsAfterFinished;
+    private  RepeatableType repeatableType;
     @Column(name = "repeatsOnSpecificDay")
-    private  String repeatsOnSpecificDay;
+    private  RepeatsOnSpecificDay repeatsOnSpecificDay;
+    @Column(name ="base_date")
+    private LocalDate baseDate;
     @OneToMany(mappedBy = "eventCategory")
     @JsonIgnore
     private List<Event> events;

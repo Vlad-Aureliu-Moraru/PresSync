@@ -13,3 +13,5 @@ public interface EventCategoryRepository extends JpaRepository<EventCategory,Int
     @Query(value = "SELECT * FROM categorie_eveniment WHERE HOUR(starting_time) = :hour AND MINUTE(starting_time) = :minute",
             nativeQuery = true)
     List<EventCategory> findByStartingTimeNative(@Param("hour") int hour, @Param("minute") int minute);}
+
+

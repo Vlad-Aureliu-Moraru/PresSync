@@ -11,6 +11,7 @@ import java.util.Optional;
 
 public interface EventRepository extends JpaRepository<Event,Integer> {
     Optional<Event> findFirstByActiveTrue();
+
     @Modifying
     @Query("UPDATE Event e SET e.active=false ")
     void deactivateAllEvents();
@@ -20,4 +21,14 @@ public interface EventRepository extends JpaRepository<Event,Integer> {
             "WHERE e.active = true " +
             "AND HOUR(ec.end_time) = :hour AND MINUTE(ec.end_time) = :minute",
             nativeQuery = true)
-    List<Event> findExpiredEvents(@Param("hour") int hour, @Param("minute") int minute);}
+    List<Event> findExpiredEvents(@Param("hour") int hour, @Param("minute") int minute);
+
+    @Modifying
+    @Query("UPDATE Event e set e.active=false where e.eventCategory.id=:catId AND e.active=true")
+    void deactivateByCategory(Integer catId);
+
+    @Modifying
+    @Query("UPDATE Event e set e.archived=true,e.active=false where e.eventCategory.id=:catId AND e.active=true")
+    void archiveByCategory(Integer catId);
+
+}
