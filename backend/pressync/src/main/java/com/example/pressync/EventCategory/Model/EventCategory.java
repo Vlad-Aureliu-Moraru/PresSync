@@ -3,10 +3,8 @@ package com.example.pressync.EventCategory.Model;
 import com.example.pressync.Event.Model.Event;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Generated;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 import java.sql.Time;
 import java.util.List;
@@ -30,6 +28,7 @@ public class EventCategory {
     @Column(name = "attendanceTimeStart")
     private Time attendanceTimeStart;
     @Column(name = "attendanceDuration")
+    @NotNull(message = "Duration is required")
     private Integer attendanceDuration;
     @Column(name = "repeatable")
     private  Boolean repeatable;

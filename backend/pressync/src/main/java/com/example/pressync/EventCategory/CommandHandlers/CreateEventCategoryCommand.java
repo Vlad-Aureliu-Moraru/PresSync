@@ -17,10 +17,13 @@ public class CreateEventCategoryCommand implements Command<EventCategory,String>
     }
     @Override
     public ResponseEntity<String> execute(EventCategory entity) {
+        if(entity.getStartingTime() == null||entity.getEndTime() == null){
+            throw new IllegalArgumentException("Start and end time are required");
+        }
         Time startingTime = entity.getStartingTime();
         Time endTime = entity.getEndTime();
         Time atendenceStartingTime = entity.getAttendanceTimeStart();
-        int atendenceDuration = entity.getAttendanceDuration();
+        Integer atendenceDuration = entity.getAttendanceDuration();
 
         if (atendenceStartingTime.after(endTime) || atendenceStartingTime.before(startingTime)){
             throw new IllegalArgumentException("Attendance time must be between start and end time.");

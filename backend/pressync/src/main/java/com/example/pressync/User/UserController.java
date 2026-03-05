@@ -55,7 +55,7 @@ public class UserController {
         return updateUserCommand.execute(userUpdateDTO);
 
     }
-    @GetMapping
+    @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginDTO loginDTO) {
        return loginQuery.execute(loginDTO);
     }
