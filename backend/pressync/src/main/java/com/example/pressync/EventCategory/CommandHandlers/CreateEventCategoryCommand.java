@@ -5,6 +5,7 @@ import com.example.pressync.EventCategory.EventCategoryRepository;
 import com.example.pressync.EventCategory.Model.EventCategory;
 import com.example.pressync.EventCategory.Model.RepeatableType;
 import com.example.pressync.EventCategory.Model.RepeatsOnSpecificDay;
+import jakarta.transaction.Transactional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -19,44 +20,38 @@ public class CreateEventCategoryCommand implements Command<EventCategory,String>
         this.eventCategoryRepository = eventCategoryRepository;
     }
     @Override
+    @Transactional
     public ResponseEntity<String> execute(EventCategory entity) {
-        /*
-         if the category is not repeatable it happends only once thus the values connected to repeating status should not be taken in account
-     there should not be collisons (same time ;same day)
-         HOW THE COLLISION SYSTEM WILL WORK :
-         1.CHECK FOR BASE_DATE and REPEATABLE TYPE MATCHING
-         2.  SOMETIMES DIFERENT BASE DATES WITH DIFFERENT REP TYPE COULD ALSO COLIDE
-         2.1 EX: A DAILY EVENT COULD COLIDE WITH ANY TYPE OF REPEATABLE EVENT
-         2.2 DAILY EVENTS SHOULD HAVE A DEDICATED WINDOW THAT DOESNT OVERLAP WITH ALL EVENTS
-         3. IF COLISION DETECTED THROW ERROR
-         */
 
-
-        if(entity.getStartingTime() == null||entity.getEndTime() == null){
-            throw new IllegalArgumentException("Start and end time are required");
-        }
-        Time startingTime = entity.getStartingTime();
-        Time endTime = entity.getEndTime();
-        Time atendenceStartingTime = entity.getAttendanceTimeStart();
-        Integer atendenceDuration = entity.getAttendanceDuration();
-
-        if (atendenceStartingTime.after(endTime) || atendenceStartingTime.before(startingTime)){
-            throw new IllegalArgumentException("Attendance time must be between start and end time.");
-        }
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(atendenceStartingTime);
-        calendar.add(Calendar.MINUTE, atendenceDuration);
-        Time attendanceEndingTime = new Time(calendar.getTimeInMillis());
         entity.setBaseDate(LocalDate.now());
-        if (attendanceEndingTime.after(endTime)){
-            throw new IllegalArgumentException("Attendance end time must be before the event start time.");
-        }
+        checkValidity(entity);
+        if (isColidingWithSomething(entity)){
+            throw new IllegalArgumentException("Coliding with something");
+        };
 
 
         eventCategoryRepository.save(entity);
         return ResponseEntity.ok().body(entity.toString());
     }
+    private void checkValidity(EventCategory entity){
+        Time startingTime = entity.getStartingTime();
+        Time endTime = entity.getEndTime();
+        if (startingTime.after(endTime)||startingTime.equals(endTime)){
+            throw new IllegalArgumentException("Invalid start time or end time");
+        }
+        Time atendenceStartingTime = entity.getAttendanceTimeStart();
+        if (atendenceStartingTime.before(startingTime)||atendenceStartingTime.after(endTime)){
+            throw new IllegalArgumentException("Invalid attendance start time");
+        }
+        Integer atendenceDuration = entity.getAttendanceDuration();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(atendenceStartingTime);
+        calendar.add(Calendar.MINUTE, atendenceDuration);
+        if (calendar.getTime().after(endTime)){
+            throw new IllegalArgumentException("Invalid attendance duration");
+        }
 
+    }
 
     private boolean isColidingWithSomething(EventCategory newCat) {
         for (EventCategory existing : eventCategoryRepository.findAll()) {
@@ -75,6 +70,11 @@ public class CreateEventCategoryCommand implements Command<EventCategory,String>
     private boolean doDaysOverlap(EventCategory a, EventCategory b) {
         if (a.getRepeatableType() == RepeatableType.DAILY ||
                 b.getRepeatableType() == RepeatableType.DAILY) return true;
+
+        if (!a.getRepeatable() && !b.getRepeatable()){
+            return a.getBaseDate().equals(b.getBaseDate());
+        }
+
 
         if (a.getRepeatsOnSpecificDay() != RepeatsOnSpecificDay.NO &&
                 b.getRepeatsOnSpecificDay() != RepeatsOnSpecificDay.NO) {
