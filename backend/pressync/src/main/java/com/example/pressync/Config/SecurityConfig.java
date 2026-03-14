@@ -20,9 +20,13 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
     @Bean
-    public SecurityFilterChain springSecurityFilterChain(HttpSecurity http) throws Exception {
-       return http.csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(authorizeRequests -> authorizeRequests.anyRequest().permitAll()).
-                sessionManagement(s ->s.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).build();
+        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+            http
+                    .csrf(csrf -> csrf.disable()) // Critical for Postman POST requests
+                    .authorizeHttpRequests(auth -> auth
+                            .anyRequest().permitAll() // Disables login requirement
+                    );
+            return http.build();
+        }
     }
-}
+
