@@ -47,7 +47,12 @@ public class DailyLoaderScheduler {
             }
         }
         cache.updateList(todayList);
-        System.out.println("Updating today schedule "+todayList.size());
+
+        System.out.println("***PRINTING TODAYLIST***");
+        for (EventCategory eventCategory : todayList) {
+            System.out.println(eventCategory.getName() + " id:" + eventCategory.getId() + " sT:" + eventCategory.getStartingTime());
+        }
+        System.out.println("***PRINTING TODAYLIST***");
     }
 
     private boolean shouldRunToday(EventCategory cat, LocalDate date) {

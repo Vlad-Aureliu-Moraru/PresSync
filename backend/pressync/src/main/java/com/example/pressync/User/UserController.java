@@ -28,10 +28,6 @@ public class UserController {
     private final LoginQuery loginQuery;
 
 
-    @PostMapping
-    public ResponseEntity<String> createUser(@RequestBody UserCreateDTO user) {
-       return createUserCommand.execute(user);
-    }
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
         return getAllUsersQuery.execute(null);
