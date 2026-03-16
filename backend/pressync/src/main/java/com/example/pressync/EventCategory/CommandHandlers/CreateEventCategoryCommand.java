@@ -3,9 +3,12 @@ package com.example.pressync.EventCategory.CommandHandlers;
 import com.example.pressync.Command;
 import com.example.pressync.EventCategory.EventCategoryRepository;
 import com.example.pressync.EventCategory.Model.EventCategory;
+import com.example.pressync.EventCategory.Model.EventCategoryChangedEvent;
 import com.example.pressync.EventCategory.Model.RepeatableType;
 import com.example.pressync.EventCategory.Model.RepeatsOnSpecificDay;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +17,10 @@ import java.time.LocalDate;
 import java.util.Calendar;
 
 @Service
+@RequiredArgsConstructor
 public class CreateEventCategoryCommand implements Command<EventCategory,String> {
-    private EventCategoryRepository eventCategoryRepository;
-    public CreateEventCategoryCommand(EventCategoryRepository eventCategoryRepository){
-        this.eventCategoryRepository = eventCategoryRepository;
-    }
+    private final EventCategoryRepository eventCategoryRepository;
+    private final ApplicationEventPublisher applicationEventPublisher;
     @Override
     @Transactional
     public ResponseEntity<String> execute(EventCategory entity) {
@@ -31,6 +33,7 @@ public class CreateEventCategoryCommand implements Command<EventCategory,String>
 
 
         eventCategoryRepository.save(entity);
+        applicationEventPublisher.publishEvent(new EventCategoryChangedEvent(entity));
         return ResponseEntity.ok().body(entity.toString());
     }
     private void checkValidity(EventCategory entity){

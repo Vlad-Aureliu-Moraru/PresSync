@@ -4,6 +4,7 @@ import com.example.pressync.Event.EventRepository;
 import com.example.pressync.Event.Model.Event;
 import com.example.pressync.EventCategory.EventCategoryRepository;
 import com.example.pressync.EventCategory.Model.EventCategory;
+import com.example.pressync.EventCategory.Model.EventCategoryChangedEvent;
 import com.example.pressync.EventCategory.Model.RepeatableType;
 import com.example.pressync.EventCategory.Model.RepeatsOnSpecificDay;
 import jakarta.annotation.PostConstruct;
@@ -26,7 +27,7 @@ public class DailyLoaderScheduler {
     private final EventRepository eventRepository;
     private final EventCategoryRepository eventCategoryRepository;
     private final TodayScheduleCache cache;
-
+    private List<EventCategory> todayList = new ArrayList<>();
     @Scheduled(cron = "0 0 0  * * *")
     public void loadDailyEvents() {
         fillTodaySchedule();
@@ -40,7 +41,7 @@ public class DailyLoaderScheduler {
     public void fillTodaySchedule() {
         List<EventCategory> eventCategoryList = this.eventCategoryRepository.findAll();
         LocalDate baseDate = LocalDate.now();
-        List<EventCategory> todayList = new ArrayList<>();
+        todayList.clear();
         for (EventCategory eventCategory : eventCategoryList) {
             if (shouldRunToday(eventCategory, baseDate)) {
                 todayList.add(eventCategory);
@@ -78,5 +79,17 @@ public class DailyLoaderScheduler {
             case YEARLY -> date.getMonth() == cat.getBaseDate().getMonth() &&
                     date.getDayOfMonth() == cat.getBaseDate().getDayOfMonth();
         };
+    }
+    private void addToTodayList(EventCategory eventCategory) {
+        LocalDate baseDate = LocalDate.now();
+        if (shouldRunToday(eventCategory, baseDate)) {
+            todayList.add(eventCategory);
+        }
+        cache.updateList(todayList);
+    }
+    @EventListener
+    public void onCategoryCreated(EventCategoryChangedEvent event){
+        System.out.println("Scheduler recieved update for "+ event.category().getName());
+        addToTodayList(event.category());
     }
 }
