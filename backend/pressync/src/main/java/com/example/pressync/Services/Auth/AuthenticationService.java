@@ -1,8 +1,7 @@
-package com.example.pressync.Services;
+package com.example.pressync.Services.Auth;
 
 import com.example.pressync.User.CommandHandlers.CreateUserCommand;
 import com.example.pressync.User.Model.DTOs.UserCreateDTO;
-import com.example.pressync.User.Model.User;
 import com.example.pressync.User.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;

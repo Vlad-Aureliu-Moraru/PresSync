@@ -1,8 +1,8 @@
 package com.example.pressync.User.CommandHandlers;
 
 import com.example.pressync.Command;
-import com.example.pressync.Services.AuthenticationResponse;
-import com.example.pressync.Services.JWTService;
+import com.example.pressync.Services.Auth.AuthenticationResponse;
+import com.example.pressync.Services.Auth.JWTService;
 import com.example.pressync.User.Model.DTOs.UserCreateDTO;
 import com.example.pressync.User.Model.User;
 import com.example.pressync.User.Model.UserRoles;
@@ -24,15 +24,13 @@ public class CreateUserCommand implements Command<UserCreateDTO, AuthenticationR
 
     @Override
     public ResponseEntity<AuthenticationResponse> execute(UserCreateDTO entity) {
-        // 1. Validate
         userValidator.validate(entity.getName(), entity.getSurname(), entity.getEmail());
 
-        // 2. Map DTO to Entity
         User userToSave = new User();
         userToSave.setName(entity.getName());
         userToSave.setEmail(entity.getEmail());
         userToSave.setSurname(entity.getSurname());
-        userToSave.setActive(true); // FIX: Satisfies DB constraint
+        userToSave.setActive(true);
         userToSave.setRole(UserRoles.USER);
 
         userToSave.setPassword(passwordEncoder.encode(entity.getPassword()));

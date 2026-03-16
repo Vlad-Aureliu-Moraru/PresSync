@@ -8,8 +8,10 @@ import com.example.pressync.Attendance.Model.AttendanceUpdateDTO;
 import com.example.pressync.Attendance.QueryHandler.GetAllAttendanceQuery;
 import com.example.pressync.Attendance.QueryHandler.GetAttendanceByIdQuery;
 import com.example.pressync.Attendance.QueryHandler.GetAttendanceByUserIdQuery;
+import com.example.pressync.User.Model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,9 +39,9 @@ public class AttendanceController {
     public ResponseEntity<List<Attendance>> getAttendanceByUserID (@PathVariable  int userId) {
         return getAttendanceByUserIdQuery.execute(userId);
     }
-    @PostMapping("/{id}")
-    public ResponseEntity<Attendance> createAttendance(@PathVariable int id) {
-        return createAttendanceCommand.execute(id);
+    @PostMapping("/mark")
+    public ResponseEntity<Attendance> createAttendance(@AuthenticationPrincipal User user) {
+        return createAttendanceCommand.execute(user);
     }
 
     @PutMapping("/{id}")

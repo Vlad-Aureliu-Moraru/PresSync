@@ -1,10 +1,9 @@
 package com.example.pressync.User;
 
-import com.example.pressync.Services.AuthenticationRequest;
-import com.example.pressync.Services.AuthenticationResponse;
-import com.example.pressync.Services.AuthenticationService;
+import com.example.pressync.Services.Auth.AuthenticationRequest;
+import com.example.pressync.Services.Auth.AuthenticationResponse;
+import com.example.pressync.Services.Auth.AuthenticationService;
 import com.example.pressync.User.Model.DTOs.UserCreateDTO;
-import com.example.pressync.User.Model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

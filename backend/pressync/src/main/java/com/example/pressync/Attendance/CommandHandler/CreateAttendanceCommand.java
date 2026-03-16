@@ -18,16 +18,15 @@ import java.time.temporal.ChronoUnit;
 
 @Service
 @RequiredArgsConstructor
-public class CreateAttendanceCommand implements Command<Integer,String> {
+public class CreateAttendanceCommand implements Command<User,String> {
     private final AttendanceRepository attendanceRepository;
     private final UserRepository userRepository;
     private final EventRepository eventRepository;
 
     @Override
-    public ResponseEntity execute(Integer id) {
+    public ResponseEntity execute(User user) {
         Attendance attendance = new Attendance();
-        User user = userRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("User not found"));
-        Event event = eventRepository.findFirstByActiveTrue().orElseThrow(()-> new IllegalArgumentException("Event not found"));
+        Event event = eventRepository.findFirstByActiveTrue().orElseThrow(()-> new IllegalArgumentException("There is no active event for now"));
         LocalTime now = LocalTime.now().truncatedTo(ChronoUnit.MINUTES);
 
         if (attendanceRepository.existsByUserIdAndEventId(user.getId(), event.getId())) {
@@ -38,9 +37,12 @@ public class CreateAttendanceCommand implements Command<Integer,String> {
         int duration = event.getEventCategory().getAttendanceDuration().intValue();
         LocalTime endWindow = startWindow.plusMinutes(duration);
 
-        if (now.isAfter(endWindow)||now.isBefore(startWindow)) {
-            throw new IllegalArgumentException("Attendance window condition is not met");
+        if (now.isBefore(startWindow)) {
+            throw new IllegalArgumentException("Too early! Attendance for " + event.getEventCategory().getName() + " starts at " + startWindow);
+        }
 
+        if (now.isAfter(endWindow)) {
+            throw new IllegalArgumentException("Too late! The attendance window closed at " + endWindow);
         }
 
         attendance.setUser(user);

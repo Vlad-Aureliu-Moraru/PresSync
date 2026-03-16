@@ -1,4 +1,4 @@
-package com.example.pressync.Services;
+package com.example.pressync.Services.Auth;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
