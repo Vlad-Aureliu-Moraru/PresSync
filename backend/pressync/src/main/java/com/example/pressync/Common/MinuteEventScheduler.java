@@ -2,18 +2,14 @@ package com.example.pressync.Common;
 
 import com.example.pressync.Event.EventRepository;
 import com.example.pressync.Event.Model.Event;
-import com.example.pressync.EventCategory.EventCategoryRepository;
 import com.example.pressync.EventCategory.Model.EventCategory;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

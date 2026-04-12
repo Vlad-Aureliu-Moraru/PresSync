@@ -1,14 +1,11 @@
 package com.example.pressync.Common;
 
 import com.example.pressync.Event.EventRepository;
-import com.example.pressync.Event.Model.Event;
 import com.example.pressync.EventCategory.EventCategoryRepository;
 import com.example.pressync.EventCategory.Model.EventCategory;
 import com.example.pressync.EventCategory.Model.EventCategoryChangedEvent;
-import com.example.pressync.EventCategory.Model.RepeatableType;
 import com.example.pressync.EventCategory.Model.RepeatsOnSpecificDay;
-import jakarta.annotation.PostConstruct;
-import jakarta.transaction.Transactional;
+import com.example.pressync.EventCategoryConfig.Model.EventCategoryConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
@@ -58,26 +55,30 @@ public class DailyLoaderScheduler {
 
     private boolean shouldRunToday(EventCategory cat, LocalDate date) {
         if (!cat.getRepeatable()) {
-            return cat.getBaseDate().equals(date);
+            return cat.getDate() != null && cat.getDate().equals(date);
         }
 
-        if (cat.getRepeatsOnSpecificDay() != RepeatsOnSpecificDay.NO) {
+        EventCategoryConfig config = cat.getCategoryConfig();
+        if (config == null) return false;
+
+        if (config.getRepeatsOnSpecificDay() != RepeatsOnSpecificDay.NO && config.getRepeatsOnSpecificDay() != null) {
             String todayShort = date.getDayOfWeek().name().substring(0, 3); // "MON"
-            if (!todayShort.equals(cat.getRepeatsOnSpecificDay().name())) {
+            if (!todayShort.equals(config.getRepeatsOnSpecificDay().name())) {
                 return false;
             }
         }
 
-        long daysBetween = ChronoUnit.DAYS.between(cat.getBaseDate(), date);
+        long daysBetween = ChronoUnit.DAYS.between(config.getBaseDate(), date);
         if (daysBetween < 0) return false;
 
-        return switch (cat.getRepeatableType()) {
+        return switch (config.getRepeatableType()) {
             case DAILY -> true;
             case WEEKLY -> daysBetween % 7 == 0;
             case BIWEEKLY -> daysBetween % 14 == 0;
-            case MONTHLY -> date.getDayOfMonth() == cat.getBaseDate().getDayOfMonth();
-            case YEARLY -> date.getMonth() == cat.getBaseDate().getMonth() &&
-                    date.getDayOfMonth() == cat.getBaseDate().getDayOfMonth();
+            case MONTHLY -> date.getDayOfMonth() == config.getBaseDate().getDayOfMonth();
+            case YEARLY -> date.getMonth() == config.getBaseDate().getMonth() &&
+                    date.getDayOfMonth() == config.getBaseDate().getDayOfMonth();
+            default -> false;
         };
     }
     private void addToTodayList(EventCategory eventCategory) {

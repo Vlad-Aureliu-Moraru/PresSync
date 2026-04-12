@@ -4,6 +4,8 @@ import com.example.pressync.EventCategory.CommandHandlers.CreateEventCategoryCom
 import com.example.pressync.EventCategory.CommandHandlers.DeleteEventCategoryCommand;
 import com.example.pressync.EventCategory.CommandHandlers.UpdateEventCategoryCommand;
 import com.example.pressync.EventCategory.Model.EventCategory;
+import com.example.pressync.EventCategory.Model.DTO.CreateEventCategoryRequest;
+import com.example.pressync.EventCategory.Model.DTO.UpdateEventCategoryRequest;
 import com.example.pressync.EventCategory.Model.EventCategoryUpdateDTO;
 import com.example.pressync.EventCategory.QueryHandlers.GetAllEventCategoriesQuerry;
 import com.example.pressync.EventCategory.QueryHandlers.GetEventCategoryQuery;
@@ -34,14 +36,14 @@ public class EventCategoryController {
     public ResponseEntity<EventCategory> getEventCategory(@PathVariable int id){
         return getEventCategoryQuery.execute(id);
     }
-    @PostMapping()
-    public ResponseEntity<String> addEventCategory(@RequestBody EventCategory eventCategory){
-      return   createEventCategoryCommand.execute(eventCategory);
+    @PostMapping("/create")
+    public ResponseEntity<String> addEventCategory(@RequestBody CreateEventCategoryRequest eventCategoryRequest){
+      return   createEventCategoryCommand.execute(eventCategoryRequest);
 
     }
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateEventCategory(@PathVariable int id, @RequestBody EventCategory eventCategory){
-        EventCategoryUpdateDTO eventCategoryUpdateDTO = new EventCategoryUpdateDTO(id,eventCategory);
+    public ResponseEntity<String> updateEventCategory(@PathVariable int id, @RequestBody UpdateEventCategoryRequest request){
+        EventCategoryUpdateDTO eventCategoryUpdateDTO = new EventCategoryUpdateDTO(id, request);
         return updateEventCategoryCommand.execute(eventCategoryUpdateDTO);
     }
     @DeleteMapping("/{id}")

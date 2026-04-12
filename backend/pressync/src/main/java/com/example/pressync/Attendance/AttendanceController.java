@@ -8,6 +8,8 @@ import com.example.pressync.Attendance.Model.AttendanceUpdateDTO;
 import com.example.pressync.Attendance.QueryHandler.GetAllAttendanceQuery;
 import com.example.pressync.Attendance.QueryHandler.GetAttendanceByIdQuery;
 import com.example.pressync.Attendance.QueryHandler.GetAttendanceByUserIdQuery;
+import com.example.pressync.Attendance.QueryHandler.GetEventCategoryStatsQuery;
+import com.example.pressync.Attendance.Model.EventCategoryStatsDTO;
 import com.example.pressync.User.Model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +27,12 @@ public class AttendanceController {
     private final GetAllAttendanceQuery getAllAttendanceQuery;
     private final GetAttendanceByIdQuery getAttendanceByIdQuery;
     private final GetAttendanceByUserIdQuery getAttendanceByUserIdQuery;
+    private final GetEventCategoryStatsQuery getEventCategoryStatsQuery;
+
+    @GetMapping("/stats/category/{categoryId}")
+    public ResponseEntity<EventCategoryStatsDTO> getEventCategoryStats(@PathVariable int categoryId) {
+        return getEventCategoryStatsQuery.execute(categoryId);
+    }
 
     @GetMapping
     public ResponseEntity<List<Attendance>> getAllAttendance() {
