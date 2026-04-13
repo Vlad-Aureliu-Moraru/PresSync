@@ -48,7 +48,7 @@ public class AttendanceController {
         return getAttendanceByUserIdQuery.execute(userId);
     }
     @PostMapping("/mark")
-    public ResponseEntity<Attendance> createAttendance(@AuthenticationPrincipal User user) {
+    public ResponseEntity<String> createAttendance(@AuthenticationPrincipal User user) {
         return createAttendanceCommand.execute(user);
     }
 

@@ -24,7 +24,7 @@ public class CreateAttendanceCommand implements Command<User,String> {
     private final EventRepository eventRepository;
 
     @Override
-    public ResponseEntity execute(User user) {
+    public ResponseEntity<String> execute(User user) {
         Attendance attendance = new Attendance();
         Event event = eventRepository.findFirstByActiveTrue().orElseThrow(()-> new IllegalArgumentException("There is no active event for now"));
         LocalTime now = LocalTime.now().truncatedTo(ChronoUnit.MINUTES);
