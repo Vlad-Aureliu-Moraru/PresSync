@@ -2,8 +2,8 @@ package com.example.pressync.User.CommandHandlers;
 
 import com.example.pressync.Command;
 import com.example.pressync.User.Model.User;
-import com.example.pressync.User.Model.DTOs.UserCreateDTO;
-import com.example.pressync.User.Model.DTOs.UserUpdateDTO;
+import com.example.pressync.User.Model.DTOSs.UserCreateDTO;
+import com.example.pressync.User.Model.DTOSs.UserUpdateDTO;
 import com.example.pressync.User.UserRepository;
 import com.example.pressync.User.Validator.UserValidator;
 import org.springframework.http.ResponseEntity;

@@ -1,8 +1,7 @@
 package com.example.pressync.User.QueryHandlers;
 
 import com.example.pressync.Query;
-import com.example.pressync.User.Model.DTOs.UserGetAllDTO;
-import com.example.pressync.User.Model.User;
+import com.example.pressync.User.Model.DTOSs.UserGetAllDTO;
 import com.example.pressync.User.UserRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

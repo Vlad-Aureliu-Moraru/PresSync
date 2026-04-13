@@ -55,7 +55,7 @@ public class DailyLoaderScheduler {
 
     private boolean shouldRunToday(EventCategory cat, LocalDate date) {
         if (!cat.getRepeatable()) {
-            return cat.getDate() != null && cat.getDate().equals(date);
+            return cat.getSpecificDate() != null && cat.getSpecificDate().equals(date);
         }
 
         EventCategoryConfig config = cat.getCategoryConfig();

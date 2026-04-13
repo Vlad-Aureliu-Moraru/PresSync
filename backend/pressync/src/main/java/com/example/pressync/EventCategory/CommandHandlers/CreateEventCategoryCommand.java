@@ -51,7 +51,7 @@ public class CreateEventCategoryCommand implements Command<CreateEventCategoryRe
             }
             entity.setCategoryConfig(config);
         } else {
-            entity.setDate(request.baseDate() != null ? request.baseDate() : LocalDate.now());
+            entity.setSpecificDate(request.baseDate() != null ? request.baseDate() : LocalDate.now());
         }
 
         checkValidity(entity);
@@ -105,7 +105,7 @@ public class CreateEventCategoryCommand implements Command<CreateEventCategoryRe
         if (typeA == RepeatableType.DAILY || typeB == RepeatableType.DAILY) return true;
 
         if (!a.getRepeatable() && !b.getRepeatable()){
-            return a.getDate().equals(b.getDate());
+            return a.getSpecificDate().equals(b.getSpecificDate());
         }
 
         RepeatsOnSpecificDay dayA = getRepeatsOnSpecificDaySafe(a);
@@ -127,6 +127,6 @@ public class CreateEventCategoryCommand implements Command<CreateEventCategoryRe
     }
 
     private LocalDate getBaseDateSafe(EventCategory cat) {
-        return cat.getRepeatable() ? cat.getCategoryConfig().getBaseDate() : cat.getDate();
+        return cat.getRepeatable() ? cat.getCategoryConfig().getBaseDate() : cat.getSpecificDate();
     }
 }

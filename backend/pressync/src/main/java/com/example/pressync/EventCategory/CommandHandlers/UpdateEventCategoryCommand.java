@@ -60,7 +60,7 @@ public class UpdateEventCategoryCommand implements Command<EventCategoryUpdateDT
             eventCategory.setCategoryConfig(config);
         } else {
             eventCategory.setCategoryConfig(null);
-            eventCategory.setDate(request.baseDate() != null ? request.baseDate() : LocalDate.now());
+            eventCategory.setSpecificDate(request.baseDate() != null ? request.baseDate() : LocalDate.now());
         }
 
         checkValidity(eventCategory);
@@ -112,7 +112,7 @@ public class UpdateEventCategoryCommand implements Command<EventCategoryUpdateDT
         if (typeA == RepeatableType.DAILY || typeB == RepeatableType.DAILY) return true;
 
         if (!a.getRepeatable() && !b.getRepeatable()){
-            return a.getDate().equals(b.getDate());
+            return a.getSpecificDate().equals(b.getSpecificDate());
         }
 
         RepeatsOnSpecificDay dayA = getRepeatsOnSpecificDaySafe(a);
@@ -134,6 +134,6 @@ public class UpdateEventCategoryCommand implements Command<EventCategoryUpdateDT
     }
 
     private LocalDate getBaseDateSafe(EventCategory cat) {
-        return cat.getRepeatable() ? cat.getCategoryConfig().getBaseDate() : cat.getDate();
+        return cat.getRepeatable() ? cat.getCategoryConfig().getBaseDate() : cat.getSpecificDate();
     }
 }

@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Table(name = "Eveniment")
 @Entity
 @Data
@@ -22,5 +24,7 @@ public class Event {
     private Boolean active;
     @Column(name = "archived")
     private Boolean archived;
+    @Column(name = "date")
+    private LocalDate date;
 
 }

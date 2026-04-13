@@ -3,7 +3,7 @@ package com.example.pressync.User.CommandHandlers;
 import com.example.pressync.Command;
 import com.example.pressync.Services.Auth.AuthenticationResponse;
 import com.example.pressync.Services.Auth.JWTService;
-import com.example.pressync.User.Model.DTOs.UserCreateDTO;
+import com.example.pressync.User.Model.DTOSs.UserCreateDTO;
 import com.example.pressync.User.Model.User;
 import com.example.pressync.User.Model.UserRoles;
 import com.example.pressync.User.UserRepository;
@@ -16,10 +16,10 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class CreateUserCommand implements Command<UserCreateDTO, AuthenticationResponse> { // Change return type
-    private final PasswordEncoder passwordEncoder; // Use the interface
+    private final PasswordEncoder passwordEncoder;
     private final UserValidator userValidator;
     private final UserRepository userRepository;
-    private final JWTService jwtService; // Add this
+    private final JWTService jwtService;
 
 
     @Override

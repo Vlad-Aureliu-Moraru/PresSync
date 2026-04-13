@@ -42,14 +42,12 @@ public class EventCategory {
     private Boolean repeatable;
 
     @Column(name = "date")
-    private LocalDate date;
-    // --- THE NEW CONFIGURATION LINK ---
-    // Many EventCategories can share ONE EventCategoryConfig
+    private LocalDate specificDate;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "config_id") // This creates the 'config_id' foreign key in your database
+    @JoinColumn(name = "config_id")
     private EventCategoryConfig categoryConfig;
 
-    // Keeps its original relationship to the actual Event instances
     @OneToMany(mappedBy = "eventCategory")
     @JsonIgnore
     private List<Event> events;
