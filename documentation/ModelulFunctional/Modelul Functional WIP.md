@@ -1,0 +1,19 @@
+1\. Prezentare generala
+
+Sistemul Pressync automatizeaza gestionarea prezentei la evenimente prin separarea clara intre categorii de evenimente si instantele lor individuale. Modulul Common contine schedulerele DailyLoaderScheduler si MinuteEventScheduler care ruleaza periodic si genereaza automat evenimente noi pe baza regulilor de repetare definite in EventCategoryConfig. Fiecare eveniment este legat de o categorie prin EventCategory si poate avea inregistrari de prezenta in tabelul Attendance. Toate operatiunile respecta pattern-ul CQRS astfel incat comenzile de scriere (creare sau actualizare) sunt separate de interogarile de citire (statistici sau liste). Datele sunt persistate in repository-uri dedicate iar accesul este securizat prin JWT emis la autentificare.
+
+2\. Actorii sistemului
+
+Actorul Admin (profesorul) gestioneaza intregul ciclu de viata al evenimentelor si utilizatorilor. El creeaza si editeaza categorii de evenimente configureaza regulile de repetare administreaza lista de utilizatori (inclusiv restrictionarea accesului la anumite evenimente) si poate marca manual prezenta sau arhiva evenimente. Actorul User (studentul) interactioneaza doar cu partea de participare si raportare. El se autentifica primeste token JWT si poate marca prezenta la un eveniment activ sau vizualiza istoricul si statisticile personale de prezenta.
+
+3\. Fluxul de creare a evenimentelor
+
+Adminul acceseaza EventCategoryController si trimite o cerere POST la /create cu datele unei categorii noi (nume ora de inceput ora de sfarsit ora de start a prezentei durata de prezenta flag repeatable si data specifica). Sistemul salveaza entitatea EventCategory impreuna cu un EventCategoryConfig asociat care contine repeatableType repeatsOnSpecificDay si baseDate. Odata salvata configuratia scheduler-ul din modulul Common (DailyLoaderScheduler si MinuteEventScheduler) ruleaza la intervale regulate. Aceste schedulere verifica regulile de repetare din EventCategoryConfig si din TodayScheduleCache genereaza instante noi de Event (cu data calculata si legatura catre EventCategory) si le salveaza automat in baza de date. Astfel un eveniment repetitiv devine vizibil si activ fara interventie manuala suplimentara.
+
+4\. Fluxul de marcare a prezentei
+
+Studentul autentificat trimite o cerere POST la endpoint-ul /mark din AttendanceController. Cererea contine automat tokenul JWT care este extras prin @AuthenticationPrincipal si convertit in obiectul User. Handler-ul CreateAttendanceCommand verifica mai intai daca exista un eveniment activ (campul active din Event) la care utilizatorul nu are deja o inregistrare de prezenta si daca nu este restrictionat pentru acel eveniment. Se verifica de asemenea fereastra de timp valida folosind attendanceTimeStart si attendanceDuration din EventCategory asociata. Daca toate conditiile sunt indeplinite se creeaza o entitate Attendance noua cu user event si joinedAt setat la momentul curent. Sistemul previne marcarea dubla prin interogarea repository-ului Attendance inainte de inserare. La final se returneaza un mesaj de succes iar prezenta este salvata definitiv.
+
+5\. Generarea de statistici
+
+Pentru rapoartele profesorului se foloseste endpoint-ul GET /stats/category/{categoryId} din AttendanceController care apeleaza GetEventCategoryStatsQuery. Query-ul extrage datele brute din AttendanceRepository si EventRepository calculeaza agregari precum numar total de evenimente procent de prezenta mediu per utilizator si istoric detaliat (prezent/absent pe fiecare data). Rezultatele sunt impachetate intr-un EventCategoryStatsDTO si returnate ca JSON. Pentru statistici personale ale studentului sistemul aplica automat filtrul pe userId in GetAttendanceByUserIdQuery si afiseaza doar inregistrarile corespunzatoare. Toate statisticile sunt generate la cerere din datele curente fara precalculari suplimentare in afara de cache-ul folosit de schedulere pentru optimizare.
