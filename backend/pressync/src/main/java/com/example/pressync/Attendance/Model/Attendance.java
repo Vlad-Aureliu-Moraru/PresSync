@@ -1,6 +1,7 @@
 package com.example.pressync.Attendance.Model;
 
 import com.example.pressync.Event.Model.Event;
+import com.example.pressync.User.Model.DTOSs.UserGetDTO;
 import com.example.pressync.User.Model.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

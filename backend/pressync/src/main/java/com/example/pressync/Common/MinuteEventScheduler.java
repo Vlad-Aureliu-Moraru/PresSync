@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 
@@ -40,6 +41,7 @@ public class MinuteEventScheduler {
         event.setEventCategory(cat);
         event.setActive(true);
         event.setArchived(false);
+        event.setDate(LocalDate.now());
         eventRepository.save(event);
         System.out.println("Started Event: " + cat.getName() + " at " + LocalTime.now());
     }

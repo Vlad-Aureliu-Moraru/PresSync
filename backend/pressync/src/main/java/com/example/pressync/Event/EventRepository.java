@@ -31,4 +31,6 @@ public interface EventRepository extends JpaRepository<Event,Integer> {
     @Query("UPDATE Event e set e.archived=true,e.active=false where e.eventCategory.id=:catId AND e.active=true")
     void archiveByCategory(Integer catId);
 
+    @Query("SELECT e FROM Event e JOIN FETCH e.eventCategory c JOIN FETCH c.categoryConfig")
+    List<Event> findAllWithCategoriesAndConfigs();
 }

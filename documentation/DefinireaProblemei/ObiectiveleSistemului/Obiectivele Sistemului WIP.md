@@ -2,8 +2,6 @@
 
 Principalul scop al aplicatiei PresSync este de a inlocui metodele traditionale de pontaj, care sunt lente si predispuse la erori, cu un motor universal si localizat de gestionare a prezentei si a evenimentelor. Desi ideea a pornit de la o problema reala si des intalnita in timpul orelor de la facultate, obiectivul major este ca acest sistem sa fie scalabil si capabil sa se adapteze dincolo de mediul academic. Platforma a fost gandita pentru a fi integrata cu usurinta in mediul corporate pentru sedinte sau training-uri, la conferinte cu sute de participanti sau chiar in cadrul intalnirilor organizatiilor non-guvernamentale. In esenta, sistemul vrea sa simplifice munca administrativa oriunde un grup de oameni se aduna fizic pentru o activitate comuna.
 
-Un alt obiectiv general la fel de important tine de eliminarea fraudelor. Metodele actuale, chiar si cele digitale bazate pe locatie GPS, lasa loc de abuzuri simple, cum ar fi celebrul "buddy punching" sau utilizarea aplicatiilor de falsificare a locatiei. Proiectul propune o abordare mult mai sigura, legand confirmarea prezentei de un factor fizic si incontestabil: conectarea dispozitivului la o retea locala, strict controlata. Pe langa securitatea datelor, aplicatia isi propune sa ofere organizatorilor o valoare adaugata prin colectarea si structurarea acestor informatii, facilitand luarea deciziilor bazate pe statistici si pe istoricul real de participare.
-
 **Obiective Specifice**
 
 Pentru a pune in practica viziunea prezentata mai sus, arhitectura si dezvoltarea sistemului PresSync au fost construite in jurul urmatoarelor obiective tehnice si functionale:

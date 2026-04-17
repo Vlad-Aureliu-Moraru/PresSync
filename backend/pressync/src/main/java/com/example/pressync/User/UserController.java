@@ -3,7 +3,7 @@ package com.example.pressync.User;
 import com.example.pressync.User.CommandHandlers.CreateUserCommand;
 import com.example.pressync.User.CommandHandlers.DeleteUserCommand;
 import com.example.pressync.User.CommandHandlers.UpdateUserCommand;
-import com.example.pressync.User.Model.DTOSs.UserGetAllDTO;
+import com.example.pressync.User.Model.DTOSs.UserGetDTO;
 import com.example.pressync.User.Model.DTOSs.UserCreateDTO;
 import com.example.pressync.User.Model.DTOSs.UserUpdateDTO;
 import com.example.pressync.User.QueryHandlers.GetAllUsersQuery;
@@ -26,12 +26,12 @@ public class UserController {
 
 
     @GetMapping
-    public ResponseEntity<List<UserGetAllDTO>> getAllUsers() {
+    public ResponseEntity<List<UserGetDTO>> getAllUsers() {
         return getAllUsersQuery.execute(null);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserGetAllDTO>getUserById(@PathVariable Integer id) {
+    public ResponseEntity<UserGetDTO>getUserById(@PathVariable Integer id) {
         return getUserByIdQuery.execute(id);
     }
 

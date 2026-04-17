@@ -36,7 +36,7 @@ public class DailyLoaderScheduler {
 
 
     public void fillTodaySchedule() {
-        List<EventCategory> eventCategoryList = this.eventCategoryRepository.findAll();
+        List<EventCategory> eventCategoryList = this.eventCategoryRepository.findAllWithConfigs();
         LocalDate baseDate = LocalDate.now();
         todayList.clear();
         for (EventCategory eventCategory : eventCategoryList) {

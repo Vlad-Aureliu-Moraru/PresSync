@@ -8,14 +8,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class UserGetAllDTO {
+public class UserGetDTO {
     private int id;
     private String name;
     private String surname;
     private String email;
     private String role;
     private boolean active;
-    public UserGetAllDTO(User user) {
+    public UserGetDTO(User user) {
         this.active = user.getActive();
         this.id = user.getId();
         this.name = user.getName();

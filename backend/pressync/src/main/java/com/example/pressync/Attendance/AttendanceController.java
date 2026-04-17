@@ -2,14 +2,11 @@ package com.example.pressync.Attendance;
 
 import com.example.pressync.Attendance.CommandHandler.CreateAttendanceCommand;
 import com.example.pressync.Attendance.CommandHandler.UpdateAttendanceCommand;
-import com.example.pressync.Attendance.Model.Attendance;
-import com.example.pressync.Attendance.Model.AttendanceCreateDTO;
-import com.example.pressync.Attendance.Model.AttendanceUpdateDTO;
+import com.example.pressync.Attendance.Model.*;
 import com.example.pressync.Attendance.QueryHandler.GetAllAttendanceQuery;
 import com.example.pressync.Attendance.QueryHandler.GetAttendanceByIdQuery;
 import com.example.pressync.Attendance.QueryHandler.GetAttendanceByUserIdQuery;
 import com.example.pressync.Attendance.QueryHandler.GetEventCategoryStatsQuery;
-import com.example.pressync.Attendance.Model.EventCategoryStatsDTO;
 import com.example.pressync.User.Model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +32,7 @@ public class AttendanceController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Attendance>> getAllAttendance() {
+    public ResponseEntity<List<AttendanceGetDTO>> getAllAttendance() {
         return getAllAttendanceQuery.execute(null);
     }
     @GetMapping("/{id}")

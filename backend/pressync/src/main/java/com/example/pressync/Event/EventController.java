@@ -4,7 +4,8 @@ import com.example.pressync.Event.CommandHandlers.CreateEventCommand;
 import com.example.pressync.Event.CommandHandlers.DeleteEventCommand;
 import com.example.pressync.Event.CommandHandlers.UpdateEventCommand;
 import com.example.pressync.Event.Model.Event;
-import com.example.pressync.Event.Model.EventDTO;
+import com.example.pressync.Event.Model.EventGetDTO;
+import com.example.pressync.Event.Model.EventPutDTO;
 import com.example.pressync.Event.QueryHandlers.GetAllEventsQuery;
 import com.example.pressync.Event.QueryHandlers.GetEventByIdQuery;
 import lombok.RequiredArgsConstructor;
@@ -25,13 +26,13 @@ public class EventController {
 
 
     @GetMapping
-    public ResponseEntity<List<Event>> getAllEvents(){
+    public ResponseEntity<List<EventGetDTO>> getAllEvents(){
         return getAllEventsQuery.execute(null);
 
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Event> getEventById(@PathVariable Integer id){
+    public ResponseEntity<EventGetDTO> getEventById(@PathVariable Integer id){
         return  getEventByIdQuery.execute(id);
 
     }
@@ -49,8 +50,8 @@ public class EventController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Event> updateEvent(@PathVariable int id,@RequestBody Event event){
-        EventDTO eventDTO = new EventDTO(id, event);
-        updateEventCommand.execute(eventDTO);
+        EventPutDTO eventPutDTO = new EventPutDTO(id, event);
+        updateEventCommand.execute(eventPutDTO);
         return ResponseEntity.ok().build();
     }
 

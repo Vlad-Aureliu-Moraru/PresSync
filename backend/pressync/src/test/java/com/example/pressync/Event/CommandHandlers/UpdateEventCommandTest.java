@@ -2,7 +2,7 @@ package com.example.pressync.Event.CommandHandlers;
 
 import com.example.pressync.Event.EventRepository;
 import com.example.pressync.Event.Model.Event;
-import com.example.pressync.Event.Model.EventDTO;
+import com.example.pressync.Event.Model.EventPutDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,7 +26,7 @@ class UpdateEventCommandTest {
     @InjectMocks
     private UpdateEventCommand updateEventCommand;
 
-    private EventDTO eventDTO;
+    private EventPutDTO eventPutDTO;
     private Event event;
 
     @BeforeEach
@@ -34,9 +34,9 @@ class UpdateEventCommandTest {
         event = new Event();
         event.setId(1);
         
-        eventDTO = new EventDTO();
-        eventDTO.setId(1);
-        eventDTO.setEvent(event);
+        eventPutDTO = new EventPutDTO();
+        eventPutDTO.setId(1);
+        eventPutDTO.setEvent(event);
     }
 
     @Test
@@ -44,7 +44,7 @@ class UpdateEventCommandTest {
         when(eventRepository.findById(1)).thenReturn(Optional.of(event));
         when(eventRepository.save(any(Event.class))).thenReturn(event);
 
-        ResponseEntity<String> response = updateEventCommand.execute(eventDTO);
+        ResponseEntity<String> response = updateEventCommand.execute(eventPutDTO);
 
         assertEquals(200, response.getStatusCode().value());
         verify(eventRepository, times(1)).save(any(Event.class));
@@ -55,7 +55,7 @@ class UpdateEventCommandTest {
         when(eventRepository.findById(1)).thenReturn(Optional.empty());
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, 
-            () -> updateEventCommand.execute(eventDTO));
+            () -> updateEventCommand.execute(eventPutDTO));
 
         assertEquals("Event with id 1 does not exist", exception.getMessage());
         verify(eventRepository, never()).save(any());
