@@ -19,7 +19,7 @@
     type="button"
     (click)="loadUsers()"
     [disabled]="loading || !token"
-    [attr.aria-label]="token ? 'Refresh users' : 'Login required to refresh users'"
+    [attr.aria-label]="token ? 'Refresh users' : 'Refresh users (login required)'"
   >
     Refresh users
   </button>
