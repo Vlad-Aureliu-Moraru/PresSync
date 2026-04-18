@@ -1,0 +1,38 @@
+<section>
+  <h2>PresSync API Demo</h2>
+
+  <form (ngSubmit)="login()" #loginForm="ngForm">
+    <label>
+      Email
+      <input type="email" name="email" [(ngModel)]="email" required />
+    </label>
+
+    <label>
+      Password
+      <input type="password" name="password" [(ngModel)]="password" required />
+    </label>
+
+    <button type="submit" [disabled]="loading || !loginForm.form.valid">Login</button>
+  </form>
+
+  <button
+    type="button"
+    (click)="loadUsers()"
+    [disabled]="loading || !token"
+    [attr.aria-label]="token ? 'Refresh users' : 'Refresh users (login required)'"
+  >
+    Refresh users
+  </button>
+
+  <p *ngIf="loading">Loading...</p>
+
+  <div *ngIf="error">
+    <strong>Error:</strong> {{ error.message }}
+  </div>
+
+  <ul *ngIf="!loading && !error">
+    <li *ngFor="let user of users">
+      {{ user.name }} {{ user.surname }} — {{ user.email }}
+    </li>
+  </ul>
+</section>
