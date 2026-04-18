@@ -15,7 +15,7 @@
     <button type="submit" [disabled]="loading || !loginForm.form.valid">Login</button>
   </form>
 
-  <button type="button" (click)="loadUsers()" [disabled]="loading">Refresh users</button>
+  <button type="button" (click)="loadUsers()" [disabled]="loading || !token">Refresh users</button>
 
   <p *ngIf="loading">Loading...</p>
 
