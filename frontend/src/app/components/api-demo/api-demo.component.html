@@ -15,7 +15,14 @@
     <button type="submit" [disabled]="loading || !loginForm.form.valid">Login</button>
   </form>
 
-  <button type="button" (click)="loadUsers()" [disabled]="loading || !token">Refresh users</button>
+  <button
+    type="button"
+    (click)="loadUsers()"
+    [disabled]="loading || !token"
+    [attr.aria-label]="token ? 'Refresh users' : 'Login required to refresh users'"
+  >
+    Refresh users
+  </button>
 
   <p *ngIf="loading">Loading...</p>
 
