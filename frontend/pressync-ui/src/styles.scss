@@ -1,0 +1,74 @@
+/* ── Pressync Global Styles ── */
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Brand palette */
+  --ps-primary: #6C5CE7;
+  --ps-primary-dark: #5A4BD1;
+  --ps-primary-light: #A29BFE;
+  --ps-accent: #00CEC9;
+
+  /* Neutrals */
+  --ps-bg: #0F0F1A;
+  --ps-surface: #1A1A2E;
+  --ps-surface-hover: #25253D;
+  --ps-border: rgba(255, 255, 255, 0.08);
+  --ps-border-focus: rgba(108, 92, 231, 0.5);
+
+  /* Text */
+  --ps-text: #E8E8F0;
+  --ps-text-muted: #8888A4;
+  --ps-text-on-primary: #FFFFFF;
+
+  /* Feedback */
+  --ps-error: #FF6B6B;
+  --ps-error-bg: rgba(255, 107, 107, 0.1);
+  --ps-success: #51CF66;
+  --ps-success-bg: rgba(81, 207, 102, 0.1);
+
+  /* Sizing */
+  --ps-radius: 12px;
+  --ps-radius-sm: 8px;
+  --ps-transition: 0.2s ease;
+
+  /* Font */
+  --ps-font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+  font-family: var(--ps-font);
+  background: var(--ps-bg);
+  color: var(--ps-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(108, 92, 231, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(0, 206, 201, 0.06) 0%, transparent 50%),
+    var(--ps-bg);
+}
+
+a {
+  color: var(--ps-primary-light);
+  text-decoration: none;
+  transition: color var(--ps-transition);
+
+  &:hover {
+    color: var(--ps-primary);
+  }
+}

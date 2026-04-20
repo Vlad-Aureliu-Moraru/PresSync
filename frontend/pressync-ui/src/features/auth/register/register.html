@@ -1,0 +1,121 @@
+<div class="auth-card">
+  <div class="auth-header">
+    <div class="auth-logo">✦ Pressync</div>
+    <h1 class="auth-title">Create your account</h1>
+    <p class="auth-subtitle">Join Pressync to start tracking attendance</p>
+  </div>
+
+  <!-- API Error Banner -->
+  @if (errorMessage) {
+    <div class="error-banner" id="register-error-banner">
+      <svg class="error-banner-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="15" y1="9" x2="9" y2="15"/>
+        <line x1="9" y1="9" x2="15" y2="15"/>
+      </svg>
+      <span>{{ errorMessage }}</span>
+    </div>
+  }
+
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate>
+
+    <!-- Name / Surname row -->
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label" for="reg-name">First name</label>
+        <input
+          id="reg-name"
+          class="form-input"
+          [class.input-error]="name.invalid && name.touched"
+          type="text"
+          formControlName="name"
+          placeholder="John"
+          autocomplete="given-name"
+        />
+        @if (name.touched && name.errors) {
+          @if (name.errors['required']) {
+            <span class="field-error">First name is required.</span>
+          }
+        }
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="reg-surname">Last name</label>
+        <input
+          id="reg-surname"
+          class="form-input"
+          [class.input-error]="surname.invalid && surname.touched"
+          type="text"
+          formControlName="surname"
+          placeholder="Doe"
+          autocomplete="family-name"
+        />
+        @if (surname.touched && surname.errors) {
+          @if (surname.errors['required']) {
+            <span class="field-error">Last name is required.</span>
+          }
+        }
+      </div>
+    </div>
+
+    <!-- Email -->
+    <div class="form-group">
+      <label class="form-label" for="reg-email">Email address</label>
+      <input
+        id="reg-email"
+        class="form-input"
+        [class.input-error]="email.invalid && email.touched"
+        type="email"
+        formControlName="email"
+        placeholder="student@university.edu"
+        autocomplete="email"
+      />
+      @if (email.touched && email.errors) {
+        @if (email.errors['required']) {
+          <span class="field-error">Email is required.</span>
+        } @else if (email.errors['email']) {
+          <span class="field-error">Please enter a valid email address.</span>
+        }
+      }
+    </div>
+
+    <!-- Password -->
+    <div class="form-group">
+      <label class="form-label" for="reg-password">Password</label>
+      <input
+        id="reg-password"
+        class="form-input"
+        [class.input-error]="password.invalid && password.touched"
+        type="password"
+        formControlName="password"
+        placeholder="Minimum 6 characters"
+        autocomplete="new-password"
+      />
+      @if (password.touched && password.errors) {
+        @if (password.errors['required']) {
+          <span class="field-error">Password is required.</span>
+        } @else if (password.errors['minlength']) {
+          <span class="field-error">Password must be at least 6 characters.</span>
+        }
+      }
+    </div>
+
+    <!-- Submit -->
+    <button
+      id="register-submit"
+      class="btn-submit"
+      type="submit"
+      [disabled]="registerForm.invalid || isLoading"
+    >
+      @if (isLoading) {
+        <span class="btn-loading"><span class="spinner"></span> Creating account…</span>
+      } @else {
+        Create account
+      }
+    </button>
+  </form>
+
+  <div class="auth-footer">
+    Already have an account? <a routerLink="/login">Sign in</a>
+  </div>
+</div>
