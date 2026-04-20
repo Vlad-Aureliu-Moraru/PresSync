@@ -1,0 +1,33 @@
+<div class="stats-page">
+  <div class="stats-header">
+    <a routerLink="/search">← Back to search</a>
+
+    @if (category(); as category) {
+      <h1>{{ category.name }}</h1>
+      <p>Attendance performance overview</p>
+    }
+  </div>
+
+  @if (isLoading()) {
+    <div class="dashboard-card loading">Loading category statistics...</div>
+  } @else if (errorMessage()) {
+    <div class="dashboard-card error">{{ errorMessage() }}</div>
+  } @else if (stats(); as stats) {
+    <div class="metrics-grid">
+      <div class="dashboard-card metric">
+        <span class="label">Average Attendance</span>
+        <span class="value">{{ stats.averageAttendance | number:'1.0-2' }}</span>
+      </div>
+
+      <div class="dashboard-card metric">
+        <span class="label">Max Attendance</span>
+        <span class="value">{{ stats.maxAttendance | number:'1.0-0' }}</span>
+      </div>
+
+      <div class="dashboard-card metric highlight">
+        <span class="label">Overall Rate</span>
+        <span class="value">{{ stats.attendanceRate | number:'1.0-2' }}%</span>
+      </div>
+    </div>
+  }
+</div>

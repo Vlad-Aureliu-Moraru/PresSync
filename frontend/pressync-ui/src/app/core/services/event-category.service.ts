@@ -29,4 +29,8 @@ export class EventCategoryService {
   getTodaySchedule(): Observable<EventCategory[]> {
     return this.http.get<EventCategory[]>(`${environment.apiUrl}/eventCategory/today`);
   }
+
+  getAllCategories(): Observable<EventCategory[]> {
+    return this.http.get<EventCategory[]>(`${environment.apiUrl}/eventCategory`);
+  }
 }
