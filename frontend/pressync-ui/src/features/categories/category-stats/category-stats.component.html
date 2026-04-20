@@ -1,0 +1,95 @@
+<div class="stats-container">
+  
+  <div class="header-nav">
+    <a routerLink="/search" class="back-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+      Back to Search
+    </a>
+  </div>
+
+  @if (isLoading()) {
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Loading analytics...</p>
+    </div>
+  } @else if (errorMessage()) {
+    <div class="error-alert">
+      {{ errorMessage() }}
+    </div>
+  } @else {
+    
+    <div class="dashboard-card">
+      <div class="card-header">
+        @if (category()) {
+          <h1>{{ category()?.name }}</h1>
+          <div class="meta-row">
+            <span class="badge time">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+              {{ category()?.startingTime | slice:0:5 }} - {{ category()?.endTime | slice:0:5 }}
+            </span>
+            @if (category()?.repeatable) {
+              <span class="badge repeat">Repeatable</span>
+            }
+          </div>
+        }
+      </div>
+
+      @if (stats()) {
+        <div class="stats-grid">
+          
+          <!-- Average Attendance -->
+          <div class="stat-box">
+            <div class="stat-icon avg">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+            </div>
+            <div class="stat-content">
+              <p class="stat-label">Average Attendance</p>
+              <h2 class="stat-value">{{ stats()?.averageAttendance | number:'1.0-1' }}</h2>
+            </div>
+          </div>
+
+          <!-- Max Attendance -->
+          <div class="stat-box">
+            <div class="stat-icon max">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                <polyline points="17 6 23 6 23 12"></polyline>
+              </svg>
+            </div>
+            <div class="stat-content">
+              <p class="stat-label">Peak Attendance</p>
+              <h2 class="stat-value">{{ stats()?.maxAttendance }}</h2>
+            </div>
+          </div>
+
+          <!-- Attendance Rate -->
+          <div class="stat-box">
+            <div class="stat-icon rate">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+              </svg>
+            </div>
+            <div class="stat-content">
+              <p class="stat-label">Overall Rate</p>
+              <h2 class="stat-value">{{ stats()?.attendanceRate | number:'1.0-1' }}%</h2>
+            </div>
+          </div>
+
+        </div>
+      }
+    </div>
+  }
+
+</div>

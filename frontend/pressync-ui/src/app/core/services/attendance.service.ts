@@ -10,6 +10,12 @@ export interface AttendanceRecord {
   status: string;
 }
 
+export interface EventCategoryStatsDTO {
+  averageAttendance: number;
+  maxAttendance: number;
+  attendanceRate: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -22,5 +28,9 @@ export class AttendanceService {
 
   getUserAttendance(userId: string | number): Observable<AttendanceRecord[]> {
     return this.http.get<AttendanceRecord[]>(`${environment.apiUrl}/attendance/user/${userId}`);
+  }
+
+  getCategoryStats(categoryId: number | string): Observable<EventCategoryStatsDTO> {
+    return this.http.get<EventCategoryStatsDTO>(`${environment.apiUrl}/attendance/stats/category/${categoryId}`);
   }
 }

@@ -1,0 +1,61 @@
+<div class="search-container">
+  <div class="search-header">
+    <h1>Category Directory</h1>
+    <p>Search for an event category to view its attendance statistics.</p>
+  </div>
+
+  <div class="search-box">
+    <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"></circle>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+    </svg>
+    <input 
+      type="text" 
+      class="search-input" 
+      placeholder="Search categories by name..." 
+      (input)="onSearchChange($event)"
+    />
+  </div>
+
+  <div class="results-container">
+    @if (isLoading()) {
+      <div class="loading-state">
+        <div class="spinner"></div>
+        <p>Loading categories...</p>
+      </div>
+    } @else if (errorMessage()) {
+      <div class="error-alert">
+        {{ errorMessage() }}
+      </div>
+    } @else {
+      @if (filteredCategories().length === 0) {
+        <div class="empty-state">
+          <p>No categories found matching "{{ searchQuery() }}".</p>
+        </div>
+      } @else {
+        <div class="category-grid">
+          @for (category of filteredCategories(); track category.id) {
+            <div class="category-card" (click)="goToStats(category.id)" tabindex="0" (keydown.enter)="goToStats(category.id)">
+              <div class="category-info">
+                <h3>{{ category.name }}</h3>
+                <div class="category-meta">
+                  <span class="time-badge">
+                    {{ category.startingTime | slice:0:5 }} - {{ category.endTime | slice:0:5 }}
+                  </span>
+                  @if (category.repeatable) {
+                    <span class="repeat-badge">Repeatable</span>
+                  }
+                </div>
+              </div>
+              <div class="category-action">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    }
+  </div>
+</div>
