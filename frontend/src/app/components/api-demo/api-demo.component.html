@@ -1,38 +1,201 @@
 <section>
-  <h2>PresSync API Demo</h2>
+  <h2>PresSync API Functional Frontend</h2>
+  <p>Token status: {{ token ? 'Authenticated' : 'Not authenticated' }}</p>
+  <button type="button" (click)="logout()" [disabled]="loading || !token">Logout</button>
+
+  <hr />
+  <h3>Authentication</h3>
+  <form (ngSubmit)="register()" #registerForm="ngForm">
+    <h4>Register</h4>
+    <label>Name <input type="text" name="registerName" [(ngModel)]="registerPayload.name" required /></label>
+    <label>Surname <input type="text" name="registerSurname" [(ngModel)]="registerPayload.surname" required /></label>
+    <label>Email <input type="email" name="registerEmail" [(ngModel)]="registerPayload.email" required /></label>
+    <label
+      >Password <input type="password" name="registerPassword" [(ngModel)]="registerPayload.password" required
+    /></label>
+    <button type="submit" [disabled]="loading || !registerForm.form.valid">Register</button>
+  </form>
 
   <form (ngSubmit)="login()" #loginForm="ngForm">
-    <label>
-      Email
-      <input type="email" name="email" [(ngModel)]="email" required />
-    </label>
-
-    <label>
-      Password
-      <input type="password" name="password" [(ngModel)]="password" required />
-    </label>
-
+    <h4>Login</h4>
+    <label>Email <input type="email" name="loginEmail" [(ngModel)]="loginPayload.email" required /></label>
+    <label
+      >Password <input type="password" name="loginPassword" [(ngModel)]="loginPayload.password" required
+    /></label>
     <button type="submit" [disabled]="loading || !loginForm.form.valid">Login</button>
   </form>
 
-  <button
-    type="button"
-    (click)="loadUsers()"
-    [disabled]="loading || !token"
-    [attr.aria-label]="token ? 'Refresh users' : 'Refresh users (login required)'"
-  >
-    Refresh users
-  </button>
+  <hr />
+  <h3>Users</h3>
+  <label>User ID <input type="number" name="userIdInput" [(ngModel)]="userIdInput" /></label>
+  <div>
+    <button type="button" (click)="loadUsers()" [disabled]="loading">Get All Users</button>
+    <button type="button" (click)="getUserById()" [disabled]="loading">Get User By ID</button>
+    <button type="button" (click)="updateUser()" [disabled]="loading">Update User By ID</button>
+    <button type="button" (click)="deleteUser()" [disabled]="loading">Delete User By ID</button>
+  </div>
+  <h4>User Update Payload</h4>
+  <label>Name <input type="text" name="updateUserName" [(ngModel)]="userUpdatePayload.name" /></label>
+  <label>Surname <input type="text" name="updateUserSurname" [(ngModel)]="userUpdatePayload.surname" /></label>
+  <label>Email <input type="email" name="updateUserEmail" [(ngModel)]="userUpdatePayload.email" /></label>
+  <label>Password <input type="password" name="updateUserPassword" [(ngModel)]="userUpdatePayload.password" /></label>
+  <pre>Users: {{ users | json }}</pre>
+  <pre>Selected User: {{ selectedUser | json }}</pre>
+
+  <hr />
+  <h3>Event Categories</h3>
+  <label>Category ID <input type="number" name="categoryIdInput" [(ngModel)]="categoryIdInput" /></label>
+  <div>
+    <button type="button" (click)="loadCategories()" [disabled]="loading">Get All Categories</button>
+    <button type="button" (click)="getCategoryById()" [disabled]="loading">Get Category By ID</button>
+    <button type="button" (click)="createCategory()" [disabled]="loading">Create Category</button>
+    <button type="button" (click)="updateCategory()" [disabled]="loading">Update Category By ID</button>
+    <button type="button" (click)="deleteCategory()" [disabled]="loading">Delete Category By ID</button>
+  </div>
+  <h4>Create Category Payload</h4>
+  <label>Name <input type="text" name="createCategoryName" [(ngModel)]="categoryPayload.name" /></label>
+  <label
+    >Starting Time
+    <input
+      type="text"
+      name="createCategoryStartingTime"
+      [(ngModel)]="categoryPayload.startingTime"
+      placeholder="HH:MM:SS"
+  /></label>
+  <label
+    >End Time <input type="text" name="createCategoryEndTime" [(ngModel)]="categoryPayload.endTime" placeholder="HH:MM:SS"
+  /></label>
+  <label
+    >Attendance Time Start
+    <input
+      type="text"
+      name="createCategoryAttendanceTimeStart"
+      [(ngModel)]="categoryPayload.attendanceTimeStart"
+      placeholder="HH:MM:SS"
+  /></label>
+  <label
+    >Attendance Duration (minutes)
+    <input type="number" name="createCategoryAttendanceDuration" [(ngModel)]="categoryPayload.attendanceDuration"
+  /></label>
+  <label
+    >Repeatable <input type="checkbox" name="createCategoryRepeatable" [(ngModel)]="categoryPayload.repeatable"
+  /></label>
+  <label
+    >Repeatable Type
+    <input
+      type="text"
+      name="createCategoryRepeatableType"
+      [(ngModel)]="categoryPayload.repeatableType"
+      placeholder="DAILY/WEEKLY/..."
+  /></label>
+  <label
+    >Repeats On Specific Day
+    <input
+      type="text"
+      name="createCategoryRepeatsOnSpecificDay"
+      [(ngModel)]="categoryPayload.repeatsOnSpecificDay"
+      placeholder="MON/TUE/..."
+  /></label>
+  <label>Base Date <input type="date" name="createCategoryBaseDate" [(ngModel)]="categoryPayload.baseDate" /></label>
+  <h4>Update Category Payload</h4>
+  <label>Name <input type="text" name="updateCategoryName" [(ngModel)]="categoryUpdatePayload.name" /></label>
+  <label
+    >Starting Time
+    <input
+      type="text"
+      name="updateCategoryStartingTime"
+      [(ngModel)]="categoryUpdatePayload.startingTime"
+      placeholder="HH:MM:SS"
+  /></label>
+  <label
+    >End Time <input type="text" name="updateCategoryEndTime" [(ngModel)]="categoryUpdatePayload.endTime" placeholder="HH:MM:SS"
+  /></label>
+  <label
+    >Attendance Time Start
+    <input
+      type="text"
+      name="updateCategoryAttendanceTimeStart"
+      [(ngModel)]="categoryUpdatePayload.attendanceTimeStart"
+      placeholder="HH:MM:SS"
+  /></label>
+  <label
+    >Attendance Duration (minutes)
+    <input type="number" name="updateCategoryAttendanceDuration" [(ngModel)]="categoryUpdatePayload.attendanceDuration"
+  /></label>
+  <label
+    >Repeatable <input type="checkbox" name="updateCategoryRepeatable" [(ngModel)]="categoryUpdatePayload.repeatable"
+  /></label>
+  <label
+    >Repeatable Type
+    <input
+      type="text"
+      name="updateCategoryRepeatableType"
+      [(ngModel)]="categoryUpdatePayload.repeatableType"
+      placeholder="DAILY/WEEKLY/..."
+  /></label>
+  <label
+    >Repeats On Specific Day
+    <input
+      type="text"
+      name="updateCategoryRepeatsOnSpecificDay"
+      [(ngModel)]="categoryUpdatePayload.repeatsOnSpecificDay"
+      placeholder="MON/TUE/..."
+  /></label>
+  <label>Base Date <input type="date" name="updateCategoryBaseDate" [(ngModel)]="categoryUpdatePayload.baseDate" /></label>
+  <pre>Categories: {{ categories | json }}</pre>
+  <pre>Selected Category: {{ selectedCategory | json }}</pre>
+
+  <hr />
+  <h3>Events</h3>
+  <label>Event ID <input type="number" name="eventIdInput" [(ngModel)]="eventIdInput" /></label>
+  <div>
+    <button type="button" (click)="loadEvents()" [disabled]="loading">Get All Events</button>
+    <button type="button" (click)="getEventById()" [disabled]="loading">Get Event By ID</button>
+    <button type="button" (click)="createEvent()" [disabled]="loading">Create Event</button>
+    <button type="button" (click)="updateEvent()" [disabled]="loading">Update Event By ID</button>
+    <button type="button" (click)="deleteEvent()" [disabled]="loading">Delete Event By ID</button>
+  </div>
+  <h4>Create Event JSON Payload</h4>
+  <textarea name="createEventPayload" [(ngModel)]="eventPayloadText" rows="8" cols="80"></textarea>
+  <h4>Update Event JSON Payload</h4>
+  <textarea name="updateEventPayload" [(ngModel)]="eventUpdatePayloadText" rows="8" cols="80"></textarea>
+  <pre>Events: {{ events | json }}</pre>
+  <pre>Selected Event: {{ selectedEvent | json }}</pre>
+
+  <hr />
+  <h3>Attendance</h3>
+  <label>Attendance ID <input type="number" name="attendanceIdInput" [(ngModel)]="attendanceIdInput" /></label>
+  <label>User ID <input type="number" name="attendanceUserIdInput" [(ngModel)]="attendanceUserIdInput" /></label>
+  <label
+    >Category ID for Stats <input type="number" name="attendanceCategoryIdInput" [(ngModel)]="attendanceCategoryIdInput"
+  /></label>
+  <div>
+    <button type="button" (click)="loadAttendance()" [disabled]="loading">Get All Attendance</button>
+    <button type="button" (click)="getAttendanceById()" [disabled]="loading">Get Attendance By ID</button>
+    <button type="button" (click)="getAttendanceByUser()" [disabled]="loading">Get Attendance By User</button>
+    <button type="button" (click)="markAttendance()" [disabled]="loading">Mark Attendance (Current User)</button>
+    <button type="button" (click)="updateAttendance()" [disabled]="loading">Update Attendance By ID</button>
+    <button type="button" (click)="getCategoryStats()" [disabled]="loading">Get Category Stats</button>
+  </div>
+  <h4>Update Attendance Payload</h4>
+  <label
+    >User ID <input type="number" name="attendanceUpdateUserId" [(ngModel)]="attendanceUpdatePayload.userId"
+  /></label>
+  <label
+    >Event ID <input type="number" name="attendanceUpdateEventId" [(ngModel)]="attendanceUpdatePayload.eventId"
+  /></label>
+  <pre>Attendance List: {{ attendance | json }}</pre>
+  <pre>Selected Attendance: {{ selectedAttendance | json }}</pre>
+  <pre>Attendance By User: {{ attendanceByUser | json }}</pre>
+  <pre>Category Stats: {{ categoryStats | json }}</pre>
+
+  <hr />
+  <h3>Last API Result</h3>
+  <pre>{{ lastResult | json }}</pre>
 
   <p *ngIf="loading">Loading...</p>
 
   <div *ngIf="error">
-    <strong>Error:</strong> {{ error.message }}
+    <strong>Error:</strong> {{ error.message }} ({{ error.operation }})
   </div>
-
-  <ul *ngIf="!loading && !error">
-    <li *ngFor="let user of users">
-      {{ user.name }} {{ user.surname }} — {{ user.email }}
-    </li>
-  </ul>
 </section>
