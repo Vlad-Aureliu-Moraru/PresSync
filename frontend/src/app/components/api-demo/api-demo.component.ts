@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ApiError } from '../../api/api-error';
 import {
   AttendanceCreateRequest,
@@ -13,7 +13,7 @@ import {
   UserCreateRequest,
   UserGet,
 } from '../../api/api.models';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { AttendanceService } from '../../api/services/attendance.service';
 import { AuthService } from '../../api/services/auth.service';
 import { EventCategoryService } from '../../api/services/event-category.service';
@@ -24,8 +24,9 @@ import { UserService } from '../../api/services/user.service';
   selector: 'app-api-demo',
   templateUrl: './api-demo.component.html',
 })
-export class ApiDemoComponent {
+export class ApiDemoComponent implements OnDestroy {
   private static readonly TOKEN_STORAGE_KEY = 'pressync_token';
+  private readonly subscriptions = new Subscription();
 
   users: UserGet[] = [];
   categories: EventCategory[] = [];
@@ -105,6 +106,10 @@ export class ApiDemoComponent {
     private readonly eventService: EventService,
     private readonly attendanceService: AttendanceService,
   ) {}
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
 
   register(): void {
     this.runRequest('auth.register', this.authService.register(this.registerPayload), (response) => {
@@ -366,7 +371,7 @@ export class ApiDemoComponent {
   ): void {
     this.loading = true;
     this.error = null;
-    request.subscribe({
+    const subscription = request.subscribe({
       next: (data) => {
         onSuccess(data);
         this.loading = false;
@@ -379,6 +384,7 @@ export class ApiDemoComponent {
         this.loading = false;
       },
     });
+    this.subscriptions.add(subscription);
   }
 
   private parseId(value: string, label: string): number | null {
