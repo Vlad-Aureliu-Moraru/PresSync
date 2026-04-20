@@ -1,0 +1,115 @@
+<div class="dashboard-container">
+  <div class="dashboard-header">
+    <h1>Student Dashboard</h1>
+  </div>
+
+  <div class="dashboard-grid">
+    
+    <!-- Left Column: Attendance Status & History -->
+    <div class="main-content">
+      <!-- Loading State -->
+      @if (isLoading) {
+        <div class="loading-state">
+          <div class="spinner"></div>
+          <p>Processing your attendance...</p>
+        </div>
+      }
+
+      <!-- Success State: Marked Present -->
+      @if (!isLoading && isMarkedPresent) {
+        <div class="success-banner">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+             <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+             <polyline points="22 4 12 14.01 9 11.01"></polyline>
+          </svg>
+          <h2>You are marked present for today's class!</h2>
+          <p>Your attendance has been successfully recorded.</p>
+        </div>
+      }
+
+      <!-- Fallback Error State -->
+      @if (!isLoading && !isMarkedPresent && errorMessage) {
+         <div class="error-alert">
+           {{ errorMessage }}
+         </div>
+      }
+
+      <!-- Fallback State: History Table -->
+      @if (!isLoading && !isMarkedPresent && !errorMessage) {
+        <div class="history-section">
+          <h2>Your Attendance History</h2>
+
+          @if (attendanceHistory.length === 0) {
+            <div class="empty-state">
+               <p>No historical attendance records found.</p>
+            </div>
+          } @else {
+            <div class="table-container">
+              <table class="history-table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Event Name</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (record of attendanceHistory; track record.id || $index) {
+                    <tr>
+                      <td>{{ record.date | date:'mediumDate' }}</td>
+                      <td>{{ record.eventName }}</td>
+                      <td>
+                        <span class="status-badge" 
+                              [class.present]="record.status === 'PRESENT' || record.status === 'Present'" 
+                              [class.absent]="record.status === 'ABSENT' || record.status === 'Absent'">
+                          {{ record.status | titlecase }}
+                        </span>
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Right Column: Today's Schedule -->
+    <div class="side-content">
+      <div class="schedule-card">
+        <h2>Today's Schedule</h2>
+        
+        @if (scheduleLoading()) {
+          <div class="schedule-loading">
+            <div class="spinner small-spinner"></div>
+            <span>Loading schedule...</span>
+          </div>
+        } @else if (scheduleError()) {
+          <div class="error-banner">
+            {{ scheduleError() }}
+          </div>
+        } @else if (todaySchedule().length === 0) {
+          <div class="empty-state small-empty">
+            <p>No classes scheduled for today.</p>
+          </div>
+        } @else {
+          <div class="schedule-list">
+            @for (event of todaySchedule(); track event.id) {
+              <div class="schedule-item">
+                <div class="schedule-time">
+                  <span class="time">{{ event.startingTime | slice:0:5 }}</span>
+                  <span class="time-separator">-</span>
+                  <span class="time">{{ event.endTime | slice:0:5 }}</span>
+                </div>
+                <div class="schedule-details">
+                  <h3 class="event-name">{{ event.name }}</h3>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

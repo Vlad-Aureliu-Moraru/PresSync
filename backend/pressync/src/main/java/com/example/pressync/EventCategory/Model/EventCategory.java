@@ -51,4 +51,5 @@ public class EventCategory {
     @OneToMany(mappedBy = "eventCategory")
     @JsonIgnore
     private List<Event> events;
+
 }

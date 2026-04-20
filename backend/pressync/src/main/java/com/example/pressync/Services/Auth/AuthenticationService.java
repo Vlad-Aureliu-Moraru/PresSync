@@ -9,6 +9,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -36,8 +39,12 @@ public class AuthenticationService {
         // 2. If we reach here, the password was correct
         var user = repository.findByEmail(request.email())
                 .orElseThrow();
+        Map<String, Object> extraClaims = new HashMap<>();
+        extraClaims.put("userId", user.getId());
+        extraClaims.put("role", user.getRole().name());
 
-        var jwtToken = jwtService.generateToken(user);
+        var jwtToken = jwtService.generateToken(extraClaims,user);
+
         return new AuthenticationResponse(jwtToken);
     }
 }

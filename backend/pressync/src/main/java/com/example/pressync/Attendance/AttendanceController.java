@@ -8,6 +8,7 @@ import com.example.pressync.Attendance.QueryHandler.GetAttendanceByIdQuery;
 import com.example.pressync.Attendance.QueryHandler.GetAttendanceByUserIdQuery;
 import com.example.pressync.Attendance.QueryHandler.GetEventCategoryStatsQuery;
 import com.example.pressync.User.Model.User;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -41,7 +42,7 @@ public class AttendanceController {
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<Attendance>> getAttendanceByUserID (@PathVariable  int userId) {
+    public ResponseEntity<List<Attendance>> getAttendanceByUserID (@PathVariable int userId) {
         return getAttendanceByUserIdQuery.execute(userId);
     }
     @PostMapping("/mark")

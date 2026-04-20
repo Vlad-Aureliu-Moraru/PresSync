@@ -13,6 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 @RequiredArgsConstructor
 public class CreateUserCommand implements Command<UserCreateDTO, AuthenticationResponse> { // Change return type
@@ -37,7 +40,11 @@ public class CreateUserCommand implements Command<UserCreateDTO, AuthenticationR
 
         userRepository.save(userToSave);
 
-        String token = jwtService.generateToken(userToSave);
+        Map<String, Object> extraClaims = new HashMap<>();
+        extraClaims.put("userId",userToSave.getId());
+        extraClaims.put("role", userToSave.getRole().name());
+
+        var token = jwtService.generateToken(extraClaims,userToSave);
 
         return ResponseEntity.ok(new AuthenticationResponse(token));
     }

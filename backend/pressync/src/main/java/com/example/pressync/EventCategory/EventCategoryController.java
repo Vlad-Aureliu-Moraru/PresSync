@@ -8,6 +8,7 @@ import com.example.pressync.EventCategory.Model.DTO.CreateEventCategoryRequest;
 import com.example.pressync.EventCategory.Model.DTO.UpdateEventCategoryRequest;
 import com.example.pressync.EventCategory.Model.EventCategoryUpdateDTO;
 import com.example.pressync.EventCategory.QueryHandlers.GetAllEventCategoriesQuerry;
+import com.example.pressync.EventCategory.QueryHandlers.GetEventCategoryDueTodayQuery;
 import com.example.pressync.EventCategory.QueryHandlers.GetEventCategoryQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,7 @@ public class EventCategoryController {
     private final GetEventCategoryQuery  getEventCategoryQuery;
     private final DeleteEventCategoryCommand deleteEventCategoryCommand;
     private final UpdateEventCategoryCommand updateEventCategoryCommand;
+    private final GetEventCategoryDueTodayQuery getEventCategoryDueTodayQuery;
 
 
     @GetMapping
@@ -36,9 +38,17 @@ public class EventCategoryController {
     public ResponseEntity<EventCategory> getEventCategory(@PathVariable int id){
         return getEventCategoryQuery.execute(id);
     }
+
+    @GetMapping("/today")
+    public ResponseEntity<List<EventCategory>> getEventCategoriesDueToday(){
+        return getEventCategoryDueTodayQuery.execute(null);
+    }
+
     @PostMapping("/create")
     public ResponseEntity<String> addEventCategory(@RequestBody CreateEventCategoryRequest eventCategoryRequest){
       return   createEventCategoryCommand.execute(eventCategoryRequest);
+
+
 
     }
     @PutMapping("/{id}")

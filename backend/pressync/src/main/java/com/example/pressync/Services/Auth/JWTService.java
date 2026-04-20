@@ -16,7 +16,6 @@ import java.util.function.Function;
 
 @Service
 public class  JWTService{
-    // 1. This is your Secret Key. In production, move this to application.properties!
     private static final String SECRET_KEY = "404E635266556J586E3272357538782F413F4428472B4B6250645367566B5970";
 
     // 2. Generate a token for a specific user
@@ -28,7 +27,7 @@ public class  JWTService{
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
-                .setSubject(userDetails.getUsername()) // Usually the email
+                .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24)) // 24 hours
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)

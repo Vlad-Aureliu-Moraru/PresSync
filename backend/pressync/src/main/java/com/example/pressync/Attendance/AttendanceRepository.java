@@ -14,4 +14,6 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Integer>
 
     @Query("SELECT COUNT(a) FROM Attendance a WHERE a.event.eventCategory.id = :categoryId GROUP BY a.event.id ORDER BY a.event.date ASC")
     List<Long> countAttendancePerEventByCategory(@Param("categoryId") Integer categoryId);
+
+    List<Attendance> findAllByUserEmail(String userEmail);
 }

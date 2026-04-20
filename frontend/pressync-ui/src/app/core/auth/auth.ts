@@ -27,4 +27,41 @@ export class AuthService {
   isAuthenticated(): boolean {
     return !!this.getToken();
   }
+
+  // Decode the JWT payload safely
+  private decodeJwtPayload(): any {
+    const token = this.getToken();
+    if (!token) return null;
+
+    try {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+
+      return JSON.parse(jsonPayload);
+    } catch (e) {
+      console.error('Failed to decode JWT:', e);
+      return null;
+    }
+  }
+
+  // Extract User ID
+  getUserId(): number | null {
+    const payload = this.decodeJwtPayload();
+    return payload ? payload.userId : null;
+  }
+
+  // Extract Role
+  getUserRole(): string | null {
+    const payload = this.decodeJwtPayload();
+    return payload ? payload.role : null;
+  }
+
+  // Check if role is Admin or Moderator
+  isAdminOrModerator(): boolean {
+    const role = this.getUserRole();
+    return role === 'ADMIN' || role === 'MODERATOR';
+  }
 }

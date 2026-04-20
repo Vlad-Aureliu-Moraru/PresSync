@@ -2,7 +2,6 @@ package com.example.pressync.Attendance.QueryHandler;
 
 import com.example.pressync.Attendance.AttendanceRepository;
 import com.example.pressync.Attendance.Model.Attendance;
-import com.example.pressync.Event.EventRepository;
 import com.example.pressync.Query;
 import com.example.pressync.User.UserRepository;
 import lombok.RequiredArgsConstructor;
