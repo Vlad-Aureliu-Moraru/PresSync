@@ -1,4 +1,6 @@
-.category-create-container { padding: 0.25rem; }
+.category-create-container {
+  padding: 0.25rem;
+}
 
 :host {
   display: block;
@@ -25,7 +27,9 @@
   font-size: 0.92rem;
 }
 
-.form-section { margin-bottom: 2rem; }
+.form-section {
+  margin-bottom: 2rem;
+}
 
 .form-section h3 {
   margin-bottom: 1rem;
@@ -74,7 +78,9 @@ hr {
 
 .required,
 .error-text,
-.error-text::before { color: #e74c3c; }
+.error-text::before {
+  color: #e74c3c;
+}
 
 .form-group input[type="text"],
 .form-group input[type="time"],
@@ -104,7 +110,9 @@ hr {
   background: #fdf5f5;
 }
 
-.form-group .is-invalid:focus { box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.15); }
+.form-group .is-invalid:focus {
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.15);
+}
 
 .error-text {
   display: flex;
@@ -173,12 +181,14 @@ hr {
   transform: rotate(45deg);
 }
 
-.checkbox-container input:checked ~ .checkmark {
+.checkbox-container input:checked~.checkmark {
   border-color: var(--accent-action);
   background: var(--accent-action);
 }
 
-.checkbox-container input:checked ~ .checkmark::after { display: block; }
+.checkbox-container input:checked~.checkmark::after {
+  display: block;
+}
 
 .scheduling-section {
   padding: 1.5rem;
@@ -218,10 +228,12 @@ hr {
   border: 1px solid rgba(255, 255, 255, 0.35);
 }
 
-.btn-secondary:hover:not(:disabled) { background: rgba(255, 255, 255, 0.12); }
+.btn-secondary:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.12);
+}
 
 .btn-primary {
-  background: var(--accent-action);
+  background: var(--primary-color);
   color: var(--text-main);
   box-shadow: 0 2px 10px rgba(59, 73, 83, 0.22);
 }
@@ -251,18 +263,36 @@ hr {
   color: #721c24;
 }
 
-.animate-fade-in { animation: fadeIn 0.3s ease-in-out; }
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
 
 @media (max-width: 768px) {
-  .category-create-container { padding: 0; }
-  .form-header h2 { font-size: 1.2rem; }
+  .category-create-container {
+    padding: 0;
+  }
+
+  .form-header h2 {
+    font-size: 1.2rem;
+  }
+
   .form-actions {
     flex-direction: column-reverse;
   }
-  .form-actions .btn { width: 100%; }
+
+  .form-actions .btn {
+    width: 100%;
+  }
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

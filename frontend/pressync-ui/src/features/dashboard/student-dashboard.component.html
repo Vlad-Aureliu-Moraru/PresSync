@@ -91,13 +91,9 @@
           <div class="error-banner">
             {{ scheduleError() }}
           </div>
-        } @else if (todaySchedule().length === 0) {
-          <div class="empty-state small-empty">
-            <p>No classes scheduled for today.</p>
-          </div>
         } @else {
           <div class="schedule-list">
-            @if (authServiceInject.isAdminOrModerator()) {
+            @if (authServiceInject.getUserRole() === 'ADMIN' || authServiceInject.getUserRole() === 'MODERATOR') {
               <div class="schedule-item add-category-card" (click)="openModal()">
                 <div class="add-icon">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -108,17 +104,24 @@
                 <div class="add-label">Add New Category</div>
               </div>
             }
-            @for (event of todaySchedule(); track event.id) {
-              <div class="schedule-item">
-                <div class="schedule-time">
-                  <span class="time">{{ event.startingTime | slice:0:5 }}</span>
-                  <span class="time-separator">-</span>
-                  <span class="time">{{ event.endTime | slice:0:5 }}</span>
-                </div>
-                <div class="schedule-details">
-                  <h3 class="event-name">{{ event.name }}</h3>
-                </div>
+
+            @if (todaySchedule().length === 0) {
+              <div class="empty-state small-empty">
+                <p>No classes scheduled for today.</p>
               </div>
+            } @else {
+              @for (event of todaySchedule(); track event.id) {
+                <div class="schedule-item">
+                  <div class="schedule-time">
+                    <span class="time">{{ event.startingTime | slice:0:5 }}</span>
+                    <span class="time-separator">-</span>
+                    <span class="time">{{ event.endTime | slice:0:5 }}</span>
+                  </div>
+                  <div class="schedule-details">
+                    <h3 class="event-name">{{ event.name }}</h3>
+                  </div>
+                </div>
+              }
             }
           </div>
         }

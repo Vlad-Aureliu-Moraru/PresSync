@@ -51,6 +51,6 @@ export class EventCategoryService {
   }
 
   createCategory(payload: CreateEventCategoryRequest): Observable<EventCategory> {
-    return this.http.post<EventCategory>(`${environment.apiUrl}/eventCategory`, payload);
+    return this.http.post<EventCategory>(`${environment.apiUrl}/eventCategory/create`, payload);
   }
 }
