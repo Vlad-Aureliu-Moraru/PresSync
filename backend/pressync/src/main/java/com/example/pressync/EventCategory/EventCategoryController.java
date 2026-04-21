@@ -12,6 +12,7 @@ import com.example.pressync.EventCategory.QueryHandlers.GetEventCategoryDueToday
 import com.example.pressync.EventCategory.QueryHandlers.GetEventCategoryQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.http.HttpResponse;
@@ -30,21 +31,25 @@ public class EventCategoryController {
 
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('USER','MODERATOR','ADMIN')")
     public ResponseEntity<List<EventCategory>> getAllEventCategories(){
         return getAllEventCategoriesQuerry.execute(null);
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('USER','MODERATOR','ADMIN')")
     public ResponseEntity<EventCategory> getEventCategory(@PathVariable int id){
         return getEventCategoryQuery.execute(id);
     }
 
     @GetMapping("/today")
+    @PreAuthorize("hasAnyRole('USER','MODERATOR','ADMIN')")
     public ResponseEntity<List<EventCategory>> getEventCategoriesDueToday(){
         return getEventCategoryDueTodayQuery.execute(null);
     }
 
     @PostMapping("/create")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> addEventCategory(@RequestBody CreateEventCategoryRequest eventCategoryRequest){
       return   createEventCategoryCommand.execute(eventCategoryRequest);
 
@@ -52,11 +57,13 @@ public class EventCategoryController {
 
     }
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> updateEventCategory(@PathVariable int id, @RequestBody UpdateEventCategoryRequest request){
         EventCategoryUpdateDTO eventCategoryUpdateDTO = new EventCategoryUpdateDTO(id, request);
         return updateEventCategoryCommand.execute(eventCategoryUpdateDTO);
     }
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<HttpResponse> deleteEventCategory(@PathVariable int id){
         return deleteEventCategoryCommand.execute(id);
     }

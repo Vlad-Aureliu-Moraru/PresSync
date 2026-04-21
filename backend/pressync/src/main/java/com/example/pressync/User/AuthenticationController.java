@@ -3,6 +3,7 @@ package com.example.pressync.User;
 import com.example.pressync.Services.Auth.AuthenticationRequest;
 import com.example.pressync.Services.Auth.AuthenticationResponse;
 import com.example.pressync.Services.Auth.AuthenticationService;
+import com.example.pressync.Services.Auth.VerifyMfaRequest;
 import com.example.pressync.User.Model.DTOSs.UserCreateDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -26,5 +27,10 @@ public class AuthenticationController {
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) {
         return ResponseEntity.ok(service.authenticate(request));
+    }
+
+    @PostMapping("/verify-mfa")
+    public ResponseEntity<AuthenticationResponse> verifyMfa(@RequestBody VerifyMfaRequest request) {
+        return ResponseEntity.ok(service.verifyMfa(request));
     }
 }

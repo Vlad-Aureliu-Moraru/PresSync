@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserUpdateDTO {
-    int id;
-    UserCreateDTO user;
+    private int id;
+    private UserUpdateRequestDTO user;
 }

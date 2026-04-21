@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -40,6 +41,21 @@ public class User implements UserDetails {
     @Column(name = "active", nullable = false)
     private Boolean active = true;
 
+    @Column(name = "failed_login_attempts", nullable = false)
+    private Integer failedLoginAttempts = 0;
+
+    @Column(name = "account_locked_until")
+    private LocalDateTime accountLockedUntil;
+
+    @Column(name = "mfa_enabled", nullable = false)
+    private Boolean mfaEnabled = false;
+
+    @Column(name = "mfa_code")
+    private String mfaCode;
+
+    @Column(name = "mfa_expiry")
+    private LocalDateTime mfaExpiry;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -58,7 +74,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return accountLockedUntil == null || accountLockedUntil.isBefore(LocalDateTime.now());
     }
 
     @Override
