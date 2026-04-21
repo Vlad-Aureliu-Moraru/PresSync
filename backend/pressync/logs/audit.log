@@ -1,0 +1,4 @@
+2026-04-21 14:42:51.991 INFO  action=MFA_OTP_SENT actorId=1 targetUserId=1
+2026-04-21 14:46:53.493 INFO  action=MFA_OTP_SENT actorId=1 targetUserId=1
+2026-04-21 14:53:05.949 INFO  action=MFA_OTP_SENT actorId=1 targetUserId=1
+2026-04-21 14:55:30.456 INFO  action=MFA_VERIFIED actorId=1 targetUserId=1
