@@ -12,7 +12,7 @@
 .auth-card {
   width: 100%;
   max-width: 440px;
-  background: var(--ps-surface);
+  background: var(--secondary-bg);
   border: 1px solid var(--ps-border);
   border-radius: var(--ps-radius);
   padding: 2.5rem;
@@ -27,6 +27,7 @@
     opacity: 0;
     transform: translateY(12px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -42,7 +43,7 @@
 .auth-logo {
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--ps-primary-light);
+  color: var(--accent-action);
   letter-spacing: -0.02em;
   margin-bottom: 0.5rem;
 }
@@ -56,7 +57,7 @@
 
 .auth-subtitle {
   font-size: 0.875rem;
-  color: var(--ps-text-muted);
+  color: var(--text-muted);
 }
 
 /* ── Error Banner ── */
@@ -85,6 +86,7 @@
     opacity: 0;
     transform: translateY(-8px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -109,17 +111,17 @@
   display: block;
   font-size: 0.8125rem;
   font-weight: 500;
-  color: var(--ps-text-muted);
+  color: var(--text-muted);
   margin-bottom: 0.375rem;
 }
 
 .form-input {
   width: 100%;
   padding: 0.6875rem 0.875rem;
-  background: var(--ps-bg);
-  border: 1px solid var(--ps-border);
+  background: var(--secondary-bg);
+  border: 1px solid rgba(255, 255, 255, 0.28);
   border-radius: var(--ps-radius-sm);
-  color: var(--ps-text);
+  color: var(--text-main);
   font-family: var(--ps-font);
   font-size: 0.875rem;
   transition:
@@ -128,13 +130,13 @@
   outline: none;
 
   &::placeholder {
-    color: var(--ps-text-muted);
+    color: var(--text-muted);
     opacity: 0.5;
   }
 
   &:focus {
-    border-color: var(--ps-border-focus);
-    box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.15);
+    border-color: var(--accent-action);
+    box-shadow: var(--glow-effect);
   }
 
   &.input-error {
@@ -152,8 +154,13 @@
 }
 
 @keyframes errorFadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 /* ── Submit Button ── */
@@ -161,10 +168,10 @@
   width: 100%;
   padding: 0.75rem;
   margin-top: 0.5rem;
-  background: linear-gradient(135deg, var(--ps-primary) 0%, var(--ps-primary-dark) 100%);
+  background: var(--primary-color);
   border: none;
   border-radius: var(--ps-radius-sm);
-  color: var(--ps-text-on-primary);
+  color: var(--text-main);
   font-family: var(--ps-font);
   font-size: 0.9375rem;
   font-weight: 600;
@@ -175,8 +182,8 @@
     box-shadow var(--ps-transition);
 
   &:hover:not(:disabled) {
-    opacity: 0.92;
-    box-shadow: 0 4px 16px rgba(108, 92, 231, 0.35);
+    opacity: 0.95;
+    box-shadow: var(--glow-effect);
     transform: translateY(-1px);
   }
 
@@ -208,7 +215,9 @@
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* ── Footer Link ── */
@@ -216,14 +225,15 @@
   text-align: center;
   margin-top: 1.5rem;
   font-size: 0.8125rem;
-  color: var(--ps-text-muted);
+  color: var(--text-muted);
 
   a {
-    color: var(--ps-primary-light);
+    color: var(--text-main);
     font-weight: 500;
 
     &:hover {
-      color: var(--ps-accent);
+      color: var(--accent-action);
+      text-shadow: var(--glow-effect);
     }
   }
 }

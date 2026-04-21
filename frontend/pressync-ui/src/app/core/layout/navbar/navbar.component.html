@@ -1,0 +1,16 @@
+@if (!isAuthPage()) {
+  <nav class="global-navbar">
+    <div class="nav-container">
+      <a routerLink="/student-dashboard" class="brand-link">Pressync</a>
+
+      <div class="nav-links">
+        <a routerLink="/student-dashboard" routerLinkActive="active-link" class="nav-link">Dashboard</a>
+        <a routerLink="/search" routerLinkActive="active-link" class="nav-link">Search</a>
+
+        @if (authService.isAuthenticated()) {
+          <button type="button" class="logout-btn" (click)="onLogout()">Logout</button>
+        }
+      </div>
+    </div>
+  </nav>
+}

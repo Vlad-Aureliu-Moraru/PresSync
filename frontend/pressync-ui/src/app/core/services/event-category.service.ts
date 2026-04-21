@@ -20,6 +20,18 @@ export interface EventCategory {
   categoryConfig?: CategoryConfig;
 }
 
+export interface CreateEventCategoryRequest {
+  name: string;
+  startingTime: string;
+  endTime: string;
+  attendanceTimeStart: string;
+  attendanceDuration: number;
+  repeatable: boolean;
+  repeatableType: string | null;
+  repeatsOnSpecificDay: string | null;
+  baseDate: string | null;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -36,5 +48,9 @@ export class EventCategoryService {
 
   getCategoryById(id: number | string): Observable<EventCategory> {
     return this.http.get<EventCategory>(`${environment.apiUrl}/eventCategory/${id}`);
+  }
+
+  createCategory(payload: CreateEventCategoryRequest): Observable<EventCategory> {
+    return this.http.post<EventCategory>(`${environment.apiUrl}/eventCategory`, payload);
   }
 }

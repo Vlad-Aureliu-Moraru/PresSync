@@ -1,6 +1,10 @@
 <div class="dashboard-container">
   <div class="dashboard-header">
-    <h1>Student Dashboard</h1>
+    @if (currentUser()) {
+      <h1>{{ currentUser()!.name }} {{ currentUser()!.surname }}'s Dashboard</h1>
+    } @else {
+      <h1>Your Dashboard</h1>
+    }
   </div>
 
   <div class="dashboard-grid">
@@ -50,19 +54,17 @@
                   <tr>
                     <th>Date</th>
                     <th>Event Name</th>
-                    <th>Status</th>
+                    <th>Time Joined</th>
                   </tr>
                 </thead>
                 <tbody>
                   @for (record of attendanceHistory; track record.id || $index) {
                     <tr>
-                      <td>{{ record.date | date:'mediumDate' }}</td>
-                      <td>{{ record.eventName }}</td>
+                      <td>{{ record.event.date | date:'mediumDate' }}</td>
+                      <td>{{ record.event.eventCategory.name }}</td>
                       <td>
-                        <span class="status-badge" 
-                              [class.present]="record.status === 'PRESENT' || record.status === 'Present'" 
-                              [class.absent]="record.status === 'ABSENT' || record.status === 'Absent'">
-                          {{ record.status | titlecase }}
+                        <span class="status-badge present">
+                          Joined at {{ record.joinedAt | date:'shortTime' }}
                         </span>
                       </td>
                     </tr>
@@ -95,6 +97,17 @@
           </div>
         } @else {
           <div class="schedule-list">
+            @if (authServiceInject.isAdminOrModerator()) {
+              <div class="schedule-item add-category-card" (click)="openModal()">
+                <div class="add-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                  </svg>
+                </div>
+                <div class="add-label">Add New Category</div>
+              </div>
+            }
             @for (event of todaySchedule(); track event.id) {
               <div class="schedule-item">
                 <div class="schedule-time">
@@ -113,3 +126,20 @@
     </div>
   </div>
 </div>
+
+@if (showCategoryModal()) {
+  <div class="modal-backdrop" (click)="closeModal()">
+    <div class="modal-container" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Create New Category</h3>
+        <button class="modal-close-btn" (click)="closeModal()">×</button>
+      </div>
+      <div class="modal-body">
+        <app-category-create 
+          (categoryCreated)="onCategoryCreated()" 
+          (cancelled)="closeModal()">
+        </app-category-create>
+      </div>
+    </div>
+  </div>
+}

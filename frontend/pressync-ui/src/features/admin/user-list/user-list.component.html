@@ -1,0 +1,64 @@
+<div class="admin-container">
+  <div class="admin-header">
+    <h1>All Registered Users</h1>
+    <p>Manage users and view individual attendance histories.</p>
+  </div>
+
+  <div class="results-container">
+    @if (isLoading()) {
+      <div class="loading-state">
+        <div class="spinner"></div>
+        <p>Loading users...</p>
+      </div>
+    } @else if (errorMessage()) {
+      <div class="error-alert">
+        {{ errorMessage() }}
+      </div>
+    } @else {
+      @if (users().length === 0) {
+        <div class="empty-state">
+          <p>No users found in the system.</p>
+        </div>
+      } @else {
+        <div class="table-card">
+          <div class="table-container">
+            <table class="roster-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (user of users(); track user.id) {
+                  <tr>
+                    <td>{{ user.id }}</td>
+                    <td>
+                      <div class="user-fullname">
+                        {{ user.surname }} {{ user.name }}
+                      </div>
+                    </td>
+                    <td class="user-email">{{ user.email }}</td>
+                    <td>
+                      <span class="role-badge" [ngClass]="user.role.toLowerCase()">
+                        {{ user.role }}
+                      </span>
+                    </td>
+                    <td>
+                      <button class="btn-action" (click)="viewHistory(user.id)" aria-label="View Attendance History">
+                        View History
+                      </button>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      }
+    }
+  </div>
+</div>

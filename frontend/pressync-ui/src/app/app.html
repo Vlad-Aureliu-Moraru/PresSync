@@ -1,26 +1,4 @@
-<nav class="global-navbar">
-  <div class="nav-container">
-    <div class="nav-brand">
-      <a routerLink="/student-dashboard" class="brand-link">
-        <span class="logo-mark">✦</span>
-        <span class="logo-text">Pressync</span>
-      </a>
-    </div>
-
-    <div class="nav-links">
-      <a routerLink="/student-dashboard" routerLinkActive="active-link" class="nav-link">
-        Dashboard
-      </a>
-      <a routerLink="/search" routerLinkActive="active-link" class="nav-link search-link">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-        Search Categories
-      </a>
-    </div>
-  </div>
-</nav>
+<app-navbar></app-navbar>
 
 <main class="app-main">
   <router-outlet />

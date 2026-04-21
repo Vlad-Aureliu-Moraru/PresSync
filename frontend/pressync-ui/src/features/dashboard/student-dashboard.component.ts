@@ -3,11 +3,13 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { AttendanceService, AttendanceRecord } from '../../app/core/services/attendance.service';
 import { AuthService } from '../../app/core/auth/auth';
 import { EventCategoryService, EventCategory } from '../../app/core/services/event-category.service';
+import { UserService, UserGetAllDTO } from '../../app/core/services/user.service';
+import { CategoryCreateComponent } from '../admin/category-create/category-create.component';
 
 @Component({
   selector: 'app-student-dashboard',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, CategoryCreateComponent],
   templateUrl: './student-dashboard.component.html',
   styleUrls: ['./student-dashboard.component.scss'],
   providers: [DatePipe]
@@ -16,6 +18,11 @@ export class StudentDashboardComponent implements OnInit {
   private attendanceService = inject(AttendanceService);
   private authService = inject(AuthService);
   private eventCategoryService = inject(EventCategoryService);
+  private userService = inject(UserService);
+
+  currentUser = signal<UserGetAllDTO | null>(null);
+  authServiceInject = this.authService;
+  showCategoryModal = signal(false);
 
   isLoading = true;
   isMarkedPresent = false;
@@ -30,6 +37,9 @@ export class StudentDashboardComponent implements OnInit {
   ngOnInit(): void {
     this.isLoading = true;
     
+    // Fetch current user profile
+    this.fetchCurrentUser();
+
     // Attempt to automatically mark attendance
     this.attendanceService.markAttendance().subscribe({
       next: () => {
@@ -45,6 +55,16 @@ export class StudentDashboardComponent implements OnInit {
 
     // Fetch Today's Schedule
     this.fetchTodaySchedule();
+  }
+
+  private fetchCurrentUser(): void {
+    const userId = this.authService.getUserId();
+    if (userId) {
+      this.userService.getUserById(userId).subscribe({
+        next: (user) => this.currentUser.set(user),
+        error: () => this.currentUser.set(null)
+      });
+    }
   }
 
   private fetchTodaySchedule(): void {
@@ -80,5 +100,18 @@ export class StudentDashboardComponent implements OnInit {
         this.isLoading = false;
       }
     });
+  }
+
+  openModal(): void {
+    this.showCategoryModal.set(true);
+  }
+
+  closeModal(): void {
+    this.showCategoryModal.set(false);
+  }
+
+  onCategoryCreated(): void {
+    this.closeModal();
+    this.fetchTodaySchedule();
   }
 }

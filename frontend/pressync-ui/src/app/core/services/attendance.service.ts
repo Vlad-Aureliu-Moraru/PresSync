@@ -4,10 +4,16 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 export interface AttendanceRecord {
-  id?: number;
-  date: string;
-  eventName: string;
-  status: string;
+  id: number;
+  joinedAt: string;
+  event: {
+    date: string;
+    eventCategory: {
+      name: string;
+      startingTime: string;
+      endTime: string;
+    };
+  };
 }
 
 export interface EventCategoryStatsDTO {
