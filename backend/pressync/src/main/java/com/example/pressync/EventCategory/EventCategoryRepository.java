@@ -20,4 +20,8 @@ public interface EventCategoryRepository extends JpaRepository<EventCategory, In
     // Our perfectly optimized JPQL query
     @Query("SELECT c FROM EventCategory c JOIN FETCH c.categoryConfig")
     List<EventCategory> findAllWithConfigs();
+
+    long countByCategoryConfig_Id(Integer configId);
+
+    long countByCategoryConfig_IdAndIdNot(Integer configId, Integer categoryId);
 }

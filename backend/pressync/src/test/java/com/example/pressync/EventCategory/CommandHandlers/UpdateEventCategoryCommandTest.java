@@ -5,6 +5,7 @@ import com.example.pressync.EventCategory.Model.EventCategory;
 import com.example.pressync.EventCategory.Model.EventCategoryUpdateDTO;
 import com.example.pressync.EventCategory.Model.DTO.UpdateEventCategoryRequest;
 import com.example.pressync.EventCategoryConfig.EventCategoryConfigRepository;
+import com.example.pressync.EventCategoryConfig.EventCategoryConfigService;
 import com.example.pressync.EventCategoryConfig.Model.EventCategoryConfig;
 import com.example.pressync.EventCategory.Model.RepeatableType;
 import com.example.pressync.EventCategory.Model.RepeatsOnSpecificDay;
@@ -32,6 +33,8 @@ class UpdateEventCategoryCommandTest {
     private EventCategoryRepository eventCategoryRepository;
     @Mock
     private EventCategoryConfigRepository eventCategoryConfigRepository;
+    @Mock
+    private EventCategoryConfigService eventCategoryConfigService;
 
     @InjectMocks
     private UpdateEventCategoryCommand updateEventCategoryCommand;

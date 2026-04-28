@@ -3,6 +3,7 @@ package com.example.pressync.EventCategory.CommandHandlers;
 import com.example.pressync.EventCategory.EventCategoryRepository;
 import com.example.pressync.EventCategory.Model.EventCategory;
 import com.example.pressync.EventCategory.Model.RepeatableType;
+import com.example.pressync.EventCategory.Model.RepeatsOnSpecificDay;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -11,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.example.pressync.EventCategory.Model.DTO.CreateEventCategoryRequest;
 import com.example.pressync.EventCategoryConfig.EventCategoryConfigRepository;
+import com.example.pressync.EventCategoryConfig.EventCategoryConfigService;
 import com.example.pressync.EventCategoryConfig.Model.EventCategoryConfig;
 import org.springframework.context.ApplicationEventPublisher;
 
@@ -28,6 +30,8 @@ class CreateEventCategoryCommandTest {
   EventCategoryRepository eventCategoryRepository;
   @Mock
   EventCategoryConfigRepository eventCategoryConfigRepository;
+  @Mock
+  EventCategoryConfigService eventCategoryConfigService;
   @Mock
   ApplicationEventPublisher applicationEventPublisher;
   @InjectMocks
@@ -86,6 +90,7 @@ class CreateEventCategoryCommandTest {
 
     when(eventCategoryRepository.findAll()).thenReturn(List.of(existing));
 
+    LocalDate baseDate = LocalDate.of(2026, 4, 27);
     CreateEventCategoryRequest newCatRequest = new CreateEventCategoryRequest(
             "Test",
             Time.valueOf("10:30:00"),
@@ -95,8 +100,8 @@ class CreateEventCategoryCommandTest {
             true,
             null,
             RepeatableType.WEEKLY,
-            null,
-            LocalDate.now()
+            RepeatsOnSpecificDay.MON,
+            baseDate
     );
 
     RuntimeException exception = assertThrows(IllegalArgumentException.class,

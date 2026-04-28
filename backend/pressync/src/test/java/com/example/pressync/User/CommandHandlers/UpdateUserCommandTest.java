@@ -1,7 +1,7 @@
 package com.example.pressync.User.CommandHandlers;
 
-import com.example.pressync.User.Model.DTOSs.UserCreateDTO;
 import com.example.pressync.User.Model.DTOSs.UserUpdateDTO;
+import com.example.pressync.User.Model.DTOSs.UserUpdateRequestDTO;
 import com.example.pressync.User.Model.User;
 import com.example.pressync.User.UserRepository;
 import com.example.pressync.User.Validator.UserValidator;
@@ -12,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
@@ -26,22 +27,24 @@ class UpdateUserCommandTest {
     private UserRepository userRepository;
     @Mock
     private UserValidator userValidator;
+    @Mock
+    private PasswordEncoder passwordEncoder;
 
     @InjectMocks
     private UpdateUserCommand updateUserCommand;
 
     private UserUpdateDTO updateDTO;
-    private UserCreateDTO createDTO;
+    private UserUpdateRequestDTO updateRequestDTO;
     private User foundUser;
 
     @BeforeEach
     void setUp() {
-        createDTO = new UserCreateDTO();
-        createDTO.setName("John");
-        createDTO.setSurname("Doe");
-        createDTO.setEmail("john.doe@example.com");
+        updateRequestDTO = new UserUpdateRequestDTO();
+        updateRequestDTO.setName("John");
+        updateRequestDTO.setSurname("Doe");
+        updateRequestDTO.setEmail("john.doe@example.com");
 
-        updateDTO = new UserUpdateDTO(1, createDTO);
+        updateDTO = new UserUpdateDTO(1, updateRequestDTO);
 
         foundUser = new User();
         foundUser.setId(1);

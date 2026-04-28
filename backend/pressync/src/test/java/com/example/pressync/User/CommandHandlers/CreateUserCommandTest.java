@@ -48,7 +48,7 @@ class CreateUserCommandTest {
     @Test
     void testCreateUserSuccess() {
         when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
-        when(jwtService.generateToken(any(User.class))).thenReturn("mockToken");
+        when(jwtService.generateToken(any(), any(User.class))).thenReturn("mockToken");
 
         ResponseEntity<AuthenticationResponse> response = createUserCommand.execute(createDTO);
 

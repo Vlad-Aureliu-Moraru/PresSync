@@ -13,7 +13,7 @@ Separating user management and authentication into its own module provides a cen
 
 ----------
 
-## Improvements to be done
+## Improvements that were done
 - **Granular RBAC**: Implement field-level and path-level Role-Based Access Control as specified in the `API_ROLES_REQUIREMENTS.md`.
 - **Account Security**: Add a mechanism for account lockout after several failed login attempts to prevent brute-force attacks.
 - **Audit Logs**: Implement a user activity logging system to track sensitive changes (e.g., password changes or role modifications).

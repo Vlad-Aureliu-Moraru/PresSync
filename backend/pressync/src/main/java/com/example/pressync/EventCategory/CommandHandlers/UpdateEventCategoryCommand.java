@@ -6,6 +6,7 @@ import com.example.pressync.EventCategory.Model.EventCategory;
 import com.example.pressync.EventCategory.Model.EventCategoryUpdateDTO;
 import com.example.pressync.EventCategory.Model.DTO.UpdateEventCategoryRequest;
 import com.example.pressync.EventCategoryConfig.EventCategoryConfigRepository;
+import com.example.pressync.EventCategoryConfig.EventCategoryConfigService;
 import com.example.pressync.EventCategoryConfig.Model.EventCategoryConfig;
 import com.example.pressync.EventCategory.Model.RepeatableType;
 import com.example.pressync.EventCategory.Model.RepeatsOnSpecificDay;
@@ -20,10 +21,14 @@ import java.net.http.HttpResponse;
 public class UpdateEventCategoryCommand implements Command<EventCategoryUpdateDTO,String> {
     private final EventCategoryRepository eventCategoryRepository;
     private final EventCategoryConfigRepository eventCategoryConfigRepository;
-    
-    public UpdateEventCategoryCommand(EventCategoryRepository eventCategoryRepository, EventCategoryConfigRepository eventCategoryConfigRepository) {
+    private final EventCategoryConfigService eventCategoryConfigService;
+
+    public UpdateEventCategoryCommand(EventCategoryRepository eventCategoryRepository,
+                                      EventCategoryConfigRepository eventCategoryConfigRepository,
+                                      EventCategoryConfigService eventCategoryConfigService) {
         this.eventCategoryRepository = eventCategoryRepository;
         this.eventCategoryConfigRepository = eventCategoryConfigRepository;
+        this.eventCategoryConfigService = eventCategoryConfigService;
     }
 
     @Override
@@ -44,8 +49,10 @@ public class UpdateEventCategoryCommand implements Command<EventCategoryUpdateDT
         if (Boolean.TRUE.equals(request.repeatable())) {
             EventCategoryConfig config;
             if (request.configId() != null) {
+                eventCategoryConfigService.enforceSingleCategoryPerConfig(request.configId(), eventCategory.getId());
                 config = eventCategoryConfigRepository.findById(request.configId())
                         .orElseThrow(() -> new IllegalArgumentException("Config not found"));
+                eventCategoryConfigService.validateConfig(config);
             } else {
                 if (eventCategory.getCategoryConfig() != null) {
                    config = eventCategory.getCategoryConfig();
@@ -55,6 +62,7 @@ public class UpdateEventCategoryCommand implements Command<EventCategoryUpdateDT
                 config.setRepeatableType(request.repeatableType());
                 config.setRepeatsOnSpecificDay(request.repeatsOnSpecificDay());
                 config.setBaseDate(request.baseDate() != null ? request.baseDate() : LocalDate.now());
+                eventCategoryConfigService.validateConfig(config);
                 config = eventCategoryConfigRepository.save(config);
             }
             eventCategory.setCategoryConfig(config);
