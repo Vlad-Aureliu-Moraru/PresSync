@@ -16,12 +16,10 @@ and update scheduling logic independently from the base category details.
 ----------
 
 ## Improvements to be done
-- **Architectural Simplification**: Deprecate this independent module and fold the configuration entities directly into the `EventCategory` domain to simplify querying and reduce database join overhead. This should be done after a safe migration plan that updates the JPA mappings and database schema.
-- **Rule Previewer**: Add a utility (either in the service or as a query) to "preview" the next 5 occurrences based on a given configuration for UI validation.
+_No pending improvements; current architecture is intentional (recommended by instructor to avoid overloading `EventCategory`)._
 
 ## Mistakes that have to be solved
-- **Coupling Over-Engineering**: The level of separation between `EventCategory` and `EventCategoryConfig` increases architectural complexity without providing significant benefits (since a category normally has exactly one configuration). Until the schema is merged, enforce a 1:1 logical constraint in the service layer.
-- **Incomplete Validation**: `repeatableType`, `repeatsOnSpecificDay`, and `baseDate` must be validated together. In particular, weekly patterns should require a specific day and the base date must match it.
+_No known mistakes; current separation is intentional._
 
 ## SOLVED
 - **Rule Previewer**: Implemented a preview utility that returns upcoming occurrences from a config for UI validation.
