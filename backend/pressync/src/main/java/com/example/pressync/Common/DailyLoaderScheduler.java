@@ -7,6 +7,8 @@ import com.example.pressync.EventCategory.Model.EventCategoryChangedEvent;
 import com.example.pressync.EventCategory.Model.RepeatsOnSpecificDay;
 import com.example.pressync.EventCategoryConfig.Model.EventCategoryConfig;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -21,40 +23,40 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class DailyLoaderScheduler {
+    private static final Logger log = LoggerFactory.getLogger(DailyLoaderScheduler.class);
     private final EventRepository eventRepository;
     private final EventCategoryRepository eventCategoryRepository;
     private final TodayScheduleCache cache;
-    private List<EventCategory> todayList = new ArrayList<>();
+
     @Scheduled(cron = "0 0 0  * * *")
     public void loadDailyEvents() {
         fillTodaySchedule();
     }
+
     @EventListener(ApplicationReadyEvent.class)
     public void onStart(){
         fillTodaySchedule();
     }
 
-
     public void fillTodaySchedule() {
         List<EventCategory> eventCategoryList = this.eventCategoryRepository.findAllWithConfigs();
         LocalDate baseDate = LocalDate.now();
-        todayList.clear();
+        List<EventCategory> todayEvents = new ArrayList<>();
         for (EventCategory eventCategory : eventCategoryList) {
             if (shouldRunToday(eventCategory, baseDate)) {
-                todayList.add(eventCategory);
+                todayEvents.add(eventCategory);
             }
         }
-        cache.updateList(todayList);
+        cache.updateList(todayEvents);
 
-        System.out.println("***PRINTING TODAYLIST***");
-        for (EventCategory eventCategory : todayList) {
-            System.out.println(eventCategory.getName() + " id:" + eventCategory.getId() + " sT:" + eventCategory.getStartingTime());
+        log.info("Today's schedule loaded ({} events)", todayEvents.size());
+        for (EventCategory eventCategory : todayEvents) {
+            log.info("  {} id:{} startTime:{}", eventCategory.getName(), eventCategory.getId(), eventCategory.getStartingTime());
         }
-        System.out.println("***PRINTING TODAYLIST***");
     }
 
     private boolean shouldRunToday(EventCategory cat, LocalDate date) {
-        if (!cat.getRepeatable()) {
+        if (Boolean.FALSE.equals(cat.getRepeatable())) {
             return cat.getSpecificDate() != null && cat.getSpecificDate().equals(date);
         }
 
@@ -62,7 +64,7 @@ public class DailyLoaderScheduler {
         if (config == null) return false;
 
         if (config.getRepeatsOnSpecificDay() != RepeatsOnSpecificDay.NO && config.getRepeatsOnSpecificDay() != null) {
-            String todayShort = date.getDayOfWeek().name().substring(0, 3); // "MON"
+            String todayShort = date.getDayOfWeek().name().substring(0, 3);
             if (!todayShort.equals(config.getRepeatsOnSpecificDay().name())) {
                 return false;
             }
@@ -81,16 +83,18 @@ public class DailyLoaderScheduler {
             default -> false;
         };
     }
+
     private void addToTodayList(EventCategory eventCategory) {
-        LocalDate baseDate = LocalDate.now();
-        if (shouldRunToday(eventCategory, baseDate)) {
-            todayList.add(eventCategory);
+        if (shouldRunToday(eventCategory, LocalDate.now())) {
+            List<EventCategory> current = new ArrayList<>(cache.getEventCategoryList());
+            current.add(eventCategory);
+            cache.updateList(current);
         }
-        cache.updateList(todayList);
     }
+
     @EventListener
     public void onCategoryCreated(EventCategoryChangedEvent event){
-        System.out.println("Scheduler recieved update for "+ event.category().getName());
+        log.info("Scheduler received update for {}", event.category().getName());
         addToTodayList(event.category());
     }
 }

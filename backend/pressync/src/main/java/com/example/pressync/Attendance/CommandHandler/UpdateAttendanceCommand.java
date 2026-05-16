@@ -39,7 +39,7 @@ public class UpdateAttendanceCommand implements Command<AttendanceUpdateDTO,Stri
         if (!eventRepository.existsById(event_id)) {
             throw new IllegalArgumentException("Event does not exist");
         }
-        if (eventRepository.findById(event_id).get().getActive()==false) {
+        if (Boolean.FALSE.equals(eventRepository.findById(event_id).get().getActive())) {
             throw new IllegalArgumentException("Event is not active");
         }
         attendance.setId(id);

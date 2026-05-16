@@ -109,7 +109,7 @@ public class CreateEventCategoryCommand implements Command<CreateEventCategoryRe
 
         if (typeA == RepeatableType.DAILY || typeB == RepeatableType.DAILY) return true;
 
-        if (!a.getRepeatable() && !b.getRepeatable()){
+        if (Boolean.FALSE.equals(a.getRepeatable()) && Boolean.FALSE.equals(b.getRepeatable())){
             return a.getSpecificDate().equals(b.getSpecificDate());
         }
 

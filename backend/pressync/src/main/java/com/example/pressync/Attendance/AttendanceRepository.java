@@ -16,4 +16,6 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Integer>
     List<Long> countAttendancePerEventByCategory(@Param("categoryId") Integer categoryId);
 
     List<Attendance> findAllByUserEmail(String userEmail);
+
+    List<Attendance> findAllByUserIdAndEventEventCategoryId(Integer integer, Integer integer1);
 }

@@ -9,7 +9,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UpdateEventCommand implements Command<EventPutDTO,String> {
-    private EventRepository eventRepository;
+    private final EventRepository eventRepository;
+
     public UpdateEventCommand(EventRepository eventRepository) {
         this.eventRepository = eventRepository;
     }
@@ -17,13 +18,24 @@ public class UpdateEventCommand implements Command<EventPutDTO,String> {
     @Override
     public ResponseEntity<String> execute(EventPutDTO entity) {
         int id = entity.getId();
-        Event event = eventRepository.findById(id).orElse(null);
-        if (event == null) {
+        Event existingEvent = eventRepository.findById(id).orElse(null);
+        if (existingEvent == null) {
             throw new IllegalArgumentException("Event with id " + id + " does not exist");
         }
-        Event newEvent = entity.getEvent();
-        newEvent.setId(id);
-        eventRepository.save(newEvent);
+        Event incoming = entity.getEvent();
+        if (incoming.getEventCategory() != null) {
+            existingEvent.setEventCategory(incoming.getEventCategory());
+        }
+        if (incoming.getActive() != null) {
+            existingEvent.setActive(incoming.getActive());
+        }
+        if (incoming.getArchived() != null) {
+            existingEvent.setArchived(incoming.getArchived());
+        }
+        if (incoming.getDate() != null) {
+            existingEvent.setDate(incoming.getDate());
+        }
+        eventRepository.save(existingEvent);
         return ResponseEntity.ok().build();
     }
 }

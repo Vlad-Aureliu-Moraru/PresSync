@@ -9,7 +9,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 
-import java.net.http.HttpResponse;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -32,8 +31,8 @@ class DeleteEventCategoryCommandTest {
         
         when(eventCategoryRepository.findById(id)).thenReturn(Optional.of(category));
 
-        @SuppressWarnings("rawtypes")
-        ResponseEntity<HttpResponse> response = deleteEventCategoryCommand.execute(id);
+        @SuppressWarnings("unused")
+        ResponseEntity<String> response = deleteEventCategoryCommand.execute(id);
 
         assertEquals(200, response.getStatusCode().value());
         verify(eventCategoryRepository, times(1)).delete(category);

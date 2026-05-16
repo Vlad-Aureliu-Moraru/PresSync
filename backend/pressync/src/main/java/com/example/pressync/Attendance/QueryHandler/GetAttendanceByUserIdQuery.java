@@ -19,7 +19,7 @@ public class GetAttendanceByUserIdQuery implements Query<Integer, List<Attendanc
 
     @Override
     public ResponseEntity<List<Attendance>> execute(Integer input) {
-        if (!userRepository.findById(input).isPresent()) {
+        if (!userRepository.existsById(input)) {
             throw new IllegalArgumentException("User does not exist");
         }
         List<Attendance> list= attendanceRepository.findAllByUserId(input);

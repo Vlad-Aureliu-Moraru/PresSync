@@ -5,6 +5,8 @@ import com.example.pressync.Event.Model.Event;
 import com.example.pressync.EventCategory.Model.EventCategory;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -15,19 +17,20 @@ import java.time.temporal.ChronoUnit;
 @Service
 @RequiredArgsConstructor
 public class MinuteEventScheduler {
+    private static final Logger log = LoggerFactory.getLogger(MinuteEventScheduler.class);
     private final EventRepository eventRepository;
     private final TodayScheduleCache todayScheduleCache;
 
     @Scheduled(cron = "0 * * * * *")
     @Transactional
     public void autoGenerateEvents() {
-        System.out.println("Auto generate events"+ todayScheduleCache.getEventCategoryList().size());
+        log.debug("Auto-generating events for {} categories", todayScheduleCache.getEventCategoryList().size());
         LocalTime now = LocalTime.now().truncatedTo(ChronoUnit.MINUTES);
         for (EventCategory cat : todayScheduleCache.getEventCategoryList()){
             LocalTime startTime = cat.getStartingTime().toLocalTime().truncatedTo(ChronoUnit.MINUTES);
             LocalTime endTime = cat.getEndTime().toLocalTime().truncatedTo(ChronoUnit.MINUTES);
 
-            if (startTime.equals(now)){
+            if (startTime.equals(now) && !startTime.equals(endTime)){
                 startEvent(cat);
             }
             if (endTime.equals(now)){
@@ -43,12 +46,11 @@ public class MinuteEventScheduler {
         event.setArchived(false);
         event.setDate(LocalDate.now());
         eventRepository.save(event);
-        System.out.println("Started Event: " + cat.getName() + " at " + LocalTime.now());
+        log.info("Started Event: {} at {}", cat.getName(), LocalTime.now());
     }
 
     private void endEvent(EventCategory cat){
         eventRepository.archiveByCategory(cat.getId());
-        System.out.println("Archived Event: " + cat.getName() + " at " + LocalTime.now());
-
+        log.info("Archived Event: {} at {}", cat.getName(), LocalTime.now());
     }
 }

@@ -8,27 +8,31 @@ import com.example.pressync.EventCategory.Model.DTO.UpdateEventCategoryRequest;
 import com.example.pressync.EventCategoryConfig.EventCategoryConfigRepository;
 import com.example.pressync.EventCategoryConfig.EventCategoryConfigService;
 import com.example.pressync.EventCategoryConfig.Model.EventCategoryConfig;
+import com.example.pressync.EventCategory.Model.EventCategoryChangedEvent;
 import com.example.pressync.EventCategory.Model.RepeatableType;
 import com.example.pressync.EventCategory.Model.RepeatsOnSpecificDay;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.sql.Time;
 import java.time.LocalDate;
 import java.util.Calendar;
-import java.net.http.HttpResponse;
 @Service
 public class UpdateEventCategoryCommand implements Command<EventCategoryUpdateDTO,String> {
     private final EventCategoryRepository eventCategoryRepository;
     private final EventCategoryConfigRepository eventCategoryConfigRepository;
     private final EventCategoryConfigService eventCategoryConfigService;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     public UpdateEventCategoryCommand(EventCategoryRepository eventCategoryRepository,
                                       EventCategoryConfigRepository eventCategoryConfigRepository,
-                                      EventCategoryConfigService eventCategoryConfigService) {
+                                      EventCategoryConfigService eventCategoryConfigService,
+                                      ApplicationEventPublisher applicationEventPublisher) {
         this.eventCategoryRepository = eventCategoryRepository;
         this.eventCategoryConfigRepository = eventCategoryConfigRepository;
         this.eventCategoryConfigService = eventCategoryConfigService;
+        this.applicationEventPublisher = applicationEventPublisher;
     }
 
     @Override
@@ -77,6 +81,7 @@ public class UpdateEventCategoryCommand implements Command<EventCategoryUpdateDT
         }
 
         eventCategoryRepository.save(eventCategory);
+        applicationEventPublisher.publishEvent(new EventCategoryChangedEvent(eventCategory));
         return ResponseEntity.ok().build();
     }
     
@@ -119,7 +124,7 @@ public class UpdateEventCategoryCommand implements Command<EventCategoryUpdateDT
 
         if (typeA == RepeatableType.DAILY || typeB == RepeatableType.DAILY) return true;
 
-        if (!a.getRepeatable() && !b.getRepeatable()){
+        if (Boolean.FALSE.equals(a.getRepeatable()) && Boolean.FALSE.equals(b.getRepeatable())){
             return a.getSpecificDate().equals(b.getSpecificDate());
         }
 

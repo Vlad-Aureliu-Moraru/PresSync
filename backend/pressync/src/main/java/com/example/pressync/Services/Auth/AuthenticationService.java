@@ -22,9 +22,7 @@ public class AuthenticationService {
     private final CreateUserCommand createUserCommand;
 
     public AuthenticationResponse register(UserCreateDTO userCreateDTO) {
-
-    var response =    createUserCommand.execute(userCreateDTO).getBody();
-    return  response;
+        return createUserCommand.execute(userCreateDTO).getBody();
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {

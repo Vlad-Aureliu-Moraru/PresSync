@@ -71,9 +71,10 @@ class CreateEventCommandTest {
         when(eventCategoryRepository.findById(1)).thenReturn(Optional.of(category));
         when(eventRepository.save(any(Event.class))).thenThrow(new RuntimeException("DB Error"));
 
-        ResponseEntity<String> response = createEventCommand.execute(event);
+        RuntimeException exception = assertThrows(RuntimeException.class,
+            () -> createEventCommand.execute(event));
 
-        assertEquals(400, response.getStatusCode().value());
+        assertEquals("DB Error", exception.getMessage());
         verify(eventRepository, times(1)).save(any());
     }
 }

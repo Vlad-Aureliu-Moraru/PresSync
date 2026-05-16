@@ -15,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.http.HttpResponse;
 import java.util.List;
 
 @RestController
@@ -64,7 +63,7 @@ public class EventCategoryController {
     }
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<HttpResponse> deleteEventCategory(@PathVariable int id){
+    public ResponseEntity<String> deleteEventCategory(@PathVariable int id){
         return deleteEventCategoryCommand.execute(id);
     }
 }

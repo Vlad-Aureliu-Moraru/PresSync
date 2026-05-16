@@ -1,22 +1,21 @@
 package com.example.pressync.Common;
 
-import com.example.pressync.Event.EventRepository;
-import com.example.pressync.EventCategory.EventCategoryRepository;
 import com.example.pressync.EventCategory.Model.EventCategory;
-import lombok.Getter;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Component
-@Getter
 public class TodayScheduleCache {
-    private final List<EventCategory> eventCategoryList = new ArrayList<>();
+    private volatile List<EventCategory> eventCategoryList = new ArrayList<>();
 
-    public void updateList(List<EventCategory> eventCategoryList) {
-        this.eventCategoryList.clear();
-        this.eventCategoryList.addAll(eventCategoryList);
+    public List<EventCategory> getEventCategoryList() {
+        return eventCategoryList;
+    }
 
+    public void updateList(List<EventCategory> newList) {
+        this.eventCategoryList = Collections.unmodifiableList(new ArrayList<>(newList));
     }
 }

@@ -2,6 +2,7 @@ package com.example.pressync.EventCategory.CommandHandlers;
 
 import com.example.pressync.EventCategory.EventCategoryRepository;
 import com.example.pressync.EventCategory.Model.EventCategory;
+import com.example.pressync.EventCategory.Model.EventCategoryChangedEvent;
 import com.example.pressync.EventCategory.Model.EventCategoryUpdateDTO;
 import com.example.pressync.EventCategory.Model.DTO.UpdateEventCategoryRequest;
 import com.example.pressync.EventCategoryConfig.EventCategoryConfigRepository;
@@ -15,6 +16,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
 
 import java.sql.Time;
@@ -35,6 +37,8 @@ class UpdateEventCategoryCommandTest {
     private EventCategoryConfigRepository eventCategoryConfigRepository;
     @Mock
     private EventCategoryConfigService eventCategoryConfigService;
+    @Mock
+    private ApplicationEventPublisher applicationEventPublisher;
 
     @InjectMocks
     private UpdateEventCategoryCommand updateEventCategoryCommand;
@@ -81,6 +85,7 @@ class UpdateEventCategoryCommandTest {
         assertEquals(200, response.getStatusCode().value());
         assertEquals("New Name", eventCategory.getName());
         verify(eventCategoryRepository, times(1)).save(eventCategory);
+        verify(applicationEventPublisher, times(1)).publishEvent(any(EventCategoryChangedEvent.class));
     }
 
     @Test
