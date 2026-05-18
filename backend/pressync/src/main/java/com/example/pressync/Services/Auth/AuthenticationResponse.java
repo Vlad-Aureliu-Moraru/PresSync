@@ -1,4 +1,15 @@
 package com.example.pressync.Services.Auth;
 
-// For sending the token back
-public record AuthenticationResponse(String token) {}
+public record AuthenticationResponse(
+    String token,
+    boolean requiresMfa,
+    String otpDestination
+) {
+    public AuthenticationResponse(String token) {
+        this(token, false, null);
+    }
+
+    public static AuthenticationResponse mfaRequired(String otpDestination) {
+        return new AuthenticationResponse(null, true, otpDestination);
+    }
+}
