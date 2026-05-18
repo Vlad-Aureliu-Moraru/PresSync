@@ -4,16 +4,14 @@ import com.example.pressync.Query;
 import com.example.pressync.User.Model.DTOSs.UserGetDTO;
 import com.example.pressync.User.Model.User;
 import com.example.pressync.User.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class GetUserByIdQuery implements Query<Integer, UserGetDTO> {
-    private UserRepository userRepository;
-
-    public GetUserByIdQuery(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private final UserRepository userRepository;
 
     @Override
     public ResponseEntity<UserGetDTO> execute(Integer input) {

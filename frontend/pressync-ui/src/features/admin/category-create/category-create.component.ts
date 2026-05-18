@@ -5,6 +5,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { startWith } from 'rxjs';
 import { EventCategoryService, CreateEventCategoryRequest } from '../../../app/core/services/event-category.service';
+import { NotificationService } from '../../../app/shared/services/notification.service';
 
 @Component({
   selector: 'app-category-create',
@@ -16,6 +17,7 @@ import { EventCategoryService, CreateEventCategoryRequest } from '../../../app/c
 export class CategoryCreateComponent {
   private fb = inject(FormBuilder);
   private eventCategoryService = inject(EventCategoryService);
+  private notificationService = inject(NotificationService);
 
   @Output() categoryCreated = new EventEmitter<void>();
   @Output() cancelled = new EventEmitter<void>();
@@ -100,6 +102,13 @@ export class CategoryCreateComponent {
 
     this.eventCategoryService.createCategory(payload).subscribe({
       next: () => {
+        const categoryName = payload.name;
+        this.notificationService.showFlash(
+          'success',
+          'Category created',
+          `"${categoryName}" has been created successfully.`
+        );
+        this.eventCategoryService.notifyScheduleChanged();
         this.successMessage = 'Category created successfully!';
         this.isSubmitting = false;
         this.categoryCreated.emit();

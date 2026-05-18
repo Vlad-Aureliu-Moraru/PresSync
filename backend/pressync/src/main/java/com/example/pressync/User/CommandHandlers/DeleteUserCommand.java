@@ -2,15 +2,14 @@ package com.example.pressync.User.CommandHandlers;
 
 import com.example.pressync.Command;
 import com.example.pressync.User.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class DeleteUserCommand implements Command<Integer,String> {
-    private UserRepository userRepository;
-    public DeleteUserCommand(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private final UserRepository userRepository;
     @Override
     public ResponseEntity<String> execute(Integer entity) {
         if (!userRepository.existsById(entity)) {

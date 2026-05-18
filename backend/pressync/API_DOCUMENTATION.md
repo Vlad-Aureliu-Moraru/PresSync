@@ -10,31 +10,53 @@ Most endpoints require a valid JWT token passed in the `Authorization` header as
 ### Authentication Module
 **Base URL:** `/auth`
 
+**`AuthenticationResponse` schema (applies to all auth endpoints):**
+```json
+{
+  "token": "string | null",        // JWT when MFA is complete or not required
+  "requiresMfa": true | false,     // whether MFA OTP verification is needed
+  "otpDestination": "string | null" // masked email where OTP was sent (e.g. "v***l@...")
+}
+```
+
 #### Register User
 - **Endpoint:** `POST /register`
 - **Method:** `POST`
-- **Purpose:** Registers a new user and returns an authentication token.
+- **Purpose:** Registers a new user. MFA is **always** required after registration.
 - **Parameters:**
     - **Body (JSON):** `UserCreateDTO`
-        - `name` (String): The user's first name. [Required]
-        - `surname` (String): The user's last name. [Required]
+        - `name` (String): The user's first name. [Required, 1-30 chars]
+        - `surname` (String): The user's last name. [Required, 1-30 chars]
         - `email` (String): The user's email address (used for login). [Required]
-        - `password` (String): The user's password. [Required]
+        - `password` (String): The user's password. [Required, min 6 chars]
 - **Responses:**
-    - `200 OK`: Returns `AuthenticationResponse` containing the JWT `token`.
+    - `200 OK`: Returns `AuthenticationResponse` with `requiresMfa=true` and `otpDestination` (masked email). `token` is `null`. The client must call `/auth/verify-otp` to complete authentication.
     - `400 Bad Request`: If invalid data is provided.
 
 #### Login
 - **Endpoint:** `POST /login`
 - **Method:** `POST`
-- **Purpose:** Authenticates an existing user.
+- **Purpose:** Authenticates an existing user. MFA is required if the user has MFA enabled.
 - **Parameters:**
     - **Body (JSON):** `AuthenticationRequest`
         - `email` (String): Registered email address. [Required]
         - `password` (String): User's password. [Required]
 - **Responses:**
-    - `200 OK`: Returns `AuthenticationResponse` containing the JWT `token`.
+    - `200 OK` (no MFA): Returns `AuthenticationResponse` with `requiresMfa=false` and a JWT `token`.
+    - `200 OK` (MFA required): Returns `AuthenticationResponse` with `requiresMfa=true` and `otpDestination` (masked email). `token` is `null`. The client must call `/auth/verify-otp`.
     - `401 Unauthorized`: If credentials are invalid.
+
+#### Verify OTP (MFA)
+- **Endpoint:** `POST /verify-otp`
+- **Method:** `POST`
+- **Purpose:** Completes MFA verification by submitting the OTP code sent via email. Returns the JWT token on success.
+- **Parameters:**
+    - **Body (JSON):** `VerifyMfaRequest`
+        - `email` (String): The email used during register/login. [Required]
+        - `otpCode` (String): The 6-digit OTP code sent via email. [Required]
+- **Responses:**
+    - `200 OK`: Returns `AuthenticationResponse` with `requiresMfa=false` and the JWT `token`.
+    - `401 Unauthorized`: If OTP is invalid or expired.
 
 ---
 
@@ -108,7 +130,7 @@ Most endpoints require a valid JWT token passed in the `Authorization` header as
     - `200 OK`: Returns the `Attendance` object.
 
 #### Get Attendance by User
-- **Endpoint:** `GET /user/{userId}`
+- **Endpoint:** `GET /attendance/user/{userId}`
 - **Method:** `GET`
 - **Purpose:** Retrieves all attendance records associated with a specific user.
 - **Parameters:**
@@ -205,6 +227,13 @@ Most endpoints require a valid JWT token passed in the `Authorization` header as
     - `id` (Path, int): The category ID. [Required]
 - **Responses:**
     - `200 OK`: `EventCategory` object.
+
+#### Get Categories Due Today
+- **Endpoint:** `GET /eventCategory/today`
+- **Method:** `GET`
+- **Purpose:** Retrieves all event categories that have events scheduled for today.
+- **Responses:**
+    - `200 OK`: List of `EventCategory` objects.
 
 #### Create Category
 - **Endpoint:** `POST /create`

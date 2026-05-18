@@ -8,6 +8,7 @@ import { CategorySearchComponent } from '../features/categories/category-search/
 import { CategoryStatsComponent } from '../features/categories/category-stats/category-stats.component';
 import { UserListComponent } from '../features/admin/user-list/user-list.component';
 import { UserAttendanceComponent } from '../features/admin/user-attendance/user-attendance.component';
+import { NotificationHistoryComponent } from '../features/notifications/notification-history/notification-history.component';
 import { roleGuard } from './core/guards/role.guard';
 import { authGuard } from './core/guards/auth.guard';
 
@@ -22,5 +23,6 @@ export const routes: Routes = [
   { path: 'admin', redirectTo: '/admin/users', pathMatch: 'full' },
   { path: 'admin/users', component: UserListComponent, canActivate: [roleGuard] },
   { path: 'admin/users/:id/attendance', component: UserAttendanceComponent, canActivate: [roleGuard] },
+  { path: 'notifications', component: NotificationHistoryComponent, canActivate: [authGuard] },
   { path: '', redirectTo: '/login', pathMatch: 'full' }
 ];

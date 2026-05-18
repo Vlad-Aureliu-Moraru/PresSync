@@ -61,10 +61,8 @@ class UpdateAttendanceCommandTest {
     @Test
     void testUpdateAttendanceSuccess() {
         when(attendanceRepository.existsById(1)).thenReturn(true);
-        when(userRepository.existsById(1)).thenReturn(true);
-        when(eventRepository.existsById(1)).thenReturn(true);
-        when(eventRepository.findById(1)).thenReturn(Optional.of(event));
         when(userRepository.findById(1)).thenReturn(Optional.of(user));
+        when(eventRepository.findById(1)).thenReturn(Optional.of(event));
 
         ResponseEntity<String> response = updateAttendanceCommand.execute(updateDTO);
 
@@ -87,7 +85,7 @@ class UpdateAttendanceCommandTest {
     @Test
     void testUpdateAttendanceUserNotFound() {
         when(attendanceRepository.existsById(1)).thenReturn(true);
-        when(userRepository.existsById(1)).thenReturn(false);
+        when(userRepository.findById(1)).thenReturn(Optional.empty());
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, 
             () -> updateAttendanceCommand.execute(updateDTO));
@@ -99,8 +97,8 @@ class UpdateAttendanceCommandTest {
     @Test
     void testUpdateAttendanceEventNotFound() {
         when(attendanceRepository.existsById(1)).thenReturn(true);
-        when(userRepository.existsById(1)).thenReturn(true);
-        when(eventRepository.existsById(1)).thenReturn(false);
+        when(userRepository.findById(1)).thenReturn(Optional.of(user));
+        when(eventRepository.findById(1)).thenReturn(Optional.empty());
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, 
             () -> updateAttendanceCommand.execute(updateDTO));
@@ -113,8 +111,7 @@ class UpdateAttendanceCommandTest {
     void testUpdateAttendanceEventNotActive() {
         event.setActive(false);
         when(attendanceRepository.existsById(1)).thenReturn(true);
-        when(userRepository.existsById(1)).thenReturn(true);
-        when(eventRepository.existsById(1)).thenReturn(true);
+        when(userRepository.findById(1)).thenReturn(Optional.of(user));
         when(eventRepository.findById(1)).thenReturn(Optional.of(event));
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, 

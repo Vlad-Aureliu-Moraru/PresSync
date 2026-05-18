@@ -1,8 +1,10 @@
 package com.example.pressync.Services.Auth;
 
-import com.example.pressync.User.CommandHandlers.CreateUserCommand;
 import com.example.pressync.User.Model.DTOSs.UserCreateDTO;
+import com.example.pressync.User.Model.User;
+import com.example.pressync.User.Model.UserRoles;
 import com.example.pressync.User.UserRepository;
+import com.example.pressync.User.Validator.UserValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -22,14 +24,22 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JWTService jwtService;
     private final AuthenticationManager authenticationManager;
-    private final CreateUserCommand createUserCommand;
     private final EmailService emailService;
+    private final UserValidator userValidator;
 
     public AuthenticationResponse register(UserCreateDTO userCreateDTO) {
-        createUserCommand.execute(userCreateDTO);
+        userValidator.validate(userCreateDTO.getName(), userCreateDTO.getSurname(), userCreateDTO.getEmail());
+        if (userCreateDTO.getPassword() == null || userCreateDTO.getPassword().length() < 6) {
+            throw new IllegalArgumentException("Password must be at least 6 characters long");
+        }
 
-        var user = repository.findByEmail(userCreateDTO.getEmail())
-                .orElseThrow(() -> new RuntimeException("User registration failed"));
+        User user = new User();
+        user.setName(userCreateDTO.getName());
+        user.setSurname(userCreateDTO.getSurname());
+        user.setEmail(userCreateDTO.getEmail());
+        user.setPassword(passwordEncoder.encode(userCreateDTO.getPassword()));
+        user.setRole(UserRoles.USER);
+        user.setActive(false);
 
         String otpCode = generateOtpCode();
         user.setMfaEnabled(true);
@@ -54,7 +64,7 @@ public class AuthenticationService {
         var user = repository.findByEmail(request.email())
                 .orElseThrow();
 
-        if (Boolean.TRUE.equals(user.getMfaEnabled())) {
+        if (Boolean.TRUE.equals(user.getMfaEnabled()) || user.getRole() != UserRoles.USER) {
             String otpCode = generateOtpCode();
             user.setMfaCode(otpCode);
             user.setMfaExpiry(LocalDateTime.now().plusMinutes(5));
@@ -96,6 +106,7 @@ public class AuthenticationService {
 
         user.setMfaCode(null);
         user.setMfaExpiry(null);
+        user.setActive(true);
         repository.save(user);
 
         Map<String, Object> extraClaims = new HashMap<>();

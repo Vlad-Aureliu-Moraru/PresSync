@@ -18,7 +18,7 @@ public interface EventCategoryRepository extends JpaRepository<EventCategory, In
     List<EventCategory> findByStartingTimeNative(@Param("hour") int hour, @Param("minute") int minute);
 
     // Our perfectly optimized JPQL query
-    @Query("SELECT c FROM EventCategory c JOIN FETCH c.categoryConfig")
+    @Query("SELECT c FROM EventCategory c LEFT JOIN FETCH c.categoryConfig")
     List<EventCategory> findAllWithConfigs();
 
     long countByCategoryConfig_Id(Integer configId);

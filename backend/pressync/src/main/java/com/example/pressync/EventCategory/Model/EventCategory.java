@@ -46,10 +46,12 @@ public class EventCategory {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "config_id")
+    @ToString.Exclude
     private EventCategoryConfig categoryConfig;
 
     @OneToMany(mappedBy = "eventCategory")
     @JsonIgnore
+    @ToString.Exclude
     private List<Event> events;
 
 }

@@ -1,6 +1,5 @@
 package com.example.pressync.User;
 
-import com.example.pressync.User.CommandHandlers.CreateUserCommand;
 import com.example.pressync.User.CommandHandlers.DeleteUserCommand;
 import com.example.pressync.User.CommandHandlers.UpdateUserCommand;
 import com.example.pressync.User.Model.DTOSs.UserGetDTO;
@@ -19,7 +18,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/user")
 public class UserController {
-    private final CreateUserCommand createUserCommand;
     private final GetAllUsersQuery getAllUsersQuery;
     private final UpdateUserCommand updateUserCommand;
     private final DeleteUserCommand deleteUserCommand;

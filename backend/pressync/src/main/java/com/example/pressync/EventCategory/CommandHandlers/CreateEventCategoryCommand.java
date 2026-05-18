@@ -67,7 +67,7 @@ public class CreateEventCategoryCommand implements Command<CreateEventCategoryRe
 
         eventCategoryRepository.save(entity);
         applicationEventPublisher.publishEvent(new EventCategoryChangedEvent(entity));
-        return ResponseEntity.ok().body(entity.toString());
+        return ResponseEntity.ok("{}");
     }
     private void checkValidity(EventCategory entity){
         Time startingTime = entity.getStartingTime();

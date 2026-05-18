@@ -6,8 +6,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserValidator {
     private final UserRepository userRepository;
-    private final String nameRegEx = "^[A-Z][a-z]{2,9}$";
-    private final String emailRegEx = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+    private final String nameRegEx = "^[A-Za-zÀ-ÖØ-öø-ÿ' -]{1,30}$";
+    private final String emailRegEx = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?(?:\\.[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?)*\\.[A-Za-z]{2,}$";
 
     public UserValidator(UserRepository userRepository) {
         this.userRepository = userRepository;
