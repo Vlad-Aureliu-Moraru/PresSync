@@ -4,56 +4,48 @@ import { AttendanceService, AttendanceRecord } from '../../app/core/services/att
 import { AuthService } from '../../app/core/auth/auth';
 import { EventCategoryService, EventCategory } from '../../app/core/services/event-category.service';
 import { UserService, UserGetAllDTO } from '../../app/core/services/user.service';
-import { CategoryCreateComponent } from '../admin/category-create/category-create.component';
 
 @Component({
-  selector: 'app-student-dashboard',
+  selector: 'app-user-dashboard',
   standalone: true,
-  imports: [CommonModule, CategoryCreateComponent],
-  templateUrl: './student-dashboard.component.html',
-  styleUrls: ['./student-dashboard.component.scss'],
+  imports: [CommonModule],
+  templateUrl: './user-dashboard.component.html',
+  styleUrls: ['./user-dashboard.component.scss'],
   providers: [DatePipe]
 })
-export class StudentDashboardComponent implements OnInit {
+export class UserDashboardComponent implements OnInit {
   private attendanceService = inject(AttendanceService);
   private authService = inject(AuthService);
   private eventCategoryService = inject(EventCategoryService);
   private userService = inject(UserService);
 
   currentUser = signal<UserGetAllDTO | null>(null);
-  authServiceInject = this.authService;
-  showCategoryModal = signal(false);
 
   isLoading = true;
   isMarkedPresent = false;
   attendanceHistory: AttendanceRecord[] = [];
   errorMessage = '';
 
-  // Today's schedule state
   todaySchedule = signal<EventCategory[]>([]);
   scheduleLoading = signal<boolean>(true);
   scheduleError = signal<string>('');
 
   ngOnInit(): void {
     this.isLoading = true;
-    
-    // Fetch current user profile
+
     this.fetchCurrentUser();
 
-    // Attempt to automatically mark attendance
     this.attendanceService.markAttendance().subscribe({
       next: () => {
         this.isLoading = false;
         this.isMarkedPresent = true;
       },
       error: () => {
-        // If marking fails, fallback to fetching history
         this.isMarkedPresent = false;
         this.fetchHistory();
       }
     });
 
-    // Fetch Today's Schedule
     this.fetchTodaySchedule();
   }
 
@@ -83,7 +75,7 @@ export class StudentDashboardComponent implements OnInit {
 
   private fetchHistory(): void {
     const userId = this.authService.getUserId();
-    
+
     if (!userId) {
       this.errorMessage = 'Could not determine user identity from session.';
       this.isLoading = false;
@@ -100,18 +92,5 @@ export class StudentDashboardComponent implements OnInit {
         this.isLoading = false;
       }
     });
-  }
-
-  openModal(): void {
-    this.showCategoryModal.set(true);
-  }
-
-  closeModal(): void {
-    this.showCategoryModal.set(false);
-  }
-
-  onCategoryCreated(): void {
-    this.closeModal();
-    this.fetchTodaySchedule();
   }
 }

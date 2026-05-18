@@ -9,11 +9,7 @@ import { environment } from '../../../environments/environment';
 interface LoginResponse {
   token?: string;
   requiresMfa?: boolean;
-}
-
-interface VerifyOtpResponse {
-  token?: string;
-  accessToken?: string;
+  otpDestination?: string;
 }
 
 @Component({
@@ -34,18 +30,11 @@ export class LoginComponent {
     password: ['', [Validators.required]]
   });
 
-  otpForm = this.fb.nonNullable.group({
-    otpCode: ['', [Validators.required]]
-  });
-
   errorMessage = '';
   isLoading = false;
-  step = signal<'LOGIN' | 'OTP'>('LOGIN');
-  private mfaEmail = '';
 
   get email() { return this.loginForm.controls.email; }
   get password() { return this.loginForm.controls.password; }
-  get otpCode() { return this.otpForm.controls.otpCode; }
 
   onSubmit(): void {
     if (this.loginForm.invalid) {
@@ -62,9 +51,11 @@ export class LoginComponent {
           this.isLoading = false;
 
           if (res.requiresMfa) {
-            this.mfaEmail = this.loginForm.getRawValue().email;
-            this.otpForm.reset();
-            this.step.set('OTP');
+            sessionStorage.setItem('pressync_mfa_data', JSON.stringify({
+              email: this.loginForm.getRawValue().email,
+              otpDestination: res.otpDestination ?? ''
+            }));
+            this.router.navigate(['/mfa-validate']);
             return;
           }
 
@@ -74,7 +65,7 @@ export class LoginComponent {
           }
 
           this.authService.setToken(res.token);
-          this.router.navigate(['/student-dashboard']);
+          this.navigateByRole();
         },
         error: (err: HttpErrorResponse) => {
           this.isLoading = false;
@@ -89,44 +80,12 @@ export class LoginComponent {
       });
   }
 
-  onVerifyOtp(): void {
-    if (this.otpForm.invalid || !this.mfaEmail) {
-      this.otpForm.markAllAsTouched();
-      return;
+  private navigateByRole(): void {
+    const role = this.authService.getUserRole();
+    if (role === 'ADMIN' || role === 'MODERATOR') {
+      this.router.navigate(['/superior-dashboard']);
+    } else {
+      this.router.navigate(['/user-dashboard']);
     }
-
-    this.isLoading = true;
-    this.errorMessage = '';
-
-    const payload = {
-      email: this.mfaEmail,
-      otpCode: this.otpForm.getRawValue().otpCode
-    };
-
-    this.http.post<VerifyOtpResponse>(`${environment.apiUrl}/auth/verify-mfa`, payload)
-      .subscribe({
-        next: (res) => {
-          this.isLoading = false;
-          const token = res.token ?? res.accessToken;
-
-          if (!token) {
-            this.errorMessage = 'OTP verification succeeded but no access token was returned.';
-            return;
-          }
-
-          this.authService.setToken(token);
-          this.router.navigate(['/student-dashboard']);
-        },
-        error: (err: HttpErrorResponse) => {
-          this.isLoading = false;
-          if (err.status === 401 || err.status === 400) {
-            this.errorMessage = 'Invalid OTP code. Please try again.';
-          } else if (err.status === 0) {
-            this.errorMessage = 'Unable to connect to the server. Please check your connection.';
-          } else {
-            this.errorMessage = 'An unexpected error occurred while verifying OTP.';
-          }
-        }
-      });
   }
 }

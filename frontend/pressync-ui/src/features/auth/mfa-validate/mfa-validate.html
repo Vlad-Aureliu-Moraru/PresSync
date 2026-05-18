@@ -1,0 +1,48 @@
+<div class="auth-card">
+  <div class="auth-header">
+    <div class="auth-logo">✦ Pressync</div>
+    <h1 class="auth-title">Verify your identity</h1>
+    <p class="auth-subtitle">A verification code has been sent to your email.</p>
+  </div>
+
+  @if (errorMessage) {
+    <div class="error-banner" id="mfa-error-banner">
+      <svg class="error-banner-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="15" y1="9" x2="9" y2="15"/>
+        <line x1="9" y1="9" x2="15" y2="15"/>
+      </svg>
+      <span>{{ errorMessage }}</span>
+    </div>
+  }
+
+  <form [formGroup]="otpForm" (ngSubmit)="onVerifyOtp()" novalidate>
+    <div class="form-group">
+      <label class="form-label" for="mfa-otp-code">Verification code</label>
+      <input
+        id="mfa-otp-code"
+        class="form-input"
+        [class.input-error]="otpCode.invalid && otpCode.touched"
+        type="text"
+        formControlName="otpCode"
+        placeholder="Enter 6-digit code"
+        autocomplete="one-time-code"
+      />
+      @if (otpCode.touched && otpCode.errors?.['required']) {
+        <span class="field-error">OTP code is required.</span>
+      }
+    </div>
+
+    <button class="btn-submit" type="submit" [disabled]="otpForm.invalid || isLoading">
+      @if (isLoading) {
+        <span class="btn-loading"><span class="spinner"></span> Verifying…</span>
+      } @else {
+        Verify
+      }
+    </button>
+  </form>
+
+  <div class="auth-footer">
+    <a routerLink="/login">Back to sign in</a>
+  </div>
+</div>

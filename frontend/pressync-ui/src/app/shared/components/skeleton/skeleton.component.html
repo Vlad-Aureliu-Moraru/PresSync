@@ -1,0 +1,27 @@
+@for (_ of range; track $index) {
+  @if (variant === 'card') {
+    <div class="skeleton-card">
+      <div class="skeleton-line" style="width: 60%; height: 1.25rem; margin-bottom: 0.75rem;"></div>
+      <div class="skeleton-line" style="width: 40%; height: 0.85rem;"></div>
+    </div>
+  } @else if (variant === 'chart') {
+    <div class="skeleton-chart">
+      <div class="skeleton-line" style="width: 30%; height: 1rem; margin-bottom: 1rem;"></div>
+      <div class="skeleton-bar-group">
+        <div class="skeleton-bar" style="height: 60%"></div>
+        <div class="skeleton-bar" style="height: 80%"></div>
+        <div class="skeleton-bar" style="height: 45%"></div>
+        <div class="skeleton-bar" style="height: 90%"></div>
+        <div class="skeleton-bar" style="height: 55%"></div>
+      </div>
+    </div>
+  } @else {
+    <div
+      class="skeleton-line"
+      [style.width]="width"
+      [style.height]="height"
+      [style.borderRadius]="borderRadius"
+      [class.skeleton-circle]="variant === 'circle'"
+    ></div>
+  }
+}

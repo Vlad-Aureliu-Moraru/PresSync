@@ -16,9 +16,7 @@
   border: 1px solid var(--ps-border);
   border-radius: var(--ps-radius);
   padding: 2.5rem;
-  box-shadow:
-    0 4px 24px rgba(0, 0, 0, 0.3),
-    0 0 80px rgba(108, 92, 231, 0.04);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
   animation: cardFadeIn 0.5s ease-out;
 }
 
@@ -66,7 +64,7 @@
   align-items: center;
   gap: 0.5rem;
   background: var(--ps-error-bg);
-  border: 1px solid rgba(255, 107, 107, 0.25);
+  border: 1px solid var(--error);
   border-radius: var(--ps-radius-sm);
   padding: 0.75rem 1rem;
   margin-bottom: 1.5rem;
@@ -119,7 +117,7 @@
   width: 100%;
   padding: 0.6875rem 0.875rem;
   background: var(--secondary-bg);
-  border: 1px solid rgba(255, 255, 255, 0.28);
+  border: 1px solid var(--border);
   border-radius: var(--ps-radius-sm);
   color: var(--text-main);
   font-family: var(--ps-font);
@@ -135,13 +133,13 @@
   }
 
   &:focus {
-    border-color: var(--accent-action);
+    border-color: var(--accent);
     box-shadow: var(--glow-effect);
   }
 
   &.input-error {
     border-color: var(--ps-error);
-    box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+    box-shadow: 0 0 0 3px var(--error-bg);
   }
 }
 
@@ -208,8 +206,8 @@
 .spinner {
   width: 16px;
   height: 16px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-top-color: #fff;
+  border: 2px solid rgba(255, 255, 255, 0.08);
+  border-top-color: rgba(255, 255, 255, 0.4);
   border-radius: 50%;
   animation: spin 0.6s linear infinite;
 }
@@ -232,8 +230,7 @@
     font-weight: 500;
 
     &:hover {
-      color: var(--accent-action);
-      text-shadow: var(--glow-effect);
+      color: var(--accent);
     }
   }
 }

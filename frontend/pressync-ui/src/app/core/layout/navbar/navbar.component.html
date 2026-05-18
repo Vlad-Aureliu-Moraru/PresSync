@@ -1,16 +1,49 @@
 @if (!isAuthPage()) {
   <nav class="global-navbar">
     <div class="nav-container">
-      <a routerLink="/student-dashboard" class="brand-link">Pressync</a>
+      <div class="nav-left">
+        <a [routerLink]="dashboardLink()" class="brand-link">Pressync</a>
+      </div>
 
-      <div class="nav-links">
-        <a routerLink="/student-dashboard" routerLinkActive="active-link" class="nav-link">Dashboard</a>
-        <a routerLink="/search" routerLinkActive="active-link" class="nav-link">Search</a>
+      @if (authService.isAdminOrModerator()) {
+        <div class="nav-center">
+          <button type="button" class="create-category-btn" (click)="openCategoryModal()">
+            <svg class="plus-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="12" y1="5" x2="12" y2="19"/>
+              <line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+            Create Category
+          </button>
+        </div>
+      }
 
-        @if (authService.isAuthenticated()) {
-          <button type="button" class="logout-btn" (click)="onLogout()">Logout</button>
-        }
+      <div class="nav-right">
+        <div class="nav-links">
+          <a [routerLink]="dashboardLink()" routerLinkActive="active-link" class="nav-link">Dashboard</a>
+          <a routerLink="/search" routerLinkActive="active-link" class="nav-link">Search</a>
+
+          @if (authService.isAuthenticated()) {
+            <button type="button" class="logout-btn" (click)="onLogout()">Logout</button>
+          }
+        </div>
       </div>
     </div>
   </nav>
+}
+
+@if (showCategoryModal()) {
+  <div class="modal-backdrop" (click)="closeCategoryModal()">
+    <div class="modal-container" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Create New Category</h3>
+        <button class="modal-close-btn" (click)="closeCategoryModal()">×</button>
+      </div>
+      <div class="modal-body">
+        <app-category-create
+          (categoryCreated)="onCategoryCreated()"
+          (cancelled)="closeCategoryModal()">
+        </app-category-create>
+      </div>
+    </div>
+  </div>
 }

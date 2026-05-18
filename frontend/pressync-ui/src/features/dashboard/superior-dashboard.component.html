@@ -1,0 +1,120 @@
+<div class="superior-container">
+  <div class="superior-header">
+    @if (currentUser()) {
+      <h1>{{ currentUser()!.name }} {{ currentUser()!.surname }}'s Dashboard</h1>
+    } @else {
+      <h1>Superior Dashboard</h1>
+    }
+    <p>Manage users and oversee attendance tracking.</p>
+  </div>
+
+  <div class="dashboard-grid">
+    <!-- Left Column: User List -->
+    <div class="main-content">
+      <div class="user-list-section">
+        <div class="section-header">
+          <h2>All Registered Users</h2>
+          <div class="search-wrapper">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input
+              type="text"
+              class="search-input"
+              placeholder="Search by name, email or role..."
+              [ngModel]="searchQuery()"
+              (ngModelChange)="onSearch($event)"
+            />
+          </div>
+        </div>
+
+        @if (isLoadingUsers()) {
+          <div class="loading-state">
+            <div class="spinner"></div>
+            <p>Loading users...</p>
+          </div>
+        } @else if (usersError()) {
+          <div class="error-alert">{{ usersError() }}</div>
+        } @else {
+          @if (filteredUsers().length === 0) {
+            <div class="empty-state">
+              <p>{{ searchQuery() ? 'No users match your search.' : 'No users found in the system.' }}</p>
+            </div>
+          } @else {
+            <div class="table-card">
+              <div class="table-container">
+                <table class="roster-table">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Role</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (user of filteredUsers(); track user.id) {
+                      <tr>
+                        <td>{{ user.id }}</td>
+                        <td>
+                          <div class="user-fullname">{{ user.surname }} {{ user.name }}</div>
+                        </td>
+                        <td class="user-email">{{ user.email }}</td>
+                        <td>
+                          <span class="role-badge" [ngClass]="user.role.toLowerCase()">{{ user.role }}</span>
+                        </td>
+                        <td>
+                          <button class="btn-action" (click)="viewHistory(user.id)">View History</button>
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          }
+        }
+      </div>
+    </div>
+
+    <!-- Right Column: Today's Schedule -->
+    <div class="side-content">
+      <div class="schedule-card">
+        <div class="schedule-card-header">
+          <h2>Today's Schedule</h2>
+        </div>
+        @if (scheduleLoading()) {
+          <div class="schedule-loading">
+            <div class="spinner small-spinner"></div>
+            <span>Loading schedule...</span>
+          </div>
+        } @else if (scheduleError()) {
+          <div class="error-banner">{{ scheduleError() }}</div>
+        } @else {
+          <div class="schedule-list">
+            @if (todaySchedule().length === 0) {
+              <div class="empty-state small-empty">
+                <p>No classes scheduled for today.</p>
+              </div>
+            } @else {
+              @for (event of todaySchedule(); track event.id) {
+                <div class="schedule-item">
+                  <div class="schedule-time">
+                    <span class="time">{{ event.startingTime | slice:0:5 }}</span>
+                    <span class="time-separator">-</span>
+                    <span class="time">{{ event.endTime | slice:0:5 }}</span>
+                  </div>
+                  <div class="schedule-details">
+                    <h3 class="event-name">{{ event.name }}</h3>
+                  </div>
+                </div>
+              }
+            }
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

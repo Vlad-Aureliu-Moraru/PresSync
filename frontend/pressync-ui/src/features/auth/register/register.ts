@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
@@ -7,7 +7,9 @@ import { AuthService } from '../../../app/core/auth/auth';
 import { environment } from '../../../environments/environment';
 
 interface RegisterResponse {
-  token: string;
+  token?: string;
+  requiresMfa?: boolean;
+  otpDestination?: string;
 }
 
 @Component({
@@ -50,8 +52,24 @@ export class RegisterComponent {
     this.http.post<RegisterResponse>(`${environment.apiUrl}/auth/register`, this.registerForm.getRawValue())
       .subscribe({
         next: (res) => {
+          this.isLoading = false;
+
+          if (res.requiresMfa) {
+            sessionStorage.setItem('pressync_mfa_data', JSON.stringify({
+              email: this.registerForm.getRawValue().email,
+              otpDestination: res.otpDestination ?? ''
+            }));
+            this.router.navigate(['/mfa-validate']);
+            return;
+          }
+
+          if (!res.token) {
+            this.errorMessage = 'Registration response is missing access token.';
+            return;
+          }
+
           this.authService.setToken(res.token);
-          this.router.navigate(['/student-dashboard']);
+          this.navigateByRole();
         },
         error: (err: HttpErrorResponse) => {
           this.isLoading = false;
@@ -66,5 +84,14 @@ export class RegisterComponent {
           }
         }
       });
+  }
+
+  private navigateByRole(): void {
+    const role = this.authService.getUserRole();
+    if (role === 'ADMIN' || role === 'MODERATOR') {
+      this.router.navigate(['/superior-dashboard']);
+    } else {
+      this.router.navigate(['/user-dashboard']);
+    }
   }
 }

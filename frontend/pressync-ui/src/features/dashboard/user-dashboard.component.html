@@ -8,7 +8,7 @@
   </div>
 
   <div class="dashboard-grid">
-    
+
     <!-- Left Column: Attendance Status & History -->
     <div class="main-content">
       <!-- Loading State -->
@@ -80,8 +80,9 @@
     <!-- Right Column: Today's Schedule -->
     <div class="side-content">
       <div class="schedule-card">
-        <h2>Today's Schedule</h2>
-        
+        <div class="schedule-card-header">
+          <h2>Today's Schedule</h2>
+        </div>
         @if (scheduleLoading()) {
           <div class="schedule-loading">
             <div class="spinner small-spinner"></div>
@@ -93,18 +94,6 @@
           </div>
         } @else {
           <div class="schedule-list">
-            @if (authServiceInject.getUserRole() === 'ADMIN' || authServiceInject.getUserRole() === 'MODERATOR') {
-              <div class="schedule-item add-category-card" (click)="openModal()">
-                <div class="add-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="12" y1="5" x2="12" y2="19"></line>
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                  </svg>
-                </div>
-                <div class="add-label">Add New Category</div>
-              </div>
-            }
-
             @if (todaySchedule().length === 0) {
               <div class="empty-state small-empty">
                 <p>No classes scheduled for today.</p>
@@ -129,20 +118,3 @@
     </div>
   </div>
 </div>
-
-@if (showCategoryModal()) {
-  <div class="modal-backdrop" (click)="closeModal()">
-    <div class="modal-container" (click)="$event.stopPropagation()">
-      <div class="modal-header">
-        <h3>Create New Category</h3>
-        <button class="modal-close-btn" (click)="closeModal()">×</button>
-      </div>
-      <div class="modal-body">
-        <app-category-create 
-          (categoryCreated)="onCategoryCreated()" 
-          (cancelled)="closeModal()">
-        </app-category-create>
-      </div>
-    </div>
-  </div>
-}

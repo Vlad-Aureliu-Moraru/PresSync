@@ -6,38 +6,71 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  cursor: default;
+}
+
+input:not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+textarea,
+[contenteditable] {
+  cursor: text;
 }
 
 :root {
-  --primary-color: #3B4953;
-  --secondary-color: #5A7863;
-  --accent-color: #dce2db;
-  --text-light: #ffffff;
+  /* ── New unified palette (60-30-10) ── */
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #161616;
+  --bg-tertiary: #1e1e1e;
+  --bg-hover: #252525;
 
-  --primary-bg: var(--primary-color);
-  --secondary-bg: var(--secondary-color);
-  --accent-action: var(--accent-color);
-  --text-main: #FFFFFF;
-  --text-muted: rgba(255, 255, 255, 0.7);
-  --glow-effect: 0 0 10px rgba(56, 230, 12, 0.6);
+  --text-primary: #f0f0f0;
+  --text-secondary: rgba(255, 255, 255, 0.45);
+  --text-muted: rgba(255, 255, 255, 0.3);
 
-  /* Compatibility aliases */
-  --ps-bg: var(--primary-bg);
-  --ps-surface: var(--secondary-bg);
-  --ps-surface-hover: #a34458;
-  --ps-border: rgba(255, 255, 255, 0.2);
-  --ps-border-focus: rgba(99, 232, 69, 0.55);
-  --ps-text: var(--text-main);
-  --ps-text-muted: var(--text-muted);
-  --ps-text-on-primary: var(--text-main);
-  --ps-primary: var(--accent-action);
-  --ps-primary-dark: #cc3b3b;
-  --ps-primary-light: #ff7878;
-  --ps-accent: var(--accent-action);
-  --ps-error: #ff9d9d;
-  --ps-error-bg: rgba(232, 69, 69, 0.2);
-  --ps-success: #ffb0b0;
-  --ps-success-bg: rgba(232, 69, 69, 0.22);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-light: rgba(255, 255, 255, 0.12);
+  --border-focus: rgba(255, 255, 255, 0.2);
+
+  --accent: #ffffff;
+  --accent-hover: #cccccc;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.6);
+
+  /* Status colors (kept for clarity) */
+  --error: #e74c3c;
+  --error-bg: rgba(231, 76, 60, 0.1);
+  --success: #2ecc71;
+  --success-bg: rgba(46, 204, 113, 0.1);
+
+  /* ── Legacy aliases (backward-compatible) ── */
+  --primary-color: var(--bg-primary);
+  --secondary-color: var(--bg-secondary);
+  --accent-color: var(--text-primary);
+
+  --primary-bg: var(--bg-primary);
+  --secondary-bg: var(--bg-secondary);
+  --accent-action: var(--accent);
+  --text-main: var(--text-primary);
+  --text-light: var(--text-primary);
+  --glow-effect: 0 0 10px rgba(255, 255, 255, 0.15);
+
+  --ps-bg: var(--bg-primary);
+  --ps-surface: var(--bg-secondary);
+  --ps-surface-hover: var(--bg-hover);
+  --ps-border: var(--border);
+  --ps-border-focus: var(--border-focus);
+  --ps-text: var(--text-primary);
+  --ps-text-muted: var(--text-secondary);
+  --ps-text-on-primary: var(--text-primary);
+  --ps-primary: var(--accent);
+  --ps-primary-dark: var(--bg-hover);
+  --ps-primary-light: var(--text-primary);
+  --ps-accent: var(--accent);
+  --ps-error: var(--error);
+  --ps-error-bg: var(--error-bg);
+  --ps-success: var(--success);
+  --ps-success-bg: var(--success-bg);
 
   /* Sizing */
   --ps-radius: 12px;
@@ -51,33 +84,28 @@
 html,
 body {
   height: 100%;
+  overflow: hidden;
   font-family: var(--ps-font);
-  background-color: var(--primary-color);
-  color: var(--text-main);
-}
-
-body {
-  min-height: 100vh;
-  background-color: var(--primary-color);
-  color: var(--text-main);
+  background: linear-gradient(160deg, #0a0a0a 0%, #121212 50%, #0a0a0a 100%);
+  color: var(--text-primary);
 }
 
 app-root {
   display: block;
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
   padding-top: 80px;
-  background-color: var(--primary-color);
+  background: transparent;
 }
 
 a {
-  color: var(--text-main);
+  color: var(--text-primary);
   text-decoration: none;
-  transition: color var(--ps-transition), text-shadow var(--ps-transition);
+  transition: color var(--ps-transition);
 
   &:hover {
-    color: var(--accent-action);
-    text-shadow: var(--glow-effect);
+    color: var(--accent);
   }
 }
 
@@ -89,7 +117,7 @@ a {
   align-items: center;
   justify-content: center;
   padding: 1.25rem;
-  background: rgba(43, 46, 74, 0.65);
+  background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(8px);
 }
 
@@ -99,10 +127,10 @@ a {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.24);
+  border: 1px solid var(--border);
   border-radius: 18px;
-  background: var(--secondary-bg);
-  color: var(--text-main);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
 }
 
 .modal-header {
@@ -110,22 +138,22 @@ a {
   align-items: center;
   justify-content: space-between;
   padding: 1rem 1.25rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  background: rgba(43, 46, 74, 0.24);
+  border-bottom: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.03);
 }
 
 .modal-header h3 {
   margin: 0;
-  color: var(--text-main);
+  color: var(--text-primary);
 }
 
 .modal-close-btn {
   width: 36px;
   height: 36px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid var(--border-light);
   border-radius: 10px;
   background: transparent;
-  color: var(--text-main);
+  color: var(--text-primary);
   font-size: 1.35rem;
   line-height: 1;
   cursor: pointer;
@@ -133,8 +161,8 @@ a {
 }
 
 .modal-close-btn:hover {
-  color: var(--accent-action);
-  border-color: var(--accent-action);
+  color: var(--accent);
+  border-color: var(--accent);
   box-shadow: var(--glow-effect);
 }
 

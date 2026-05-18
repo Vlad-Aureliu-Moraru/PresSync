@@ -1,0 +1,189 @@
+<div
+  class="group/sidebar-wrapper flex w-full min-h-svh"
+  [attr.data-state]="isCollapsed() ? 'collapsed' : 'expanded'"
+  data-slot="sidebar-wrapper"
+  style="--sidebar-width: 16rem; --sidebar-width-icon: 3rem;"
+>
+  @if (isMobileOpen()) {
+    <div
+      class="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm md:hidden"
+      (click)="toggleMobile()"
+    ></div>
+  }
+
+  <aside
+    class="group peer hidden text-sidebar-foreground md:block"
+    data-slot="sidebar"
+    [attr.data-state]="isCollapsed() ? 'collapsed' : 'expanded'"
+    [attr.data-collapsible]="isCollapsed() ? 'offcanvas' : ''"
+    data-variant="sidebar"
+    data-side="left"
+  >
+    <div
+      data-slot="sidebar-gap"
+      class="relative w-(--sidebar-width) bg-transparent transition-[width] duration-200 ease-linear group-data-[collapsible=offcanvas]:w-0"
+    ></div>
+    <div
+      data-slot="sidebar-container"
+      class="fixed inset-y-0 left-0 z-10 hidden h-svh w-(--sidebar-width) transition-[left,right,width] duration-200 ease-linear group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)] group-data-[collapsible=icon]:w-(--sidebar-width-icon) group-data-[side=left]:border-r md:flex"
+    >
+      <div
+        data-sidebar="sidebar"
+        data-slot="sidebar-inner"
+        class="flex h-full w-full flex-col bg-sidebar"
+      >
+        <div class="flex items-center justify-between border-b border-sidebar-border px-4 py-4">
+          <div class="flex items-center gap-3">
+            <div class="flex h-9 w-9 items-center justify-center rounded-xl border border-sidebar-ring bg-sidebar-accent">
+              <svg
+                class="h-5 w-5 text-sidebar-primary"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M4 4h16v16H4z" />
+                <path d="M8 8h8v8H8z" />
+              </svg>
+            </div>
+            <span class="text-sm font-semibold text-sidebar-foreground">Pressync</span>
+          </div>
+          <button
+            type="button"
+            class="hidden items-center justify-center rounded-lg border border-sidebar-border px-2 py-1 text-xs text-sidebar-foreground/80 md:inline-flex"
+            (click)="toggleCollapse()"
+          >
+            <span class="sr-only">Toggle collapse</span>
+            <svg
+               class="h-4 w-4"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M15 6l-6 6 6 6" />
+            </svg>
+          </button>
+        </div>
+
+        <nav class="flex-1 px-3 py-4">
+          <ul class="flex w-full min-w-0 flex-col gap-1" data-sidebar="menu" data-slot="sidebar-menu">
+            @for (link of links; track link.path) {
+              <li class="group/menu-item relative" data-sidebar="menu-item" data-slot="sidebar-menu-item">
+                <a
+                  [routerLink]="link.path"
+                  routerLinkActive="sidebar-link-active"
+                  class="peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm outline-hidden ring-sidebar-ring transition-[width,height,padding] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate"
+                >
+                  <ng-container [ngSwitch]="link.icon">
+                    <svg
+                      *ngSwitchCase="'dashboard'"
+                      class="h-4 w-4"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="M3 12l9-9 9 9" />
+                      <path d="M9 21V9h6v12" />
+                    </svg>
+                    <svg
+                      *ngSwitchCase="'search'"
+                       class="h-4 w-4"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <circle cx="11" cy="11" r="8" />
+                      <path d="M21 21l-4.3-4.3" />
+                    </svg>
+                    <svg
+                      *ngSwitchDefault
+                      class="h-4 w-4"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <circle cx="12" cy="12" r="3" />
+                      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V22a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H2a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H8a1.65 1.65 0 0 0 1-1.51V2a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V8c0 .67.39 1.27 1 1.51.32.13.67.2 1.02.2H22a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                    </svg>
+                  </ng-container>
+                  <span>{{ link.label }}</span>
+                </a>
+              </li>
+            }
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </aside>
+
+  @if (isMobileOpen()) {
+    <aside
+      class="fixed inset-y-0 left-0 z-50 w-(--sidebar-width) bg-sidebar p-0 text-sidebar-foreground [&>button]:hidden md:hidden"
+      data-sidebar="sidebar"
+      data-slot="sidebar"
+      data-mobile="true"
+      style="--sidebar-width: 18rem;"
+    >
+      <div class="flex h-full w-full flex-col">
+        <div class="flex items-center justify-between border-b border-sidebar-border px-4 py-4">
+          <span class="text-sm font-semibold">Pressync</span>
+          <button
+            type="button"
+            class="inline-flex items-center justify-center rounded-lg border border-sidebar-border px-2 py-1 text-xs text-sidebar-foreground/80"
+            (click)="toggleMobile()"
+          >
+            <span class="sr-only">Close menu</span>
+            <svg
+               class="h-4 w-4"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M6 6l12 12" />
+              <path d="M6 18L18 6" />
+            </svg>
+          </button>
+        </div>
+        <nav class="flex-1 px-3 py-4">
+          <ul class="flex w-full min-w-0 flex-col gap-1">
+            @for (link of links; track link.path) {
+              <li class="group/menu-item relative">
+                <a
+                  [routerLink]="link.path"
+                  routerLinkActive="sidebar-link-active"
+                  class="flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm outline-hidden ring-sidebar-ring transition-[width,height,padding] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2"
+                  (click)="toggleMobile()"
+                >
+                  <span>{{ link.label }}</span>
+                </a>
+              </li>
+            }
+          </ul>
+        </nav>
+      </div>
+    </aside>
+  }
+</div>
