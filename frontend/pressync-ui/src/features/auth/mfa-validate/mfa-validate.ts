@@ -4,6 +4,7 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../app/core/auth/auth';
+import { AttendanceService } from '../../../app/core/services/attendance.service';
 import { environment } from '../../../environments/environment';
 
 interface VerifyOtpResponse {
@@ -24,6 +25,7 @@ export class MfaValidateComponent implements OnInit {
   private http = inject(HttpClient);
   private router = inject(Router);
   private authService = inject(AuthService);
+  private attendanceService = inject(AttendanceService);
 
   otpForm = this.fb.nonNullable.group({
     otpCode: ['', [Validators.required]]
@@ -73,6 +75,7 @@ export class MfaValidateComponent implements OnInit {
 
           this.authService.setToken(res.token);
           sessionStorage.removeItem('pressync_mfa_data');
+          this.attendanceService.startMonitoring();
 
           const role = this.authService.getUserRole();
           if (role === 'ADMIN' || role === 'MODERATOR') {

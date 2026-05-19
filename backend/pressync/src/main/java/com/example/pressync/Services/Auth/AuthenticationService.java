@@ -64,7 +64,7 @@ public class AuthenticationService {
         var user = repository.findByEmail(request.email())
                 .orElseThrow();
 
-        if (Boolean.TRUE.equals(user.getMfaEnabled()) || user.getRole() != UserRoles.USER) {
+        if (user.getRole() != UserRoles.USER) {
             String otpCode = generateOtpCode();
             user.setMfaCode(otpCode);
             user.setMfaExpiry(LocalDateTime.now().plusMinutes(5));

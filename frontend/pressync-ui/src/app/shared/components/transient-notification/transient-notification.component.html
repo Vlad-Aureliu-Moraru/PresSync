@@ -1,0 +1,23 @@
+@if (notificationService.flashNotification(); as flash) {
+  <div class="transient-notification" [class]="flash.type" (click)="notificationService.dismissFlash()">
+    <div class="card-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path [attr.d]="iconPath"/>
+      </svg>
+    </div>
+    <div class="card-body">
+      <div class="card-title">{{ flash.title }}</div>
+      @if (flash.message) {
+        <p class="card-message">{{ flash.message }}</p>
+      }
+    </div>
+    <button
+      type="button"
+      class="card-dismiss"
+      (click)="notificationService.dismissFlash(); $event.stopPropagation()"
+      aria-label="Dismiss"
+    >
+      ✕
+    </button>
+  </div>
+}

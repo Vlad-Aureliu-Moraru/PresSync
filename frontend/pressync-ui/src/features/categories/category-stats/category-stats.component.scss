@@ -48,39 +48,49 @@
 
   h1 {
     font-size: 1.75rem;
-    margin: 0 0 1rem;
+    margin: 0 0 1.25rem;
     font-weight: 600;
     color: var(--ps-text);
   }
 }
 
-.meta-row {
+.card-details {
   display: flex;
-  gap: 1rem;
+  flex-direction: column;
+  gap: 0.4rem;
+}
 
-  .badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    font-size: 0.8125rem;
-    font-weight: 600;
-    padding: 0.3rem 0.75rem;
-    border-radius: 999px;
+.detail-row {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.875rem;
+  color: var(--ps-text-muted);
 
-    &.time {
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--text-secondary);
+  svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    color: var(--text-secondary);
+  }
+}
 
-      svg {
-        width: 14px;
-        height: 14px;
-      }
-    }
+.section-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ps-text);
+  margin: 0 0 1rem;
+}
 
-    &.repeat {
-      background: rgba(255, 255, 255, 0.06);
-      color: var(--text-secondary);
-    }
+.chart-section {
+  padding: 2rem 2.5rem;
+  border-bottom: 1px solid var(--ps-border);
+
+  .empty-chart {
+    text-align: center;
+    color: var(--ps-text-muted);
+    padding: 2rem 0;
+    font-size: 0.9rem;
   }
 }
 
@@ -88,7 +98,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 2rem;
-  padding: 3rem 2.5rem;
+  padding: 2rem 2.5rem;
 }
 
 .stat-box {
@@ -144,6 +154,65 @@
     margin: 0;
     line-height: 1;
   }
+
+  .stat-sub {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--ps-text-muted);
+  }
+}
+
+.history-section {
+  padding: 2rem 2.5rem;
+
+  .section-title {
+    margin-bottom: 1.25rem;
+  }
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.history-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  transition: background var(--ps-transition);
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.06);
+  }
+}
+
+.history-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #22c55e;
+  flex-shrink: 0;
+}
+
+.history-info {
+  display: flex;
+  gap: 1rem;
+  align-items: baseline;
+}
+
+.history-date {
+  font-weight: 600;
+  color: var(--ps-text);
+  font-size: 0.9rem;
+}
+
+.history-time {
+  color: var(--ps-text-muted);
+  font-size: 0.8rem;
 }
 
 .loading-state {

@@ -108,6 +108,15 @@
                   </div>
                   <div class="schedule-details">
                     <h3 class="event-name">{{ event.name }}</h3>
+                    <div class="schedule-meta">
+                      @if (event.repeatable && event.categoryConfig) {
+                        <span class="meta-line">{{ repeatTypeLabel(event.categoryConfig.repeatableType) }}</span>
+                      }
+                      @if (!event.repeatable && event.specificDate) {
+                        <span class="meta-line">{{ event.specificDate | date:'MMM d' }}</span>
+                      }
+                      <span class="meta-line">{{ event.attendanceTimeStart | slice:0:5 }} · {{ event.attendanceDuration }}min</span>
+                    </div>
                   </div>
                 </div>
               }

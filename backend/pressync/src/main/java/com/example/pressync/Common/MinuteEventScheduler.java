@@ -27,14 +27,18 @@ public class MinuteEventScheduler {
         log.debug("Auto-generating events for {} categories", todayScheduleCache.getEventCategoryList().size());
         LocalTime now = LocalTime.now().truncatedTo(ChronoUnit.MINUTES);
         for (EventCategory cat : todayScheduleCache.getEventCategoryList()){
-            LocalTime startTime = cat.getStartingTime().toLocalTime().truncatedTo(ChronoUnit.MINUTES);
-            LocalTime endTime = cat.getEndTime().toLocalTime().truncatedTo(ChronoUnit.MINUTES);
+            try {
+                LocalTime startTime = cat.getStartingTime().toLocalTime().truncatedTo(ChronoUnit.MINUTES);
+                LocalTime endTime = cat.getEndTime().toLocalTime().truncatedTo(ChronoUnit.MINUTES);
 
-            if (startTime.equals(now) && !startTime.equals(endTime)){
-                startEvent(cat);
-            }
-            if (endTime.equals(now)){
-                endEvent(cat);
+                if (startTime.equals(now) && !startTime.equals(endTime)){
+                    startEvent(cat);
+                }
+                if (endTime.equals(now)){
+                    endEvent(cat);
+                }
+            } catch (Exception e) {
+                log.error("Error processing category {}: {}", cat.getName(), e.getMessage(), e);
             }
         }
     }

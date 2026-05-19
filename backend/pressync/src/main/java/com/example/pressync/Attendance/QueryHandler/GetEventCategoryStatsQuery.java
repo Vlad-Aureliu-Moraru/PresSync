@@ -1,6 +1,7 @@
 package com.example.pressync.Attendance.QueryHandler;
 
 import com.example.pressync.Attendance.AttendanceRepository;
+import com.example.pressync.Attendance.Model.EventAttendanceSummary;
 import com.example.pressync.Attendance.Model.EventCategoryStatsDTO;
 import com.example.pressync.Query;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +21,10 @@ public class GetEventCategoryStatsQuery implements Query<Integer, EventCategoryS
     @Override
     public ResponseEntity<EventCategoryStatsDTO> execute(Integer categoryId) {
         List<Long> counts = attendanceRepository.countAttendancePerEventByCategory(categoryId);
+        List<EventAttendanceSummary> summaries = attendanceRepository.getEventAttendanceSummariesByCategory(categoryId);
 
         if (counts == null || counts.isEmpty()) {
-            return ResponseEntity.ok(new EventCategoryStatsDTO(0L, 0L, 0L, 0L));
+            return ResponseEntity.ok(new EventCategoryStatsDTO(0L, 0L, 0L, 0L, 0L, summaries));
         }
 
         long max = Long.MIN_VALUE;
@@ -39,15 +41,16 @@ public class GetEventCategoryStatsQuery implements Query<Integer, EventCategoryS
             if (count < min) min = count;
             sum += count;
 
-            int weight = i + 1; // more recent events (higher index due to ascending date order) get more weight
+            int weight = i + 1;
             weightedSum += count * weight;
             weightTotal += weight;
         }
 
         long average = sum / counts.size();
         long projected = Math.round(weightedSum / weightTotal);
+        long attendanceRate = max > 0 ? (average * 100 / max) : 0;
 
-        EventCategoryStatsDTO stats = new EventCategoryStatsDTO(average, max, min, projected);
+        EventCategoryStatsDTO stats = new EventCategoryStatsDTO(average, max, min, projected, attendanceRate, summaries);
         return ResponseEntity.ok(stats);
     }
 }

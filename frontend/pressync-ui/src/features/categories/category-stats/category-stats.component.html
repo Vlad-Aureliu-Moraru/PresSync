@@ -23,70 +23,175 @@
     
     <div class="dashboard-card">
       <div class="card-header">
-        @if (category()) {
-          <h1>{{ category()?.name }}</h1>
-          <div class="meta-row">
-            <span class="badge time">
+        @let cat = category();
+        @if (cat) {
+          <h1>{{ cat.name }}</h1>
+          <div class="card-details">
+            <div class="detail-row">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <circle cx="12" cy="12" r="10"></circle>
                 <polyline points="12 6 12 12 16 14"></polyline>
               </svg>
-              {{ category()?.startingTime | slice:0:5 }} - {{ category()?.endTime | slice:0:5 }}
-            </span>
-            @if (category()?.repeatable) {
-              <span class="badge repeat">Repeatable</span>
+              <span>{{ cat.startingTime | slice:0:5 }} — {{ cat.endTime | slice:0:5 }}</span>
+            </div>
+            @if (cat.repeatable && cat.categoryConfig) {
+              <div class="detail-row">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="23 4 23 10 17 10"></polyline>
+                  <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+                </svg>
+                <span>{{ repeatTypeLabel(cat.categoryConfig.repeatableType) }}<ng-container [ngSwitch]="cat.categoryConfig.repeatsOnSpecificDay">
+                  <ng-template ngSwitchCase="NO"></ng-template>
+                  <ng-template ngSwitchCase="MON"> · Mon</ng-template>
+                  <ng-template ngSwitchCase="TUE"> · Tue</ng-template>
+                  <ng-template ngSwitchCase="WED"> · Wed</ng-template>
+                  <ng-template ngSwitchCase="THU"> · Thu</ng-template>
+                  <ng-template ngSwitchCase="FRI"> · Fri</ng-template>
+                  <ng-template ngSwitchCase="SAT"> · Sat</ng-template>
+                  <ng-template ngSwitchCase="SUN"> · Sun</ng-template>
+                </ng-container></span>
+              </div>
+              @if (cat.categoryConfig.baseDate) {
+                <div class="detail-row">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                  </svg>
+                  <span>From {{ cat.categoryConfig.baseDate | date:'MMM d, yyyy' }}</span>
+                </div>
+              }
             }
+            @if (!cat.repeatable && cat.specificDate) {
+              <div class="detail-row">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                <span>{{ cat.specificDate | date:'MMM d, yyyy' }}</span>
+              </div>
+            }
+            <div class="detail-row">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+              <span>Opens {{ cat.attendanceTimeStart | slice:0:5 }} · {{ cat.attendanceDuration }} min</span>
+            </div>
           </div>
+        }
+      </div>
+
+      <div class="chart-section">
+        <h3 class="section-title">
+          @if (isAdminOrMod()) {
+            Attendance per Event
+          } @else {
+            Your Attendance
+          }
+        </h3>
+        @if (chartData().length > 0) {
+          <app-bar-chart [data]="chartData()" [height]="220" />
+        } @else {
+          <p class="empty-chart">No attendance data available.</p>
         }
       </div>
 
       @if (stats()) {
         <div class="stats-grid">
-          
-          <!-- Average Attendance -->
-          <div class="stat-box">
-            <div class="stat-icon avg">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                <circle cx="9" cy="7" r="4"></circle>
-                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-              </svg>
+          @if (isAdminOrMod()) {
+            <div class="stat-box">
+              <div class="stat-icon avg">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+              </div>
+              <div class="stat-content">
+                <p class="stat-label">Average Attendance</p>
+                <h2 class="stat-value">{{ stats()?.averageAttendance | number:'1.0-1' }}</h2>
+              </div>
             </div>
-            <div class="stat-content">
-              <p class="stat-label">Average Attendance</p>
-              <h2 class="stat-value">{{ stats()?.averageAttendance | number:'1.0-1' }}</h2>
-            </div>
-          </div>
 
-          <!-- Max Attendance -->
-          <div class="stat-box">
-            <div class="stat-icon max">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
-                <polyline points="17 6 23 6 23 12"></polyline>
-              </svg>
+            <div class="stat-box">
+              <div class="stat-icon max">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                  <polyline points="17 6 23 6 23 12"></polyline>
+                </svg>
+              </div>
+              <div class="stat-content">
+                <p class="stat-label">Peak Attendance</p>
+                <h2 class="stat-value">{{ stats()?.maxAttendance }}</h2>
+              </div>
             </div>
-            <div class="stat-content">
-              <p class="stat-label">Peak Attendance</p>
-              <h2 class="stat-value">{{ stats()?.maxAttendance }}</h2>
-            </div>
-          </div>
 
-          <!-- Attendance Rate -->
-          <div class="stat-box">
-            <div class="stat-icon rate">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                <polyline points="22 4 12 14.01 9 11.01"></polyline>
-              </svg>
+            <div class="stat-box">
+              <div class="stat-icon rate">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                  <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+              </div>
+              <div class="stat-content">
+                <p class="stat-label">Overall Rate</p>
+                <h2 class="stat-value">{{ stats()?.attendanceRate | number:'1.0-1' }}%</h2>
+              </div>
             </div>
-            <div class="stat-content">
-              <p class="stat-label">Overall Rate</p>
-              <h2 class="stat-value">{{ stats()?.attendanceRate | number:'1.0-1' }}%</h2>
-            </div>
-          </div>
+          } @else {
+            @let ps = personalStats();
+            @if (ps) {
+              <div class="stat-box">
+                <div class="stat-icon avg">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="9" cy="7" r="4"></circle>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                  </svg>
+                </div>
+                <div class="stat-content">
+                  <p class="stat-label">Events Attended</p>
+                  <h2 class="stat-value">{{ ps.attended }} <span class="stat-sub">/ {{ ps.total }}</span></h2>
+                </div>
+              </div>
 
+              <div class="stat-box">
+                <div class="stat-icon rate">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                </div>
+                <div class="stat-content">
+                  <p class="stat-label">Attendance Rate</p>
+                  <h2 class="stat-value">{{ ps.percentage }}%</h2>
+                </div>
+              </div>
+            }
+          }
+        </div>
+      }
+
+      @if (!isAdminOrMod() && userAttendance().length > 0) {
+        <div class="history-section">
+          <h3 class="section-title">Attendance History</h3>
+          <div class="history-list">
+            @for (record of userAttendance(); track record.id) {
+              <div class="history-item">
+                <div class="history-dot"></div>
+                <div class="history-info">
+                  <span class="history-date">{{ record.joinedAt | date:'MMM d, yyyy' }}</span>
+                  <span class="history-time">{{ record.joinedAt | date:'h:mm a' }}</span>
+                </div>
+              </div>
+            }
+          </div>
         </div>
       }
     </div>

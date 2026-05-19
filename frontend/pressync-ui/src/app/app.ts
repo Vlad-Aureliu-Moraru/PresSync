@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './core/layout/navbar/navbar.component';
 import { TransientNotificationComponent } from './shared/components/transient-notification/transient-notification.component';
+import { AttendanceService } from './core/services/attendance.service';
 
 @Component({
   selector: 'app-root',
@@ -9,6 +10,16 @@ import { TransientNotificationComponent } from './shared/components/transient-no
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
-export class App {
+export class App implements OnInit, OnDestroy {
+  private attendanceService = inject(AttendanceService);
+
   protected title = 'pressync-ui';
+
+  ngOnInit(): void {
+    this.attendanceService.startMonitoring();
+  }
+
+  ngOnDestroy(): void {
+    this.attendanceService.stopMonitoring();
+  }
 }

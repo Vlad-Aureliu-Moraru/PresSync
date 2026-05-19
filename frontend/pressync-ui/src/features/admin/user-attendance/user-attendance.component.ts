@@ -19,6 +19,7 @@ export class UserAttendanceComponent implements OnInit {
   isLoading = signal<boolean>(true);
   errorMessage = signal<string>('');
   currentUserId = signal<string>('');
+  backRoute = signal<string>('/superior-dashboard');
 
   ngOnInit(): void {
     const userId = this.route.snapshot.paramMap.get('id');

@@ -12,7 +12,7 @@
     <!-- Left Column: Attendance Status & History -->
     <div class="main-content">
       <!-- Loading State -->
-      @if (isLoading) {
+      @if (markState() === 'loading') {
         <div class="loading-state">
           <div class="spinner"></div>
           <p>Processing your attendance...</p>
@@ -20,7 +20,7 @@
       }
 
       <!-- Success State: Marked Present -->
-      @if (!isLoading && isMarkedPresent) {
+      @if (markState() === 'marked') {
         <div class="success-banner">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
@@ -31,15 +31,11 @@
         </div>
       }
 
-      <!-- Fallback Error State -->
-      @if (!isLoading && !isMarkedPresent && errorMessage) {
-         <div class="error-alert">
-           {{ errorMessage }}
-         </div>
-      }
-
-      <!-- Fallback State: History Table -->
-      @if (!isLoading && !isMarkedPresent && !errorMessage) {
+      <!-- Idle / Fallback State: History Table -->
+      @if (markState() !== 'loading' && markState() !== 'marked') {
+        @if (errorMessage) {
+          <div class="error-alert">{{ errorMessage }}</div>
+        }
         <div class="history-section">
           <h2>Your Attendance History</h2>
 
@@ -108,6 +104,15 @@
                   </div>
                   <div class="schedule-details">
                     <h3 class="event-name">{{ event.name }}</h3>
+                    <div class="schedule-meta">
+                      @if (event.repeatable && event.categoryConfig) {
+                        <span class="meta-line">{{ repeatTypeLabel(event.categoryConfig.repeatableType) }}</span>
+                      }
+                      @if (!event.repeatable && event.specificDate) {
+                        <span class="meta-line">{{ event.specificDate | date:'MMM d' }}</span>
+                      }
+                      <span class="meta-line">{{ event.attendanceTimeStart | slice:0:5 }} · {{ event.attendanceDuration }}min</span>
+                    </div>
                   </div>
                 </div>
               }

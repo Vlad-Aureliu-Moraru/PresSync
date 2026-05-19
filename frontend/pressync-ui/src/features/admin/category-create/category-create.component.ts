@@ -6,11 +6,12 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { startWith } from 'rxjs';
 import { EventCategoryService, CreateEventCategoryRequest } from '../../../app/core/services/event-category.service';
 import { NotificationService } from '../../../app/shared/services/notification.service';
+import { TimeInputComponent } from '../../../app/shared/components/time-input/time-input.component';
 
 @Component({
   selector: 'app-category-create',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, TimeInputComponent],
   templateUrl: './category-create.component.html',
   styleUrl: './category-create.component.scss'
 })
@@ -75,6 +76,27 @@ export class CategoryCreateComponent {
 
   get f() {
     return this.categoryForm.controls;
+  }
+
+  attendanceOffsetPercent(): number {
+    const start = this.categoryForm.get('startingTime')?.value;
+    const end = this.categoryForm.get('endTime')?.value;
+    const attStart = this.categoryForm.get('attendanceTimeStart')?.value;
+    if (!start || !end || !attStart) return 0;
+    const toMins = (t: string) => { const [h, m] = t.split(':').map(Number); return h * 60 + m; };
+    const dur = toMins(end) - toMins(start);
+    if (dur <= 0) return 0;
+    return Math.max(0, Math.min(100, (toMins(start) - toMins(attStart)) / dur * 100));
+  }
+
+  attendanceOffsetLabel(): string {
+    const start = this.categoryForm.get('startingTime')?.value;
+    const attStart = this.categoryForm.get('attendanceTimeStart')?.value;
+    if (!start || !attStart) return '';
+    const toMins = (t: string) => { const [h, m] = t.split(':').map(Number); return h * 60 + m; };
+    const diff = toMins(start) - toMins(attStart);
+    if (diff <= 0) return '';
+    return `${diff} min before`;
   }
 
   onSubmit(): void {

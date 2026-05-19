@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -29,6 +29,13 @@ export class SuperiorDashboardComponent implements OnInit {
   todaySchedule = signal<EventCategory[]>([]);
   scheduleLoading = signal(true);
   scheduleError = signal('');
+
+  constructor() {
+    effect(() => {
+      this.eventCategoryService.scheduleRefreshTrigger();
+      this.fetchTodaySchedule();
+    });
+  }
 
   ngOnInit(): void {
     this.fetchCurrentUser();
@@ -96,7 +103,18 @@ export class SuperiorDashboardComponent implements OnInit {
     );
   }
 
-  viewHistory(userId: number): void {
-    this.router.navigate(['/admin/users', userId, 'attendance']);
+  repeatTypeLabel(type: string): string {
+    const map: Record<string, string> = {
+      DAILY: 'Every Day',
+      WEEKLY: 'Every Week',
+      BIWEEKLY: 'Every 2 Weeks',
+      MONTHLY: 'Every Month',
+      YEARLY: 'Every Year',
+    };
+    return map[type] ?? type;
   }
+
+viewHistory(userId: number): void {
+    this.router.navigate(['/admin/users', userId, 'attendance']);
+}
 }

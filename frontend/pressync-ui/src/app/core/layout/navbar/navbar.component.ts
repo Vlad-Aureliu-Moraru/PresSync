@@ -4,17 +4,22 @@ import { CommonModule } from '@angular/common';
 import { filter } from 'rxjs/operators';
 import { AuthService } from '../../auth/auth';
 import { CategoryCreateComponent } from '../../../../features/admin/category-create/category-create.component';
+import { NotificationService } from '../../../shared/services/notification.service';
+import { NotificationPanelComponent } from '../../../shared/components/notification-panel/notification-panel.component';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, CommonModule, CategoryCreateComponent],
+  imports: [RouterLink, RouterLinkActive, CommonModule, CategoryCreateComponent, NotificationPanelComponent],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent {
   private router = inject(Router);
   readonly authService = inject(AuthService);
+  readonly notificationService = inject(NotificationService);
+
+  isNotificationPanelOpen = signal(false);
 
   private currentUrl = signal(this.router.url);
   readonly isAuthPage = computed(() => {
@@ -42,7 +47,16 @@ export class NavbarComponent {
     this.router.navigate(['/login']);
   }
 
+  toggleNotificationPanel(): void {
+    this.isNotificationPanelOpen.update((v) => !v);
+  }
+
+  closeNotificationPanel(): void {
+    this.isNotificationPanelOpen.set(false);
+  }
+
   openCategoryModal(): void {
+    this.closeNotificationPanel();
     this.showCategoryModal.set(true);
   }
 

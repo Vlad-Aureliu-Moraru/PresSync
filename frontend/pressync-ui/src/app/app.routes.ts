@@ -6,7 +6,6 @@ import { UserDashboardComponent } from '../features/dashboard/user-dashboard.com
 import { SuperiorDashboardComponent } from '../features/dashboard/superior-dashboard.component';
 import { CategorySearchComponent } from '../features/categories/category-search/category-search.component';
 import { CategoryStatsComponent } from '../features/categories/category-stats/category-stats.component';
-import { UserListComponent } from '../features/admin/user-list/user-list.component';
 import { UserAttendanceComponent } from '../features/admin/user-attendance/user-attendance.component';
 import { NotificationHistoryComponent } from '../features/notifications/notification-history/notification-history.component';
 import { roleGuard } from './core/guards/role.guard';
@@ -20,8 +19,7 @@ export const routes: Routes = [
   { path: 'superior-dashboard', component: SuperiorDashboardComponent, canActivate: [roleGuard] },
   { path: 'search', component: CategorySearchComponent },
   { path: 'category-stats/:id', component: CategoryStatsComponent },
-  { path: 'admin', redirectTo: '/admin/users', pathMatch: 'full' },
-  { path: 'admin/users', component: UserListComponent, canActivate: [roleGuard] },
+  { path: 'admin', redirectTo: '/superior-dashboard', pathMatch: 'full' },
   { path: 'admin/users/:id/attendance', component: UserAttendanceComponent, canActivate: [roleGuard] },
   { path: 'notifications', component: NotificationHistoryComponent, canActivate: [authGuard] },
   { path: '', redirectTo: '/login', pathMatch: 'full' }

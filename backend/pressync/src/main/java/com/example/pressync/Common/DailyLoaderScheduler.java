@@ -14,7 +14,6 @@ import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -84,17 +83,9 @@ public class DailyLoaderScheduler {
         };
     }
 
-    private void addToTodayList(EventCategory eventCategory) {
-        if (shouldRunToday(eventCategory, LocalDate.now())) {
-            List<EventCategory> current = new ArrayList<>(cache.getEventCategoryList());
-            current.add(eventCategory);
-            cache.updateList(current);
-        }
-    }
-
     @EventListener
-    public void onCategoryCreated(EventCategoryChangedEvent event){
-        log.info("Scheduler received update for {}", event.category().getName());
-        addToTodayList(event.category());
+    public void onCategoryChanged(EventCategoryChangedEvent event){
+        log.info("Scheduler received change for {}", event.category().getName());
+        fillTodaySchedule();
     }
 }

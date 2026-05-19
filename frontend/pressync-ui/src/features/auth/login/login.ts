@@ -4,6 +4,7 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../app/core/auth/auth';
+import { AttendanceService } from '../../../app/core/services/attendance.service';
 import { environment } from '../../../environments/environment';
 
 interface LoginResponse {
@@ -24,6 +25,7 @@ export class LoginComponent {
   private http = inject(HttpClient);
   private router = inject(Router);
   private authService = inject(AuthService);
+  private attendanceService = inject(AttendanceService);
 
   loginForm = this.fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
@@ -65,6 +67,7 @@ export class LoginComponent {
           }
 
           this.authService.setToken(res.token);
+          this.attendanceService.startMonitoring();
           this.navigateByRole();
         },
         error: (err: HttpErrorResponse) => {

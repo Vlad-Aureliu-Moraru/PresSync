@@ -12,7 +12,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class GetEventCategoryDueTodayQuery implements Query<Void, List<EventCategory>> {
-    public final TodayScheduleCache todayScheduleCache;
+    private final TodayScheduleCache todayScheduleCache;
     @Override
     public ResponseEntity<List<EventCategory>> execute(Void input) {
         return ResponseEntity.ok().body(todayScheduleCache.getEventCategoryList());

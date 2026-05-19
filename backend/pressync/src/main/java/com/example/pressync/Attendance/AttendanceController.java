@@ -5,6 +5,7 @@ import com.example.pressync.Attendance.CommandHandler.UpdateAttendanceCommand;
 import com.example.pressync.Attendance.Model.*;
 import com.example.pressync.Attendance.QueryHandler.GetAllAttendanceQuery;
 import com.example.pressync.Attendance.QueryHandler.GetAttendanceByIdQuery;
+import com.example.pressync.Attendance.QueryHandler.GetAttendanceByUserIdAndCategoryIdQuery;
 import com.example.pressync.Attendance.QueryHandler.GetAttendanceByUserIdQuery;
 import com.example.pressync.Attendance.QueryHandler.GetEventCategoryStatsQuery;
 import com.example.pressync.User.Model.User;
@@ -26,11 +27,18 @@ public class AttendanceController {
     private final GetAttendanceByIdQuery getAttendanceByIdQuery;
     private final GetAttendanceByUserIdQuery getAttendanceByUserIdQuery;
     private final GetEventCategoryStatsQuery getEventCategoryStatsQuery;
+    private final GetAttendanceByUserIdAndCategoryIdQuery getAttendanceByUserIdAndCategoryIdQuery;
 
     @GetMapping("/stats/category/{categoryId}")
-    @PreAuthorize("hasAnyRole('ADMIN','MODERATOR')")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<EventCategoryStatsDTO> getEventCategoryStats(@PathVariable int categoryId) {
         return getEventCategoryStatsQuery.execute(categoryId);
+    }
+
+    @GetMapping("/user/{userId}/category/{categoryId}")
+    @PreAuthorize("hasAnyRole('ADMIN','MODERATOR') or #userId == principal.id")
+    public ResponseEntity<List<Attendance>> getAttendanceByUserIdAndCategoryId(@PathVariable int userId, @PathVariable int categoryId) {
+        return getAttendanceByUserIdAndCategoryIdQuery.execute(new GetAttendanceByUserIdAndCategoryIdQuery.AttendanceByUserAndCategoryInput(userId, categoryId));
     }
 
     @GetMapping

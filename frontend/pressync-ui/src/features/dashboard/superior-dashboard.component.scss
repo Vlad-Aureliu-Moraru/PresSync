@@ -184,9 +184,9 @@
 }
 
 .btn-action {
-  background: var(--accent-action);
-  color: var(--text-main);
-  border: 1px solid var(--accent-action);
+  background: var(--bg-hover);
+  color: var(--text-primary);
+  border: 1px solid var(--border-light);
   padding: 0.5rem 1rem;
   border-radius: var(--ps-radius-sm);
   font-family: inherit;
@@ -196,7 +196,8 @@
   transition: all var(--ps-transition);
 
   &:hover {
-    box-shadow: var(--glow-effect);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--border-focus);
   }
 }
 
@@ -299,9 +300,21 @@
     font-size: 0.9375rem;
     font-weight: 500;
     color: var(--ps-text);
-    margin: 0;
+    margin: 0 0 0.25rem;
     line-height: 1.4;
   }
+}
+
+.schedule-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.meta-line {
+  font-size: 0.75rem;
+  color: var(--ps-text-muted);
 }
 
 .schedule-loading {

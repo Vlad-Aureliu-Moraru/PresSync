@@ -2,11 +2,13 @@ package com.example.pressync.EventCategory.CommandHandlers;
 
 import com.example.pressync.EventCategory.EventCategoryRepository;
 import com.example.pressync.EventCategory.Model.EventCategory;
+import com.example.pressync.EventCategory.Model.EventCategoryChangedEvent;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Optional;
@@ -19,6 +21,8 @@ class DeleteEventCategoryCommandTest {
 
     @Mock
     private EventCategoryRepository eventCategoryRepository;
+    @Mock
+    private ApplicationEventPublisher applicationEventPublisher;
 
     @InjectMocks
     private DeleteEventCategoryCommand deleteEventCategoryCommand;
@@ -36,6 +40,7 @@ class DeleteEventCategoryCommandTest {
 
         assertEquals(200, response.getStatusCode().value());
         verify(eventCategoryRepository, times(1)).delete(category);
+        verify(applicationEventPublisher, times(1)).publishEvent(any(EventCategoryChangedEvent.class));
     }
 
     @Test

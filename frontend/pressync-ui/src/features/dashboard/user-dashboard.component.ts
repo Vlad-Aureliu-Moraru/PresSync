@@ -1,6 +1,6 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, effect } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { AttendanceService, AttendanceRecord } from '../../app/core/services/attendance.service';
+import { AttendanceService, AttendanceRecord, MarkState } from '../../app/core/services/attendance.service';
 import { AuthService } from '../../app/core/auth/auth';
 import { EventCategoryService, EventCategory } from '../../app/core/services/event-category.service';
 import { UserService, UserGetAllDTO } from '../../app/core/services/user.service';
@@ -21,8 +21,7 @@ export class UserDashboardComponent implements OnInit {
 
   currentUser = signal<UserGetAllDTO | null>(null);
 
-  isLoading = true;
-  isMarkedPresent = false;
+  readonly markState = this.attendanceService.markState;
   attendanceHistory: AttendanceRecord[] = [];
   errorMessage = '';
 
@@ -30,22 +29,16 @@ export class UserDashboardComponent implements OnInit {
   scheduleLoading = signal<boolean>(true);
   scheduleError = signal<string>('');
 
-  ngOnInit(): void {
-    this.isLoading = true;
-
-    this.fetchCurrentUser();
-
-    this.attendanceService.markAttendance().subscribe({
-      next: () => {
-        this.isLoading = false;
-        this.isMarkedPresent = true;
-      },
-      error: () => {
-        this.isMarkedPresent = false;
-        this.fetchHistory();
-      }
+  constructor() {
+    effect(() => {
+      this.eventCategoryService.scheduleRefreshTrigger();
+      this.fetchTodaySchedule();
     });
+  }
 
+  ngOnInit(): void {
+    this.fetchCurrentUser();
+    this.fetchHistory();
     this.fetchTodaySchedule();
   }
 
@@ -73,23 +66,31 @@ export class UserDashboardComponent implements OnInit {
     });
   }
 
+  repeatTypeLabel(type: string): string {
+    const map: Record<string, string> = {
+      DAILY: 'Every Day',
+      WEEKLY: 'Every Week',
+      BIWEEKLY: 'Every 2 Weeks',
+      MONTHLY: 'Every Month',
+      YEARLY: 'Every Year',
+    };
+    return map[type] ?? type;
+  }
+
   private fetchHistory(): void {
     const userId = this.authService.getUserId();
 
     if (!userId) {
       this.errorMessage = 'Could not determine user identity from session.';
-      this.isLoading = false;
       return;
     }
 
     this.attendanceService.getUserAttendance(userId).subscribe({
       next: (history) => {
         this.attendanceHistory = history;
-        this.isLoading = false;
       },
       error: () => {
         this.errorMessage = 'Failed to load attendance history. Please try again later.';
-        this.isLoading = false;
       }
     });
   }
