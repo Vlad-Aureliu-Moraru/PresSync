@@ -13,13 +13,13 @@
 3. Analiza software a sistemului
 	1. `[done]`Modelul functional
 	2. `[done]`Diagrame de secvente de sistem 
-	3. `[done]`Diagrama de clase a modelului domeniului 
+	3. `[todo]`Diagrama de clase a modelului domeniului 
 
 4. Proiectarea si implementarea aplicatiei
 	1. `[done]`Proiectarea bazei de date 
 	2. `[]`Tehnologii folosite
-	3. `[done]`Diagrame de interactiuni
-	4. `[done]`Diagrame de clase software
+	3. `[]`Diagrame de interactiuni
+	4. `[]`Diagrame de clase software
 	5. Secvente de cod
 
 5. Concluzii
