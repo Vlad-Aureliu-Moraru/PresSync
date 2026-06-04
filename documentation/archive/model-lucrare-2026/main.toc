@@ -1,0 +1,10 @@
+\contentsline {chapter}{Cuprins}{i}{Doc-Start}%
+\contentsline {chapter}{Lista Figurilor}{1}{Doc-Start}%
+\contentsline {chapter}{\numberline {1}Motiva\c tie}{2}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Sec\c tiune}{2}{section.1.1}%
+\contentsline {subsection}{\numberline {1.1.1}subsec\c tiune}{2}{subsection.1.1.1}%
+\contentsline {section}{\numberline {1.2}Elementele care determin\u a anima\c tia}{3}{section.1.2}%
+\contentsline {chapter}{\numberline {2}Starea actual\u a a domeniului}{5}{chapter.2}%
+\contentsline {chapter}{\numberline {3}Solu\c tia propus\u a}{6}{chapter.3}%
+\contentsline {chapter}{\numberline {4}Prezentarea aplica\c tiei}{7}{chapter.4}%
+\contentsline {chapter}{Referin\c te bibliografice}{8}{chapter.4}%
