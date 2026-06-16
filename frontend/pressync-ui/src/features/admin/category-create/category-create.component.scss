@@ -2,10 +2,27 @@
   padding: 0.25rem;
 }
 
+@media (min-width: 1024px) {
+  .create-panel {
+    flex: 1;
+    overflow-y: auto;
+  }
+}
+
 :host {
   display: block;
   background: var(--secondary-bg);
   color: var(--text-main);
+}
+
+@media (min-width: 1024px) {
+  :host {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+  }
 }
 
 .form-header {

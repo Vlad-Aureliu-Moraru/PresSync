@@ -18,6 +18,16 @@
   }
 }
 
+@media (min-width: 1024px) {
+  :host {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+  }
+}
+
 .dashboard-header {
   flex-shrink: 0;
   margin-bottom: 2rem;

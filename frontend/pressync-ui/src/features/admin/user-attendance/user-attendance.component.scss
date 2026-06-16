@@ -11,6 +11,15 @@
   }
 }
 
+@media (min-width: 1024px) {
+  .attendance-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+}
+
 .header-nav {
   margin-bottom: 2rem;
 
@@ -74,6 +83,24 @@
 @media (max-width: 768px) {
   .table-card {
     overflow: visible;
+  }
+}
+
+@media (min-width: 1024px) {
+  .table-card {
+    overflow: visible;
+  }
+}
+
+.results-container {
+  min-height: 0;
+}
+
+@media (min-width: 1024px) {
+  .results-container {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
   }
 }
 
@@ -191,4 +218,14 @@
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+@media (min-width: 1024px) {
+  :host {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+  }
 }

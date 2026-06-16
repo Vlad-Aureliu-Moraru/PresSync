@@ -100,6 +100,16 @@ app-root {
   background: transparent;
 }
 
+@media (min-width: 1024px) {
+  app-root {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    min-height: 0;
+    overflow: hidden;
+  }
+}
+
 a {
   color: var(--text-primary);
   text-decoration: none;

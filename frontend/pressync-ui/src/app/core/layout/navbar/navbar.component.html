@@ -6,7 +6,7 @@
       </div>
 
       @if (authService.isAdminOrModerator()) {
-        <div class="nav-center hidden md:flex">
+        <div class="nav-center desktop-only">
           <button type="button" class="create-category-btn" (click)="openCategoryModal()">
             <svg class="plus-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <line x1="12" y1="5" x2="12" y2="19"/>
@@ -43,6 +43,16 @@
             />
           </div>
 
+          @if (authService.isAdminOrModerator()) {
+            <div class="mobile-only">
+              <button type="button" class="mobile-plus-btn" (click)="openCategoryModal()" aria-label="Create Category">
+                <svg class="plus-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <line x1="12" y1="5" x2="12" y2="19"/>
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                </svg>
+              </button>
+            </div>
+          }
           <button type="button" class="logout-btn" (click)="onLogout()">
             <svg class="logout-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
@@ -54,7 +64,7 @@
         }
       </div>
 
-      @if (authService.isAdminOrModerator() || !authService.isAuthenticated()) {
+      @if (!authService.isAuthenticated()) {
         <button
           type="button"
           class="mobile-menu-btn md:hidden"
@@ -80,15 +90,7 @@
     @if (isMobileMenuOpen()) {
       <div class="mobile-menu md:hidden">
         <div class="mobile-menu-inner">
-          @if (authService.isAdminOrModerator()) {
-            <button type="button" class="mobile-create-btn" (click)="openCategoryModal(); closeMobileMenu()">
-              <svg class="plus-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <line x1="12" y1="5" x2="12" y2="19"/>
-                <line x1="5" y1="12" x2="19" y2="12"/>
-              </svg>
-              Create Category
-            </button>
-          }
+
           @if (!authService.isAuthenticated()) {
             <a [routerLink]="dashboardLink()" class="mobile-nav-link" (click)="closeMobileMenu()">Dashboard</a>
             <a routerLink="/search" class="mobile-nav-link" (click)="closeMobileMenu()">Search</a>

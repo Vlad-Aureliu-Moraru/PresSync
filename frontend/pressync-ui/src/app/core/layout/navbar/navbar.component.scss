@@ -11,6 +11,12 @@
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
 }
 
+@media (min-width: 1024px) {
+  .global-navbar {
+    flex-shrink: 0;
+  }
+}
+
 .nav-container {
   max-width: 1120px;
   margin: 0 auto;
@@ -106,24 +112,25 @@
 .create-category-btn {
   display: flex;
   align-items: center;
-  gap: 0.45rem;
-  padding: 0.5rem 1.1rem;
-  border: 1.5px solid var(--border-light);
+  gap: 0.4rem;
+  padding: 0.45rem 1rem;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
   border-radius: 9999px;
-  background: transparent;
+  background: rgba(255, 255, 255, 0.04);
   color: var(--text-primary);
   font-family: inherit;
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
   white-space: nowrap;
+  letter-spacing: 0.01em;
 
   &:hover {
-    background: var(--bg-hover);
+    background: rgba(255, 255, 255, 0.1);
     border-color: var(--accent);
     color: var(--accent);
-    transform: translateY(-1px);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.06);
   }
 
   &:active {
@@ -299,21 +306,19 @@
   }
 }
 
-.mobile-create-btn {
+.mobile-plus-btn {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1rem;
-  border: 1.5px solid var(--border-light);
-  border-radius: 9999px;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
   background: transparent;
   color: var(--text-primary);
-  font-family: inherit;
-  font-size: 0.875rem;
-  font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
-  margin-top: 0.25rem;
+  flex-shrink: 0;
 
   &:hover {
     background: var(--bg-hover);
@@ -322,8 +327,8 @@
   }
 
   .plus-icon {
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
   }
 }
 
@@ -335,5 +340,26 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* ── Responsive Visibility ── */
+.desktop-only {
+  display: flex;
+}
+
+@media (max-width: 767px) {
+  .desktop-only {
+    display: none;
+  }
+}
+
+.mobile-only {
+  display: flex;
+}
+
+@media (min-width: 768px) {
+  .mobile-only {
+    display: none;
   }
 }

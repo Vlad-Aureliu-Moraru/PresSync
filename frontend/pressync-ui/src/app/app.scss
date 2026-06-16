@@ -3,3 +3,13 @@
   width: 100%;
   overflow-x: hidden;
 }
+
+@media (min-width: 1024px) {
+  .app-main {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+}
