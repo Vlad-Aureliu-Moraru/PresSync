@@ -9,6 +9,14 @@
   overflow: hidden;
 }
 
+@media (max-width: 1023px) {
+  .superior-container {
+    padding: 1.25rem 1rem 1rem;
+    height: auto;
+    overflow-y: auto;
+  }
+}
+
 .superior-header {
   flex-shrink: 0;
   margin-bottom: 2rem;
@@ -27,6 +35,18 @@
   }
 }
 
+@media (max-width: 768px) {
+  .superior-header {
+    margin-bottom: 1.25rem;
+  }
+  .superior-header h1 {
+    font-size: 1.375rem;
+  }
+  .superior-header p {
+    font-size: 1rem;
+  }
+}
+
 .dashboard-grid {
   flex: 1;
   overflow: hidden;
@@ -39,10 +59,24 @@
   }
 }
 
+@media (max-width: 1023px) {
+  .dashboard-grid {
+    overflow: visible;
+    height: auto;
+    gap: 1.25rem;
+  }
+}
+
 .main-content {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+}
+
+@media (max-width: 1023px) {
+  .main-content {
+    overflow: visible;
+  }
 }
 
 .side-content {
@@ -52,11 +86,23 @@
   flex: 1;
 }
 
+@media (max-width: 1023px) {
+  .side-content {
+    overflow: visible;
+  }
+}
+
 .user-list-section {
   flex: 1;
   overflow: hidden;
   display: flex;
   flex-direction: column;
+}
+
+@media (max-width: 1023px) {
+  .user-list-section {
+    overflow: visible;
+  }
 }
 
 .section-header {
@@ -70,6 +116,16 @@
     font-size: 1.25rem;
     font-weight: 600;
     margin: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .section-header {
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  .section-header h2 {
+    font-size: 1.1rem;
   }
 }
 
@@ -120,12 +176,26 @@
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
 }
 
+@media (max-width: 768px) {
+  .table-card {
+    overflow: visible;
+  }
+}
+
 .table-container {
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 768px) {
+  .table-container {
+    overflow: visible;
+  }
 }
 
 .roster-table {
   width: 100%;
+  min-width: 560px;
   border-collapse: collapse;
   text-align: left;
 
@@ -161,12 +231,113 @@
   }
 }
 
+.schedule-toggle {
+  display: none;
+
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  color: var(--text-muted);
+
+  .chevron {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.2s ease;
+
+    &.open {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .schedule-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: left;
+
+    h2 {
+      font-size: 1.1rem;
+    }
+  }
+
+  .schedule-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .side-content {
+    order: -1;
+  }
+
+  .roster-table {
+    min-width: 0;
+    table-layout: auto;
+  }
+  .roster-table th,
+  .roster-table td {
+    padding: 0.5rem 0.5rem;
+    font-size: 0.75rem;
+  }
+  .roster-table td {
+    overflow-wrap: break-word;
+  }
+}
+
 .user-fullname {
   font-weight: 500;
 }
 
 .user-email {
   color: var(--text-muted) !important;
+}
+
+.desktop-only {
+  display: none;
+}
+
+@media (min-width: 769px) {
+  .desktop-only {
+    display: table-cell;
+  }
+}
+
+.mobile-only {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-only {
+    display: table-cell;
+  }
+  
+  .user-meta .mobile-only {
+    display: flex;
+  }
+}
+
+.user-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: space-between;
+  margin-top: 0.25rem;
+}
+
+.user-meta .user-email {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  overflow-wrap: break-word;
+  min-width: 0;
+}
+
+.user-meta .role-badge {
+  font-size: 0.65rem;
+  padding: 0.15rem 0.45rem;
+  flex-shrink: 0;
 }
 
 .role-badge {
@@ -201,10 +372,23 @@
   }
 }
 
+@media (max-width: 768px) {
+  .btn-action {
+    padding: 0.35rem 0.5rem;
+    font-size: 0.75rem;
+  }
+}
+
 .loading-state, .empty-state {
   text-align: center;
   padding: 5rem 0;
   color: var(--text-muted);
+}
+
+@media (max-width: 768px) {
+  .loading-state, .empty-state {
+    padding: 3rem 0;
+  }
 }
 
 .spinner {
@@ -233,6 +417,13 @@
   text-align: center;
 }
 
+@media (max-width: 768px) {
+  .error-alert {
+    padding: 1rem;
+    font-size: 0.875rem;
+  }
+}
+
 .schedule-card-header {
   flex-shrink: 0;
   padding: 1rem 1.5rem;
@@ -243,6 +434,15 @@
     font-size: 1.25rem;
     font-weight: 600;
     margin: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .schedule-card-header {
+    padding: 0.75rem 1.25rem;
+  }
+  .schedule-card-header h2 {
+    font-size: 1.1rem;
   }
 }
 
@@ -258,11 +458,30 @@
   margin-top: 2.75rem;
 }
 
+@media (max-width: 1023px) {
+  .schedule-card {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .schedule-card {
+    overflow: visible;
+  }
+}
+
 .schedule-list {
   display: flex;
   flex-direction: column;
   flex: 1;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 768px) {
+  .schedule-list {
+    overflow-y: visible;
+  }
 }
 
 .schedule-item {
@@ -278,6 +497,12 @@
 
   &:last-child {
     border-bottom: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .schedule-item {
+    padding: 1rem 1.25rem;
   }
 }
 

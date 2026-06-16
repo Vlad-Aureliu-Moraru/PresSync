@@ -36,6 +36,12 @@
   &:hover {
     background: rgba(30, 30, 30, 0.97);
   }
+
+  @media (max-width: 768px) {
+    left: 1rem;
+    right: 1rem;
+    max-width: none;
+  }
 }
 
 .card-icon {

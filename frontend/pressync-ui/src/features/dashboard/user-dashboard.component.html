@@ -48,17 +48,26 @@
               <table class="history-table">
                 <thead>
                   <tr>
-                    <th>Date</th>
-                    <th>Event Name</th>
-                    <th>Time Joined</th>
+                    <th class="desktop-only">Date</th>
+                    <th>Event</th>
+                    <th class="desktop-only">Time Joined</th>
+                    <th class="mobile-only">Joined</th>
                   </tr>
                 </thead>
                 <tbody>
                   @for (record of attendanceHistory; track record.id || $index) {
                     <tr>
-                      <td>{{ record.event.date | date:'mediumDate' }}</td>
-                      <td>{{ record.event.eventCategory.name }}</td>
+                      <td class="desktop-only">{{ record.event.date | date:'mediumDate' }}</td>
                       <td>
+                        <div class="event-name">{{ record.event.eventCategory.name }}</div>
+                        <div class="event-date mobile-only">{{ record.event.date | date:'mediumDate' }}</div>
+                      </td>
+                      <td class="desktop-only">
+                        <span class="status-badge present">
+                          Joined at {{ record.joinedAt | date:'shortTime' }}
+                        </span>
+                      </td>
+                      <td class="mobile-only">
                         <span class="status-badge present">
                           Joined at {{ record.joinedAt | date:'shortTime' }}
                         </span>
@@ -78,46 +87,53 @@
       <div class="schedule-card">
         <div class="schedule-card-header">
           <h2>Today's Schedule</h2>
+          <button class="schedule-toggle" (click)="toggleSchedule()" type="button" aria-label="Toggle schedule">
+            <svg class="chevron" [class.open]="scheduleOpen()" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </button>
         </div>
-        @if (scheduleLoading()) {
-          <div class="schedule-loading">
-            <div class="spinner small-spinner"></div>
-            <span>Loading schedule...</span>
-          </div>
-        } @else if (scheduleError()) {
-          <div class="error-banner">
-            {{ scheduleError() }}
-          </div>
-        } @else {
-          <div class="schedule-list">
-            @if (todaySchedule().length === 0) {
-              <div class="empty-state small-empty">
-                <p>No classes scheduled for today.</p>
-              </div>
-            } @else {
-              @for (event of todaySchedule(); track event.id) {
-                <div class="schedule-item">
-                  <div class="schedule-time">
-                    <span class="time">{{ event.startingTime | slice:0:5 }}</span>
-                    <span class="time-separator">-</span>
-                    <span class="time">{{ event.endTime | slice:0:5 }}</span>
-                  </div>
-                  <div class="schedule-details">
-                    <h3 class="event-name">{{ event.name }}</h3>
-                    <div class="schedule-meta">
-                      @if (event.repeatable && event.categoryConfig) {
-                        <span class="meta-line">{{ repeatTypeLabel(event.categoryConfig.repeatableType) }}</span>
-                      }
-                      @if (!event.repeatable && event.specificDate) {
-                        <span class="meta-line">{{ event.specificDate | date:'MMM d' }}</span>
-                      }
-                      <span class="meta-line">{{ event.attendanceTimeStart | slice:0:5 }} · {{ event.attendanceDuration }}min</span>
+        @if (scheduleOpen()) {
+          @if (scheduleLoading()) {
+            <div class="schedule-loading">
+              <div class="spinner small-spinner"></div>
+              <span>Loading schedule...</span>
+            </div>
+          } @else if (scheduleError()) {
+            <div class="error-banner">
+              {{ scheduleError() }}
+            </div>
+          } @else {
+            <div class="schedule-list">
+              @if (todaySchedule().length === 0) {
+                <div class="empty-state small-empty">
+                  <p>No classes scheduled for today.</p>
+                </div>
+              } @else {
+                @for (event of todaySchedule(); track event.id) {
+                  <div class="schedule-item">
+                    <div class="schedule-time">
+                      <span class="time">{{ event.startingTime | slice:0:5 }}</span>
+                      <span class="time-separator">-</span>
+                      <span class="time">{{ event.endTime | slice:0:5 }}</span>
+                    </div>
+                    <div class="schedule-details">
+                      <h3 class="event-name">{{ event.name }}</h3>
+                      <div class="schedule-meta">
+                        @if (event.repeatable && event.categoryConfig) {
+                          <span class="meta-line">{{ repeatTypeLabel(event.categoryConfig.repeatableType) }}</span>
+                        }
+                        @if (!event.repeatable && event.specificDate) {
+                          <span class="meta-line">{{ event.specificDate | date:'MMM d' }}</span>
+                        }
+                        <span class="meta-line">{{ event.attendanceTimeStart | slice:0:5 }} · {{ event.attendanceDuration }}min</span>
+                      </div>
                     </div>
                   </div>
-                </div>
+                }
               }
-            }
-          </div>
+            </div>
+          }
         }
       </div>
     </div>

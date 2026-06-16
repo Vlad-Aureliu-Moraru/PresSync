@@ -9,6 +9,13 @@
   padding: 2rem;
 }
 
+@media (max-width: 768px) {
+  :host {
+    padding: 1rem;
+    align-items: flex-start;
+  }
+}
+
 .auth-card {
   width: 100%;
   max-width: 440px;
@@ -18,6 +25,14 @@
   padding: 2.5rem;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
   animation: cardFadeIn 0.5s ease-out;
+}
+
+@media (max-width: 768px) {
+  .auth-card {
+    padding: 1.75rem;
+    max-width: 100%;
+    border-radius: var(--ps-radius-sm);
+  }
 }
 
 @keyframes cardFadeIn {
@@ -36,6 +51,12 @@
 .auth-header {
   text-align: center;
   margin-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+  .auth-header {
+    margin-bottom: 1.5rem;
+  }
 }
 
 .auth-logo {
@@ -105,6 +126,13 @@
   }
 }
 
+@media (max-width: 768px) {
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+}
+
 .form-label {
   display: block;
   font-size: 0.8125rem;
@@ -140,6 +168,12 @@
   &.input-error {
     border-color: var(--ps-error);
     box-shadow: 0 0 0 3px var(--error-bg);
+  }
+}
+
+@media (max-width: 768px) {
+  .form-input {
+    font-size: 1rem;
   }
 }
 

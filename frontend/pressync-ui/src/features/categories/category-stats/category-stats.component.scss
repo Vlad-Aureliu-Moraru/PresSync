@@ -9,6 +9,14 @@
   overflow: hidden;
 }
 
+@media (max-width: 768px) {
+  .stats-container {
+    padding: 1.25rem 1rem 1rem;
+    height: auto;
+    overflow-y: auto;
+  }
+}
+
 .header-nav {
   flex-shrink: 0;
   margin-bottom: 2rem;
@@ -39,6 +47,13 @@
   border-radius: var(--ps-radius);
   overflow-y: auto;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 768px) {
+  .dashboard-card {
+    overflow-y: visible;
+  }
 }
 
 .card-header {
@@ -54,6 +69,15 @@
   }
 }
 
+@media (max-width: 768px) {
+  .card-header {
+    padding: 1.5rem 1.25rem;
+  }
+  .card-header h1 {
+    font-size: 1.35rem;
+  }
+}
+
 .card-details {
   display: flex;
   flex-direction: column;
@@ -66,12 +90,23 @@
   gap: 0.45rem;
   font-size: 0.875rem;
   color: var(--ps-text-muted);
+  min-width: 0;
 
   svg {
     width: 14px;
     height: 14px;
     flex-shrink: 0;
     color: var(--text-secondary);
+  }
+
+  span {
+    overflow-wrap: break-word;
+  }
+}
+
+@media (max-width: 768px) {
+  .detail-row {
+    font-size: 0.8125rem;
   }
 }
 
@@ -94,6 +129,12 @@
   }
 }
 
+@media (max-width: 768px) {
+  .chart-section {
+    padding: 1.5rem 1.25rem;
+  }
+}
+
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -101,10 +142,24 @@
   padding: 2rem 2.5rem;
 }
 
+@media (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 1.5rem 1.25rem;
+  }
+}
+
 .stat-box {
   display: flex;
   gap: 1.35rem;
   align-items: center;
+}
+
+@media (max-width: 768px) {
+  .stat-box {
+    gap: 1rem;
+  }
 }
 
 .stat-icon {
@@ -137,6 +192,17 @@
   }
 }
 
+@media (max-width: 768px) {
+  .stat-icon {
+    width: 48px;
+    height: 48px;
+  }
+  .stat-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
 .stat-content {
   .stat-label {
     font-size: 0.875rem;
@@ -162,11 +228,26 @@
   }
 }
 
+@media (max-width: 768px) {
+  .stat-content .stat-value {
+    font-size: 1.75rem;
+  }
+  .stat-content .stat-sub {
+    font-size: 1rem;
+  }
+}
+
 .history-section {
   padding: 2rem 2.5rem;
 
   .section-title {
     margin-bottom: 1.25rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .history-section {
+    padding: 1.5rem 1.25rem;
   }
 }
 
@@ -202,6 +283,13 @@
   display: flex;
   gap: 1rem;
   align-items: baseline;
+}
+
+@media (max-width: 768px) {
+  .history-info {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
 }
 
 .history-date {
@@ -240,6 +328,13 @@
   border-radius: var(--ps-radius);
   border: 1px solid var(--error);
   text-align: center;
+}
+
+@media (max-width: 768px) {
+  .error-alert {
+    padding: 1rem;
+    font-size: 0.875rem;
+  }
 }
 
 @keyframes spin {

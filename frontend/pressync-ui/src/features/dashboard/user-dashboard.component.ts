@@ -28,6 +28,11 @@ export class UserDashboardComponent implements OnInit {
   todaySchedule = signal<EventCategory[]>([]);
   scheduleLoading = signal<boolean>(true);
   scheduleError = signal<string>('');
+  scheduleOpen = signal(true);
+
+  toggleSchedule(): void {
+    this.scheduleOpen.update(v => !v);
+  }
 
   constructor() {
     effect(() => {

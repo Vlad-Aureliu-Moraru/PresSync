@@ -22,6 +22,17 @@
   animation: panel-enter 0.2s ease-out;
 }
 
+@media (max-width: 768px) {
+  .panel-container {
+    position: fixed;
+    top: 3.5rem;
+    right: 0.5rem;
+    left: 0.5rem;
+    width: auto;
+    max-width: none;
+  }
+}
+
 @keyframes panel-enter {
   from {
     opacity: 0;

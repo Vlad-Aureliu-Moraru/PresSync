@@ -20,6 +20,7 @@ export class NavbarComponent {
   readonly notificationService = inject(NotificationService);
 
   isNotificationPanelOpen = signal(false);
+  isMobileMenuOpen = signal(false);
 
   private currentUrl = signal(this.router.url);
   readonly isAuthPage = computed(() => {
@@ -39,7 +40,10 @@ export class NavbarComponent {
   constructor() {
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe(() => this.currentUrl.set(this.router.url));
+      .subscribe(() => {
+        this.currentUrl.set(this.router.url);
+        this.closeMobileMenu();
+      });
   }
 
   onLogout(): void {
@@ -53,6 +57,14 @@ export class NavbarComponent {
 
   closeNotificationPanel(): void {
     this.isNotificationPanelOpen.set(false);
+  }
+
+  toggleMobileMenu(): void {
+    this.isMobileMenuOpen.update((v) => !v);
+  }
+
+  closeMobileMenu(): void {
+    this.isMobileMenuOpen.set(false);
   }
 
   openCategoryModal(): void {

@@ -29,6 +29,11 @@ export class SuperiorDashboardComponent implements OnInit {
   todaySchedule = signal<EventCategory[]>([]);
   scheduleLoading = signal(true);
   scheduleError = signal('');
+  scheduleOpen = signal(true);
+
+  toggleSchedule(): void {
+    this.scheduleOpen.update(v => !v);
+  }
 
   constructor() {
     effect(() => {

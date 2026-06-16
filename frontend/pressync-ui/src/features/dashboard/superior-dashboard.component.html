@@ -45,12 +45,13 @@
             <div class="table-card">
               <div class="table-container">
                 <table class="roster-table">
-                  <thead>
+                    <thead>
                     <tr>
                       <th>ID</th>
-                      <th>Name</th>
-                      <th>Email</th>
-                      <th>Role</th>
+                      <th class="desktop-only">Name</th>
+                      <th class="desktop-only">Email</th>
+                      <th class="desktop-only">Role</th>
+                      <th class="mobile-only">User</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
@@ -58,12 +59,19 @@
                     @for (user of filteredUsers(); track user.id) {
                       <tr>
                         <td>{{ user.id }}</td>
-                        <td>
+                        <td class="desktop-only">
                           <div class="user-fullname">{{ user.surname }} {{ user.name }}</div>
                         </td>
-                        <td class="user-email">{{ user.email }}</td>
-                        <td>
+                        <td class="desktop-only user-email">{{ user.email }}</td>
+                        <td class="desktop-only">
                           <span class="role-badge" [ngClass]="user.role.toLowerCase()">{{ user.role }}</span>
+                        </td>
+                        <td class="mobile-only">
+                          <div class="user-fullname">{{ user.surname }} {{ user.name }}</div>
+                          <div class="user-meta">
+                            <span class="user-email">{{ user.email }}</span>
+                            <span class="role-badge mobile" [ngClass]="user.role.toLowerCase()">{{ user.role }}</span>
+                          </div>
                         </td>
                         <td>
                           <button class="btn-action" (click)="viewHistory(user.id)">View History</button>
@@ -84,44 +92,51 @@
       <div class="schedule-card">
         <div class="schedule-card-header">
           <h2>Today's Schedule</h2>
+          <button class="schedule-toggle" (click)="toggleSchedule()" type="button" aria-label="Toggle schedule">
+            <svg class="chevron" [class.open]="scheduleOpen()" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </button>
         </div>
-        @if (scheduleLoading()) {
-          <div class="schedule-loading">
-            <div class="spinner small-spinner"></div>
-            <span>Loading schedule...</span>
-          </div>
-        } @else if (scheduleError()) {
-          <div class="error-banner">{{ scheduleError() }}</div>
-        } @else {
-          <div class="schedule-list">
-            @if (todaySchedule().length === 0) {
-              <div class="empty-state small-empty">
-                <p>No classes scheduled for today.</p>
-              </div>
-            } @else {
-              @for (event of todaySchedule(); track event.id) {
-                <div class="schedule-item">
-                  <div class="schedule-time">
-                    <span class="time">{{ event.startingTime | slice:0:5 }}</span>
-                    <span class="time-separator">-</span>
-                    <span class="time">{{ event.endTime | slice:0:5 }}</span>
-                  </div>
-                  <div class="schedule-details">
-                    <h3 class="event-name">{{ event.name }}</h3>
-                    <div class="schedule-meta">
-                      @if (event.repeatable && event.categoryConfig) {
-                        <span class="meta-line">{{ repeatTypeLabel(event.categoryConfig.repeatableType) }}</span>
-                      }
-                      @if (!event.repeatable && event.specificDate) {
-                        <span class="meta-line">{{ event.specificDate | date:'MMM d' }}</span>
-                      }
-                      <span class="meta-line">{{ event.attendanceTimeStart | slice:0:5 }} · {{ event.attendanceDuration }}min</span>
+        @if (scheduleOpen()) {
+          @if (scheduleLoading()) {
+            <div class="schedule-loading">
+              <div class="spinner small-spinner"></div>
+              <span>Loading schedule...</span>
+            </div>
+          } @else if (scheduleError()) {
+            <div class="error-banner">{{ scheduleError() }}</div>
+          } @else {
+            <div class="schedule-list">
+              @if (todaySchedule().length === 0) {
+                <div class="empty-state small-empty">
+                  <p>No classes scheduled for today.</p>
+                </div>
+              } @else {
+                @for (event of todaySchedule(); track event.id) {
+                  <div class="schedule-item">
+                    <div class="schedule-time">
+                      <span class="time">{{ event.startingTime | slice:0:5 }}</span>
+                      <span class="time-separator">-</span>
+                      <span class="time">{{ event.endTime | slice:0:5 }}</span>
+                    </div>
+                    <div class="schedule-details">
+                      <h3 class="event-name">{{ event.name }}</h3>
+                      <div class="schedule-meta">
+                        @if (event.repeatable && event.categoryConfig) {
+                          <span class="meta-line">{{ repeatTypeLabel(event.categoryConfig.repeatableType) }}</span>
+                        }
+                        @if (!event.repeatable && event.specificDate) {
+                          <span class="meta-line">{{ event.specificDate | date:'MMM d' }}</span>
+                        }
+                        <span class="meta-line">{{ event.attendanceTimeStart | slice:0:5 }} · {{ event.attendanceDuration }}min</span>
+                      </div>
                     </div>
                   </div>
-                </div>
+                }
               }
-            }
-          </div>
+            </div>
+          }
         }
       </div>
     </div>

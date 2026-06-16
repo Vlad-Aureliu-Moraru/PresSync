@@ -9,6 +9,14 @@
   max-width: min(360px, 92vw);
 }
 
+@media (max-width: 768px) {
+  .toast-stack {
+    right: 1rem;
+    left: 1rem;
+    max-width: none;
+  }
+}
+
 .toast-item {
   display: flex;
   align-items: flex-start;
