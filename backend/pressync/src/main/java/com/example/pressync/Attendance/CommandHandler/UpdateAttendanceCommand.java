@@ -20,10 +20,8 @@ public class UpdateAttendanceCommand implements Command<AttendanceUpdateDTO,Stri
     @Override
     public ResponseEntity<String> execute(AttendanceUpdateDTO attendanceUpdateDTO) {
         int id = attendanceUpdateDTO.getId();
-
-        if (!attendanceRepository.existsById(id)) {
-            throw new IllegalArgumentException("Attendance with id " + id + " does not exist");
-        }
+        Attendance existing = attendanceRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Attendance with id " + id + " does not exist"));
 
         int userId = attendanceUpdateDTO.getAttendanceCreateDTO().getUserId();
         var user = userRepository.findById(userId)
@@ -37,11 +35,16 @@ public class UpdateAttendanceCommand implements Command<AttendanceUpdateDTO,Stri
             throw new IllegalArgumentException("Event is not active");
         }
 
-        Attendance attendance = new Attendance();
-        attendance.setId(id);
-        attendance.setEvent(event);
-        attendance.setUser(user);
-        attendanceRepository.save(attendance);
+        boolean exists = attendanceRepository.existsByUserIdAndEventId(userId, eventId);
+        boolean sameUser = existing.getUser().getId().equals(userId);
+        boolean sameEvent = existing.getEvent().getId().equals(eventId);
+        if (exists && (!sameUser || !sameEvent)) {
+            throw new IllegalArgumentException("This user is already marked for this event");
+        }
+
+        existing.setEvent(event);
+        existing.setUser(user);
+        attendanceRepository.save(existing);
         return ResponseEntity.ok("Successfully updated attendance");
     }
 }

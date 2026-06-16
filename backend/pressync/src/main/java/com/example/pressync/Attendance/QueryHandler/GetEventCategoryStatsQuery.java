@@ -36,7 +36,7 @@ public class GetEventCategoryStatsQuery implements Query<Integer, EventCategoryS
 
         for (int i = 0; i < counts.size(); i++) {
             long count = counts.get(i);
-            
+
             if (count > max) max = count;
             if (count < min) min = count;
             sum += count;
@@ -46,9 +46,9 @@ public class GetEventCategoryStatsQuery implements Query<Integer, EventCategoryS
             weightTotal += weight;
         }
 
-        long average = sum / counts.size();
+        long average = Math.round((double) sum / counts.size());
         long projected = Math.round(weightedSum / weightTotal);
-        long attendanceRate = max > 0 ? (average * 100 / max) : 0;
+        long attendanceRate = max > 0 ? Math.round((double) average / max * 100) : 0;
 
         EventCategoryStatsDTO stats = new EventCategoryStatsDTO(average, max, min, projected, attendanceRate, summaries);
         return ResponseEntity.ok(stats);

@@ -1,18 +1,19 @@
 package com.example.pressync.Attendance.Model;
 
 import com.example.pressync.Event.Model.Event;
-import com.example.pressync.User.Model.DTOSs.UserGetDTO;
 import com.example.pressync.User.Model.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Table(name = "Prezenta",uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id","event_id"})})
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Attendance {

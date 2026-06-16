@@ -9,6 +9,7 @@ import com.example.pressync.Attendance.QueryHandler.GetAttendanceByUserIdAndCate
 import com.example.pressync.Attendance.QueryHandler.GetAttendanceByUserIdQuery;
 import com.example.pressync.Attendance.QueryHandler.GetEventCategoryStatsQuery;
 import com.example.pressync.User.Model.User;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -46,17 +47,19 @@ public class AttendanceController {
     public ResponseEntity<List<AttendanceGetDTO>> getAllAttendance() {
         return getAllAttendanceQuery.execute(null);
     }
+
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','MODERATOR')")
-    public ResponseEntity<Attendance> getAttendanceById(@PathVariable  int id) {
+    public ResponseEntity<Attendance> getAttendanceById(@PathVariable int id) {
         return getAttendanceByIdQuery.execute(id);
     }
 
     @GetMapping("/user/{userId}")
     @PreAuthorize("hasAnyRole('ADMIN','MODERATOR') or #userId == principal.id")
-    public ResponseEntity<List<Attendance>> getAttendanceByUserID (@PathVariable int userId) {
+    public ResponseEntity<List<Attendance>> getAttendanceByUserID(@PathVariable int userId) {
         return getAttendanceByUserIdQuery.execute(userId);
     }
+
     @PostMapping("/mark")
     @PreAuthorize("hasAnyRole('USER','MODERATOR','ADMIN')")
     public ResponseEntity<String> createAttendance(@AuthenticationPrincipal User user) {
@@ -65,12 +68,8 @@ public class AttendanceController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','MODERATOR')")
-    public ResponseEntity updateAttendanceById(@PathVariable int id, @RequestBody AttendanceCreateDTO attendance) {
+    public ResponseEntity<String> updateAttendanceById(@PathVariable int id, @Valid @RequestBody AttendanceCreateDTO attendance) {
         AttendanceUpdateDTO attendanceUpdateDTO = new AttendanceUpdateDTO(id, attendance);
         return updateAttendanceCommand.execute(attendanceUpdateDTO);
     }
-
-
-
-
 }

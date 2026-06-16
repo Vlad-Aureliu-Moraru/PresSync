@@ -2,12 +2,10 @@ package com.example.pressync.Attendance.CommandHandler;
 
 import com.example.pressync.Attendance.AttendanceRepository;
 import com.example.pressync.Attendance.Model.Attendance;
-import com.example.pressync.Attendance.Model.AttendanceCreateDTO;
 import com.example.pressync.Command;
 import com.example.pressync.Event.EventRepository;
 import com.example.pressync.Event.Model.Event;
 import com.example.pressync.User.Model.User;
-import com.example.pressync.User.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -15,12 +13,10 @@ import org.springframework.stereotype.Service;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 
-
 @Service
 @RequiredArgsConstructor
 public class CreateAttendanceCommand implements Command<User,String> {
     private final AttendanceRepository attendanceRepository;
-    private final UserRepository userRepository;
     private final EventRepository eventRepository;
 
     @Override
@@ -48,6 +44,6 @@ public class CreateAttendanceCommand implements Command<User,String> {
         attendance.setUser(user);
         attendance.setEvent(event);
         attendanceRepository.save(attendance);
-        return ResponseEntity.ok().body("Succesfully joined attendance");
+        return ResponseEntity.ok().body("Successfully joined attendance");
     }
 }

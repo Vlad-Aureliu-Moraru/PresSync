@@ -13,10 +13,10 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Integer>
     List<Attendance> findAllByUserId(Integer id);
     Boolean existsByUserIdAndEventId(Integer userId, Integer eventId);
 
-    @Query("SELECT COUNT(a) FROM Attendance a WHERE a.event.eventCategory.id = :categoryId GROUP BY a.event.id ORDER BY a.event.date ASC")
+    @Query("SELECT COUNT(a) FROM Attendance a WHERE a.event.eventCategory.id = :categoryId GROUP BY a.event.id ORDER BY a.event.date ASC, a.event.id ASC")
     List<Long> countAttendancePerEventByCategory(@Param("categoryId") Integer categoryId);
 
-    @Query("SELECT NEW com.example.pressync.Attendance.Model.EventAttendanceSummary(a.event.date, COUNT(a)) FROM Attendance a WHERE a.event.eventCategory.id = :categoryId GROUP BY a.event.id, a.event.date ORDER BY a.event.date ASC")
+    @Query("SELECT NEW com.example.pressync.Attendance.Model.EventAttendanceSummary(a.event.date, COUNT(a)) FROM Attendance a WHERE a.event.eventCategory.id = :categoryId GROUP BY a.event.id, a.event.date ORDER BY a.event.date ASC, a.event.id ASC")
     List<EventAttendanceSummary> getEventAttendanceSummariesByCategory(@Param("categoryId") Integer categoryId);
 
     List<Attendance> findAllByUserEmail(String userEmail);

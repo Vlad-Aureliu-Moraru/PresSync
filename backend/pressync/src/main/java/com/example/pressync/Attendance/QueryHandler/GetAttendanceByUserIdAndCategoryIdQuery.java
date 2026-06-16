@@ -2,6 +2,7 @@ package com.example.pressync.Attendance.QueryHandler;
 
 import com.example.pressync.Attendance.AttendanceRepository;
 import com.example.pressync.Attendance.Model.Attendance;
+import com.example.pressync.EventCategory.EventCategoryRepository;
 import com.example.pressync.Query;
 import com.example.pressync.User.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,11 +16,15 @@ import java.util.List;
 public class GetAttendanceByUserIdAndCategoryIdQuery implements Query<GetAttendanceByUserIdAndCategoryIdQuery.AttendanceByUserAndCategoryInput, List<Attendance>> {
     private final AttendanceRepository attendanceRepository;
     private final UserRepository userRepository;
+    private final EventCategoryRepository eventCategoryRepository;
 
     @Override
     public ResponseEntity<List<Attendance>> execute(AttendanceByUserAndCategoryInput input) {
         if (!userRepository.existsById(input.userId())) {
             throw new IllegalArgumentException("User does not exist");
+        }
+        if (!eventCategoryRepository.existsById(input.categoryId())) {
+            throw new IllegalArgumentException("Event category does not exist");
         }
 
         List<Attendance> list = attendanceRepository.findAllByUserIdAndEventEventCategoryId(input.userId(), input.categoryId());

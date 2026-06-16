@@ -1,7 +1,6 @@
 package com.example.pressync.Attendance.Model;
 
 import com.example.pressync.Event.Model.EventGetDTO;
-import com.example.pressync.Event.Model.EventPutDTO;
 import com.example.pressync.User.Model.DTOSs.UserGetDTO;
 import lombok.Data;
 
