@@ -21,9 +21,9 @@
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{1\baselineskip}
 
-\facultatea{Matematic\u a \c si Informatic\u a}
-\specializarea{Informatic\u a}
-\teza{licen\c t\u a}
+\facultatea{Matematică și Informatică}
+\specializarea{Informatică}
+\teza{licență}
 \titlu{PresSync — Sistem Autonom de Gestiune a Prezenței \\ bazat pe Conectivitate Wi-Fi la Nivelul Stratului 2}
 \gradDidacticCP{Conf. univ. dr.}
 \coordonatorPrincipal{Constantin-Claudiu Gava}
@@ -41,9 +41,9 @@
 
 \chapter{Introducere}
 
-Gestionarea prezenței participanților la activități educaționale, profesionale sau organizaționale reprezintă o provocare recurentă în contextul actual. Metodele tradiționale de pontaj — apelul nominal, listele pe suport de hârtie sau cartelele de acces fizice — sunt lente, predispuse la erori și vulnerabile la practici frauduloase, precum înregistrarea prezenței în locul unui coleg absent. Soluțiile digitale existente, bazate pe coduri QR, localizare GPS sau platforme cloud, adresează parțial aceste neajunsuri, însă introduc alte limitări: dependența de conexiunea la internet, riscul falsificării locației sau preocupări legate de confidențialitatea datelor personale.
+Prezenței participanților la activități educaționale, profesionale sau organizaționale este o provocare în contextul actual. Metodele actuale de pontaj — apelul nominal, listele pe hârtie sau cartelele de acces fizice — sunt lente, predispuse la erori și vulnerabile, precum înregistrarea prezenței în locul unui coleg absent. Soluțiile digitale existente, bazate pe coduri QR, localizare GPS sau platforme cloud, adresează parțial aceste neajunsuri, însă introduc alte limitări: dependența de conexiunea la internet, riscul falsificării locației sau preocupări legate de confidențialitatea datelor personale.
 
-Lucrarea de față propune PresSync — un sistem autonom de gestionare a prezenței, care utilizează infrastructura Wi-Fi locală ca mecanism de validare a prezenței fizice. Prin ancorarea dovezii de participare în proprietățile fizice ale propagării semnalului radio, sistemul elimină principalele vectori de fraudă identificați în soluțiile concurente, funcționând totodată independent de orice conexiune externă la internet.
+Lucrarea mea propune ca solutie  PresSync — un sistem autonom de gestionare a prezenței, care utilizează infrastructura Wi-Fi locală ca mecanism de validare a prezenței fizice.
 
 \section{Structura lucrării}
 
@@ -51,7 +51,7 @@ Lucrarea este structurată în cinci capitole, organizate progresiv de la analiz
 
 \begin{itemize}
     \item \textbf{Capitolul 1 — Introducere} oferă o imagine de ansamblu asupra contextului care a motivat dezvoltarea sistemului PresSync, prezintă pe scurt soluția propusă și descrie structura lucrării.
-    \item \textbf{Capitolul 2 — Definirea problemei} analizează metodele actuale de pontaj și limitările acestora, realizează o comparație structurată a soluțiilor existente pe piață și fundamentează arhitectural alegerea abordării bazate pe conectivitate Wi-Fi la nivelul Stratului 2. Capitolul definește, de asemenea, obiectivele sistemului, actorii implicați și scenariile de bază de utilizare.
+    \item \textbf{Capitolul 2 — Definirea problemei} analizează metodele actuale de pontaj și limitările acestora, realizează o comparație structurată a soluțiilor existente pe piață și fundamentează arhitectural alegerea abordării bazate pe conectivitate Wi-Fi la nivelul Stratului 2.De asemenea ,capitolul defineste obiectivele sistemului, actorii implicați și scenariile de bază de utilizare.
     \item \textbf{Capitolul 3 — Analiza software} prezintă cerințele funcționale și non-funcționale ale aplicației, modelul funcțional al sistemului, descrierea detaliată a cazurilor de utilizare și diagramele UML asociate.
     \item \textbf{Capitolul 4 — Proiectare și implementare} descrie arhitectura tehnică a soluției, incluzând proiectarea bazei de date, tehnologiile utilizate, diagramele de interacțiune și de clase, precum și secvențe reprezentative de cod sursă.
     \item \textbf{Capitolul 5 — Concluzii} sintetizează contribuțiile proprii aduse prin această lucrare, evaluează rezultatele obținute în raport cu obiectivele definite și propune direcții de dezvoltare ulterioară a sistemului.
@@ -62,7 +62,7 @@ Lucrarea este structurată în cinci capitole, organizate progresiv de la analiz
 \section{Introducere și Contextualizare}
 Dacă ai participat vreodată la un curs, o ședință sau o conferință, știi că momentul în care se face prezența este o pierdere de timp. Listele pe hârtie circulate prin sală, strigarea fiecărui nume sau distribuirea cartelelor de acces sunt soluții banale, dar ele ascund probleme reale: timp pierdut, erori frecvente și participanți care sunt pe listă deși nu se află în cameră.
 
-Această situație, unde un coleg îl marchează pe altul prezent deși nu e adevărat, nu este doar o nedreptate față de ceilalți, dar creează și o greșeală în datele colectate. Acest lucru poate afecta decizii ce țin de evaluare sau de monitorizarea activității. Această problemă nu este una trivială, deoarece, cu cât grupul este mai mare cu atât crește riscul ca astfel de situații sa treaca neobservate.
+Această situație, unde un coleg îl marchează pe altul prezent deși nu e adevărat, nu este doar o nedreptate față de ceilalți, dar creează și o greșeală în datele colectate. Acest lucru poate afecta decizii ce țin de evaluare sau de monitorizarea activității. Această problemă nu este una trivială, deoarece, cu cât grupul este mai mare cu atât crește riscul ca astfel de situații să treaca neobservate.
 
 Este important să evidențiem că această problemă nu aparține doar mediului universitar, chiar dacă soluția mea a pornit de acolo. Ea poate fi aplicată și în medii cum ar fi o conferință sau orice alt tip de eveniment unde organizatorul ar avea nevoie să știe exact numărul de participanți și cine sunt ei, pentru a crea mai apoi statistici sau rapoarte pentru planificarea următorului eveniment. Deci, cum verificăm că oamenii sunt cu adevărat acolo, fără a întrerupe activitatea și fără a permite date inexacte? Avem nevoie de un mecanism de înregistrare a prezenței care să fie fiabil, rapid și capabil să genereze informațiile utile, nu o simplă listă bifată în grabă
 
@@ -88,13 +88,13 @@ Problema principală o constituie costurile care sunt semnificative: cumpărarea
 Codul QR afișat pe un videoproiector a devenit ceva familiar în sălile de curs în ultimii ani. Se generează un cod QR, care mai apoi este proiectat, iar studenții scanează codul cu telefonul.
 Implementarea nu necesită hardware suplimentar, sistemul se folosește de tehnologia existentă deja și poate fi pus în funcțiune în câteva minute.
 
-Aceasta abordare este una ideală în contextul educațional unde bugetul este limitat. Însă problema acestei soluții este securitatea, deoarece ea se bazează pe faptul că doar persoanele prezente fizic au acces la cod, însă aceasta ipoteză nu poate fi adevărată. Un singur participant din sală poate fotografia codul și îl trimite pe WhatsApp oricui. Nici versiunile cu coduri dinamice nu rezolvă complet problema: codul poate fi partajat în timp real.
+Această abordare este una ideală în contextul educațional unde bugetul este limitat. Însă problema acestei soluții este securitatea, deoarece ea se bazează pe faptul că doar persoanele prezențe fizic au acces la cod, însă această ipoteză nu poate fi adevărată. Un singur participant din sală poate fotografia codul și îl trimite pe WhatsApp oricui. Nici versiunile cu coduri dinamice nu rezolvă complet problema: codul poate fi partajat în timp real.
 \subsection{Sisteme de tracking pe bază de localizare GPS}
-Aceste platforme au o abordare diferită. Ele verifică dacă participantul se află în locul potrivit. Utilizatorul are nevoie doar să facă un check-in din aplicație, iar sistemul compară coordonatele GPS ale telefonului cu zona predefinită în aplicație.
+Aceste platforme au o abordare diferită. Ele verifică dacă participantul se află în locul potrivit. Utilizatorul are nevoie doar să facă un check-în din aplicație, iar sistemul compară coordonatele GPS ale telefonului cu o zonă predefinită în aplicație.
 
 Această soluție este flexibilă, nu are nevoie de o infrastructură hardware, evenimentul poate fi configurat oriunde. Totuși pentru săli de curs, birouri etc., această abordare are trei probleme.
 
-Prima este falsificarea coordonatelor GPS. Există aplicații specializate care permit simularea unei locații. A doua problemă este confidențialitatea. Și a treia limitare este de natură tehnică, sistemul are nevoie de o conexiune constantă la internet. În spații cu semnal slab aplicația devine inoperabilă.
+Prima este falsificarea coordonatelor GPS. Există aplicații specializate care permit simularea unei locații. A două problemă este confidențialitatea. Și a treia limitare este de natură tehnică, sistemul are nevoie de o conexiune constantă la internet. În spații cu semnal slab aplicația devine inoperabilă.
 \newpage
 \subsection{Sinteza comparativa}
 
@@ -124,69 +124,69 @@ Analizând comparația, putem să ne dăm seama că fiecare abordare expune o pr
 
 Primul pas este înlocuirea cartelei cu dispozitivul mobil personal, ceea ce practic rezolvă împrumutarea token-ului unui coleg. Identitatea digitală a participantului este stocată sub forma unui token JWT, legat de contul său și accesibil exclusiv prin autentificare, ceea ce transformă dispozitivul într-un factor de autentificare.
 
-Elemetul principal al arhitecturii PresSync , si diferenta cea mai mare de solutiile analizate mai sus , este folosirea proprietatilor fizice ale undelor radio ca bariera antifrauda.Aceasta abordare este mai robusta ,deoarece validarea prezentei se face prin conectivitate la nivelul Stratului 2 (Data link layer) al modelului OSI. Routerul este configurat in regim de portal captiv , emite pe benzile 2,4GHz si 5GHz, frecvente care sunt sensibile la obstacole fizice din mediul inconjurator.
+Elemetul principal al arhitecturii PresSync , și diferență cea mai mare de soluțiile analizate mai sus , este folosirea proprietăților fizice ale undelor radio ca barieră antifraudă.Această abordare este mai robustă ,deoarece validarea prezenței se face prin conectivitate la nivelul Stratului 2 (Data link layer) al modelului OSI. Routerul este configurat în regim de portal captiv , emite pe benzile 2,4GHz și 5GHz, frecvente care sunt sensibile la obstacole fizice din mediul înconjurător.
 
-Atunci cand traverseaza materiale de constructie uzuale , cum ar fi pereti din beton , caramida sau gips-carton , semnalul sufera o atenuare destul de mare.
-Ceea ce face ca semnalul emis sa fie insuficient pentru ca un dispozitiv sa se conecteze de la cativa metri de punctul de acces.Prin urmare , pentru a transmite token-ul JWT si a inregistra prezenta , telefonul trebuie sa se afle fizic in interiorul spatiiului delimitat de router.
+Atunci când traversează materiale de construcție uzuale , cum ar fi pereți din beton , cărămidă sau gips-carton , semnalul suferă o atenuare destul de mare.
+Ceea ce face ca semnalul emis să fie insuficient pentru ca un dispozitiv să se conecteze de la câțiva metri de punctul de acces.Prin urmare , pentru a transmite token-ul JWT și a înregistra prezența , telefonul trebuie să se afle fizic în interiorul spațiului delimitat de router.
 
-Inca un factor care contribuie la aceasta restrictie naturala este zona Fresnel. Obstacolele solide intersectate de aceasta zona reduc puterea semnalului.Combinand acesti doi factori , transformam peretii incaperii intro bariera naturala antifrauda.
+Încă un factor care contribuie la această restricție naturală este zona Fresnel. Obstacolele solide intersectate de această zonă reduc puterea semnalului.Combinând acești doi factori , transformăm pereții încăperii într-o barieră naturală antifraudă.
 
-Acest ultim factor previne atacurile de tip MAC spoofing care necesita prezenta fizica in raza de actiune a routerului si echipament specializat.
+Acest ultim factor previne atacurile de tip MAC spoofing care necesită prezența fizică în raza de acțiune a routerului și echipament specializat.
 
-Inca un factor important al sistemului este independenta fata de conexiunea la internet . Aplicatia ruleaza local , nu exita servere externe , abonament cloud etc.
-Aceasta alegere aduce doua consecinte practice : Prima este ca sistemul functioneaza in orice spatiu cu alimentare electrica.A doua este ca datele sunt procesate local fara a fi transmise la alte servicii.
+Încă un factor important al sistemului este independență față de conexiunea la internet . Aplicația rulează local , nu există servere externe , abonament cloud etc.
+Această alegere aduce două consecințe practice : Prima este ca sistemul funcționează în orice spațiu cu alimentare electrică.A două este ca datele sunt procesate local fără a fi transmise la alte servicii.
 
-In concluzie PresSync rezolva problema la un nivel mai profund.Ancorand validarea prezentei in proprietati fizice si eliminand dependenta de infrastructura externa.
+În concluzie PresSync rezolva problema la un nivel mai profund.Ancorând validarea prezenței în proprietăți fizice și eliminând dependență de infrastructura externă.
 
-\section{Descrierea problemei si solutia propusa}
+\section{Descrierea problemei și soluția propusă}
 
 
-Pe baza sectiunilor prezentate mai sus , putem formula problema principala pe care sistemul o abordeaza: necesitatea unui mecanism de inregistrare a prezentei care sa ofere certitudinea prezentei fizice reale a participantilor, fara prea multe costuri sau dependente de conexiunea externa si pastrarea datelor local.
-Avand in vedere deficientele solutiilor deja existente mentionate anterior , am considerat necesar construirea unei solutii gazdute local pe un router OpenWRT , in care prezenta fizica in retea este dovada participarii.Ceea ce elimina dependenta de internet sau servicii GPS.PresSync automatizeaza pontajul , printr-o metoda sigura , rapida si utila.Contextele aplicarii pot fi variate , de la mediul academic pana la conferinte si evenimente temporare
+Pe baza secțiunilor prezentate mai sus , putem formula problema principală pe care sistemul o abordează: necesitătea unui mecanism de înregistrare a prezenței care să ofere certitudinea prezenței fizice reale a participantilor, fără prea multe costuri sau dependente de conexiunea externă și păstrarea datelor local.
+Având în vedere deficientele solutiilor deja existente mentionate anterior , am considerat necesar construirea unei soluții gazdute local pe un router OpenWRT , în care prezența fizică în retea este dovada participării.Ceea ce elimina dependență de internet sau servicii GPS.PresSync automatizează pontajul , printr-o metoda sigura , rapida și utila.Contextele aplicarii pot fi variate , de la mediul academic până la conferinte și evenimente temporare
 
 \section{Obiectivele sistemului}
 
-Pentru a materializa viziunea descrisa mai sus , am fost ghidat de urmatoare obiective functionale si tehnice:
+Pentru a materializa viziunea descrisa mai sus , am fost ghidat de urmatoare obiective functionale și tehnice:
 
 
 \begin{enumerate}
 [leftmargin=*,label=\textbf{O\arabic*.}]
 
-    \item \textbf{Func\textcommabelow{t}ionare autonom\u{a} \c{s}i independen\textcommabelow{t}\u{a} hardware.}
-    Sistemul este proiectat s\u{a} ruleze  \newline izolat pe echipamente accesibile, precum un
-    router OpenWRT. Aceast\u{a} abordare elimin\u{a} complet dependen\textcommabelow{t}a de o conexiune
-    la internet sau de servere \textit, asigur\^{a}nd
-    un mediu securizat \c{s}i  \^{i}n care prezen\textcommabelow{t}a \^{i}n re\textcommabelow{t}eaua fizic\u{a}
-   constituie dovada fundamental\u{a} a particip\u{a}rii.
+    \item \textbf{Funcționare autonomă și independență hardware.}
+    Sistemul este proiectat să ruleze  \newline izolat pe echipamente accesibile, precum un
+    router OpenWRT. Această abordare elimină complet dependența de o conexiune
+    la internet sau de servere \textit, asigurând
+    un mediu securizat și  în care prezența în rețeaua fizică
+   constituie dovada fundamentală a participării.
   
 
-    \item \textbf{Automatizarea calendarului \c{s}i a recuren\textcommabelow{t}ei.}
+    \item \textbf{Automatizarea calendarului și a recurenței.}
    sistemul preia
-    munca repetitiv\u{a} a admi-nistratorului. Odat\u{a} definit\u{a} o categorie de evenimente
-    \^{i}mpreun\u{a} cu regulile sale de recuren\textcommabelow{t}\u{a} (zilnic, s\u{a}pt\u{a}m\^{a}nal etc.), aplica\textcommabelow{t}ia
-    instan\textcommabelow{t}iaz\u{a} automat noi evenimente la momentul oportun, f\u{a}r\u{a} nicio interven\textcommabelow{t}ie
-    manual\u{a}.
+    munca repetitivă a admi-nistratorului. Odată definită o categorie de evenimente
+    împreună cu regulile sale de recurență (zilnic, săptămânal etc.), aplicația
+    instanțiază automat noi evenimente la momentul oportun, fără nicio intervenție
+    manuală.
 
-    \item \textbf{Securizarea \c{s}i delimitarea strict\u{a} a accesului.}
-    Autentificarea utilizatorilor este realizat\u{a} prin \textit{token}-uri JWT, asigur\^{a}nd
-    un flux clar de autorizare. Fiecare actor are vizibilitate limitat\u{a} la resursele
-    relevante: participantul \^{i}\c{s}i confirm\u{a} prezen\textcommabelow{t}a \c{s}i \^{i}\c{s}i verific\u{a} istoricul
-    personal, \^{i}n timp ce organizatorul administreaz\u{a} resursele colective \c{s}i
-    acceseaz\u{a} datele \^{i}ntregului grup.
+    \item \textbf{Securizarea și delimitarea strictă a accesului.}
+    Autentificarea utilizatorilor este realizată prin \textit{token}-uri JWT, asigurând
+    un flux clar de autorizare. Fiecare actor are vizibilitate limitată la resursele
+    relevante: participantul își confirmă prezența și își verifică istoricul
+    personal, în timp ce organizatorul administrează resursele colective și
+    accesează datele întregului grup.
 
-    \item \textbf{Procesare concurent\u{a} \c{s}i scalabilitate ridicat\u{a}.}
-    Sistemul separ\u{a} opera\textcommabelow{t}iile de modificare a datelor (comenzi) de cele de citire
-     Aceast\u{a} separare asigur\u{a} c\u{a} cererile de marcare a
-    prezen\textcommabelow{t}ei sunt procesate instantaneu \c{s}i f\u{a}r\u{a} conflicte, iar cererile complexe
-    de calcul al statisticilor ruleaz\u{a} pe un flux propriu optimizat, f\u{a}r\u{a} a bloca
-    aplica\textcommabelow{t}ia.
+    \item \textbf{Procesare concurentă și scalabilitate ridicată.}
+    Sistemul separă operațiile de modificare a datelor (comenzi) de cele de citire
+     Această separare asigură că cererile de marcare a
+    prezenței sunt procesate instantaneu și fără conflicte, iar cererile complexe
+    de calcul al statisticilor rulează pe un flux propriu optimizat, fără a bloca
+    aplicația.
  
 
-    \item \textbf{Generarea de statistici \^{i}n timp real.}
-    \^{I}n loc s\u{a} stocheze datele \^{i}n form\u{a} brut\u{a}, sistemul le transform\u{a} \^{i}n informa\textcommabelow{t}ii
-    utile la cerere. Acesta calculeaz\u{a} procentajul de
-    prezen\textcommabelow{t}\u{a} la nivel de utilizator sau eveniment \c{s}i permite extragerea de rapoarte
-    detaliate direct din interfa\textcommabelow{t}\u{a}.
+    \item \textbf{Generarea de statistici în timp real.}
+    În loc să stocheze datele în formă brută, sistemul le transformă în informații
+    utile la cerere. Acesta calculează procentajul de
+    prezență la nivel de utilizator sau eveniment și permite extragerea de rapoarte
+    detaliate direct din interfață.
   
 
 \end{enumerate}
@@ -204,30 +204,30 @@ Pentru a materializa viziunea descrisa mai sus , am fost ghidat de urmatoare obi
 Această separare clară între roluri nu este întâmplătoare. Ea asigură atât o protecție mai bună a datelor, cât și o experiență adaptată nevoilor fiecărui tip de utilizator. Totodată, respectă principiul privilegiului minim (\textit{principle of least privilege}), conform căruia un utilizator ar trebui să aibă doar accesul strict necesar pentru a-și îndeplini atribuțiile.
 \section{Scenarii de baza}
 
-Pentru o mai buna intelegere a sistemului voi explica pe pasi cum are loc procesul de marcare a prezentei , creare evenimente , vizualizare prezente si administrare utilizatori.
+Pentru o mai bună înțelegere a sistemului voi explica pe pasi cum are loc procesul de marcare a prezenței , creare evenimente , vizualizare prezențe și administrare utilizatori.
 
 Pentru acest exemplu vom folosi mediul academic.
 \begin{itemize}
-    \item Profesorul , avand deja sistemul activ si fiind conectat la retea, deschide o pagina web si este redirectionat de catre portalul captiv pe pagina aplicatiei PresSync.Se inregistreaza sau se autentifica daca are deja cont , fiind moderator/administrator are nevoie de un cod unic care este transmis pe emailul introdus.
+    \item Profesorul Vlad Moraru , având deja sistemul activ și fiind conectat la retea, deschide o pagina web și este redirectionat de către portalul captiv pe pagina aplicației PresSync.Se înregistrează sau se autentifica dacă are deja cont , fiind moderator/administrator are nevoie de un cod unic care este transmis pe emailul introdus.
 
-    \item Dupa completarea formularului este redirectionat pe pagina principala si la apasararea butonului "Creaza categorie de eveniment ", este afisat un formular ,unde introduce datele despre categoria de eveniment pe care vrea sa o creeze.
+    \item După completarea formularului este redirectionat pe pagina principală și la apăsarea butonului "Crează categorie de eveniment ", este afisat un formular ,unde introduce datele despre categoria de eveniment pe care vrea să o creeze.
 
-    \item Sistemul foloseste categoria de eveniment ca un tamplate si apoi creaza un eveniment la data si ora setata.
+    \item Sistemul foloseste categoria de eveniment ca un tamplate și apoi crează un eveniment la data și ora setata.
 
-    \item Studentul ,aflat in sala de curs si fiind conectat la reteaua oferita de router, deschide browserul si este redirectionat catre pagina de autentificare , completeaza formularul si daca exista un eveniment activ si prezenta este deschisa sistemul il pune ca prezent.
-Fara sa apese nici un buton in plus.
+    \item Studentul ,aflat în sala de curs și fiind conectat la reteaua oferita de router, deschide browserul și este redirectionat către pagina de autentificare , completează formularul și dacă exista un eveniment activ și prezența este deschisa sistemul il pune ca prezent.
+Fără să apese nici un buton în plus.
 
-\item Pentru a viziona prezenta ambii au posibilitatea de a cauta categoria de eveniment dorita si pentru fiecare informatiile vor fi diferite , pentru student va fi afisat doar propriile prezente si pentru ceilalti actori vor fi afisate prezentele la toti participantii
+\item Pentru a viziona prezența ambii au posibilitatea de a cauta categoria de eveniment dorita și pentru fiecare informatiile vor fi diferite , pentru student va fi afisat doar propriile prezențe și pentru ceilalți actori vor fi afisate prezentele la toți participanții
 
 \end{itemize}
 
 \chapter{Analiza Software a Sistemului}
 
     Analiza software a
-    sistemului este crearea modelelor conceptuale, ce ne ajuta sa abstractizam o situatie sau un concept.Cu ajutorul ei putem sa identintificam riscuri sau neajunsuri ale unui sistem si sa ne dam seama despre cum ar trebui sa arate solutia in finalitate.
-    Aici voi prezenta documentul de cerinte , diagrama de clase a modelului domeniului si diagrame de secvente de sistem.
-    In documentul de cerinte avem actorii care participa la functionarea sistemului si modurile in care sistemul poate fi folosit.
-    Diagrama de secvente de sistem ne ilustreaza modul in care obiectele comunica intre ele , mesaje si ordinea lor.
+    sistemului este crearea modelelor conceptuale, ce ne ajuta să abstractizam o situație sau un concept.Cu ajutorul ei putem să identintificam riscuri sau neajunsuri ale unui sistem și să ne dam seama despre cum ar trebui să arate soluția în finalitate.
+    Aici voi prezența documentul de cerinte , diagrama de clase a modelului domeniului și diagrame de secvente de sistem.
+    În documentul de cerinte avem actorii care participa la functionarea sistemului și modurile în care sistemul poate fi folosit.
+    Diagrama de secvente de sistem ne ilustrează modul în care obiectele comunica între ele , mesaje și ordinea lor.
 
 \section{Documentul de cerințe}
 
@@ -278,7 +278,7 @@ Platforma PresSync a fost gândită ca o soluție completă pentru monitorizarea
     
     \item Sistemul permite blocarea temporară sau reactivarea conturilor atunci când este necesar (de exemplu, în caz de inactivitate îndelungată sau probleme de securitate).
     
-    \item Atât Adminul cât și Moderatorii au acces la o secțiune centralizată unde pot vedea lista completă a utilizatorilor și detaliile profilurilor acestora.
+    \item Atât Adminul cât și Moderatorii au acces la o secțiune centralizată unde pot vedea listă completă a utilizatorilor și detaliile profilurilor acestora.
 \end{enumerate}
 
 \subsubsection*{F4. Validarea și monitorizarea prezenței}
@@ -354,40 +354,7 @@ Sistemul afișează un mesaj de eroare clar și marchează câmpurile greșite. 
 \textbf{[A2] Utilizatorul există deja (eroare semantică):}  
 Sistemul detectează că username-ul sau email-ul este deja folosit, afișează mesajul „Contul există deja” și revine la formular.
 
-\subsection{Login}
-
-
-\textbf{Descriere:} Autentificarea unui utilizator existent în sistem. După validarea credențialelor, utilizatorul este redirecționat fie către înregistrarea prezenței (dacă există un eveniment activ), fie către dashboard-ul personal. Pentru anumite roluri (Admin/Moderator) poate fi solicitată verificarea MFA suplimentară.
-
-\textbf{Actor:} Utilizator (principal)
-
-\textbf{Eveniment declanșator:} Utilizatorul accesează pagina de autentificare și trimite emailul și parola.
-
-\textbf{Precondiții:} Contul utilizatorului există și este activat (a trecut de verificarea OTP).
-
-\textbf{Postcondiții:} Utilizatorul primește un token JWT și este redirecționat către pagina corespunzătoare rolului și contextului.
-
-\textbf{Flux principal:}
-
-\begin{tabular}{l l}
-\hline
-\textbf{Utilizator} & \textbf{Sistem} \\
-\hline
-1. Cere logarea & 2. Afișează formularul de autentificare \\
-3. Completează datele & 4. Verifică datele primite (sintactic și semantic) [A1] \\
- & 5. Identifică rolul utilizatorului \\
- & 6. Verifică existența unui eveniment activ [A2] \\
- & 7. Afișează dashboard-ul corespunzător \\
-\hline
-\end{tabular}
-
-\textbf{Fluxuri alternative:}
-
-\textbf{[A1] Datele sunt introduse eronat}  
-Sistemul afișează mesaj de eroare, marchează câmpurile greșite, golește câmpul parolei și permite reintroducerea datelor.\newline
-\textbf{[A2] Există eveniment activ și nerestricționat}
-Sistemul inițiază automat cazul de utilizare **„Înregistrare Prezență”**.
-
+\newpage
 \subsection{Vizualizare Prezență cu Statistică}
 
 
@@ -409,7 +376,7 @@ Sistemul inițiază automat cazul de utilizare **„Înregistrare Prezență”*
 \hline
 1. Selectează „Rapoarte și Statistici” & 2. Afișează dashboard-ul cu statistici agregate \\
 3. Aplică un filtru (perioadă, eveniment, grupă etc.) & 4. Validează criteriile de filtrare [A1] \\
- & 5. Afișează lista de rezultate \\
+ & 5. Afișează listă de rezultate \\
 6. Selectează un utilizator sau eveniment & 7. Generează raportul detaliat \\
 8. Selectează „Descarcă Raport” & 9. Generează fișierul (PDF/CSV) [A2] \\
  & 10. Afișează mesaj de succes \\
@@ -434,6 +401,7 @@ Sistemul inițiază automat cazul de utilizare **„Înregistrare Prezență”*
 \textbf{[A2] Eșec la generarea raportului:} Sistemul afișează un mesaj clar de eroare tehnică.  \newline
 \textbf{[A3] Nu există date:} Sistemul afișează mesajul „Nu au fost găsite date de prezență înregistrate.”
 
+\newpage
 \subsection{Înregistrare Prezență}
 
 
@@ -468,34 +436,6 @@ Sistemul afișează statistica prezențelor înregistrate și fluxul se termină
 \textbf{[A2] Utilizatorul refuză/amână confirmarea}  
 Utilizatorul apasă „Nu acum” sau „Anulează”. Sistemul îl redirecționează către ecranul principal.
 
-\subsection{Administrează User}
-
-
-\textbf{Descriere:} Adminul gestionează permisiunile de acces ale utilizatorilor la evenimente/cursuri, putând permite sau restricționa accesul acestora.
-
-\textbf{Actor:} Admin (principal)
-
-\textbf{Eveniment declanșator:} Adminul selectează secțiunea „User Management”.
-
-\textbf{Precondiții:} Adminul este autentificat și există utilizatori în sistem.
-
-\textbf{Postcondiții:} Starea de acces a utilizatorului este actualizată (Permis / Restricționat).
-
-\textbf{Flux principal:}
-
-\begin{tabular}{l l}
-\hline
-\textbf{Admin} & \textbf{Sistem} \\
-\hline
-1. Accesează „User Management” & 2. Afișează lista de utilizatori \\
-3. Selectează un utilizator & 4. Afișează detaliile și starea curentă \\
-5. Selectează acțiunea opusă & 6. Cere confirmare \\
-7. Confirmă acțiunea [A1] & 8. Salvează modificările și afișează succes \\
-\hline
-\end{tabular}
-
-\textbf{Flux alternativ [A1] – Admin renunță:}  \newline
-Adminul apasă „Anulează”. Fluxul revine la lista de utilizatori.
 
 \subsection{Administrează Prezență Manual}
 
@@ -516,41 +456,13 @@ Adminul apasă „Anulează”. Fluxul revine la lista de utilizatori.
 \hline
 \textbf{Admin} & \textbf{Sistem} \\
 \hline
-1. Selectează evenimentul & 2. Afișează lista participanților și statusul lor \\
+1. Selectează evenimentul & 2. Afișează listă participanților și statusul lor \\
 3. Modifică starea unui utilizator & 4. Validează acțiunea \\
  & 5. Salvează modificarea \\
  & 6. Recalculează statisticile \\
- & 7. Afișează lista actualizată \\
+ & 7. Afișează listă actualizată \\
 \hline
 \end{tabular}
-
-\subsection{Căutare Utilizator}
-
-
-\textbf{Descriere:} Adminul poate căuta utilizatori după nume, prenume, email, grupă sau alți parametri pentru o gestionare mai rapidă.
-
-\textbf{Actor:} Admin (principal)
-
-\textbf{Eveniment declanșator:} Adminul introduce un criteriu de căutare.
-
-\textbf{Precondiții:} Adminul este autentificat.
-
-\textbf{Postcondiții:} Se afișează utilizatorii care corespund criteriilor.
-
-\textbf{Flux principal:}
-
-\begin{tabular}{l l}
-\hline
-\textbf{Admin} & \textbf{Sistem} \\
-\hline
-1. Introduce criteriul de căutare & 2. Procesează cererea \\
- & 3. Afișează rezultatele [A1] \\
-\hline
-\end{tabular}
-
-\textbf{Flux alternativ [A1] Niciun rezultat găsit:}  \newline
-Sistemul afișează „Nu a fost găsit niciun utilizator” și permite o nouă căutare.
-
 
 
 \subsection{Creare Categorii de Evenimente}
@@ -580,9 +492,7 @@ Sistemul afișează „Nu a fost găsit niciun utilizator” și permite o nouă
 \textbf{Descriere:} Adminul creează o instanță concretă a unei categorii pentru o anumită dată, cu opțiuni de recurență.
 
 \textbf{Actor:} Admin (principal)
-
 \textbf{Flux principal:}
-
 \begin{tabular}{l l}
 \hline
 \textbf{Admin} & \textbf{Sistem} \\
@@ -598,84 +508,108 @@ Sistemul afișează „Nu a fost găsit niciun utilizator” și permite o nouă
 
 \textbf{[A1] Date invalide:} Sistemul marchează câmpurile greșite.  \newline
 \textbf{[A2] Conflict de orar:} Sistemul avertizează despre suprapunere și permite modificarea.
+\newpage
+\newline
+De asemenea, aici trebuie să includem și diagrama cazurilor de utilizare care reprezintă actorii, cazurile de utilizare și legăturile dintre toate elementele. Tipurile de relații sunt prezentate în tabelul de mai jos.
+\newline
 
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{assets/tipuri-relatii-uc.png}
+\caption{Tipuri de relații în diagrama de cazuri de utilizare}
+\label{fig:tipuri-relatii-uc}
+\end{figure}
 
+\newline
 
-\subsection{Administrare Evenimente Repetitive}
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{assets/use-case-diagram.png}
+\caption{Diagrama cazurilor de utilizare}
+\label{fig:use-case-diagram}
+\end{figure}
 
+\section{Diagrame de secvențe de sistem}
+\subsection{Evenimente de sistem}
+Evenimentele de sistem apar datorită acțiunilor actorilor asupra sistemului software. Ele sunt de trei tipuri:
+\begin{itemize}
+    \item De flux de date (create de acțiuni ce transmit date sau informații)
+    \item De control (nu conțin date)
+    \item Temporare (evenimente generate de un cronjob)
+\end{itemize}
 
-\textbf{Descriere:} Sistemul generează automat evenimente noi pe baza regulilor de recurență definite la nivel de categorie.
+După ce am analizat cazurile de utilizare am dedus următoarele evenimente de sistem:
 
-\textbf{Actor:} Sistem (temporal)
-
-\textbf{Flux principal:}
-
-\begin{tabular}{l l}
+\begin{table}[htbp]
+\centering
+\caption{Evenimente de sistem identificate}
+\begin{tabular}{|l|l|p{0.5\textwidth}|}
 \hline
-\textbf{Sistem} \\
+\textbf{Tip} & \textbf{Nr.} & \textbf{Descriere} \\
 \hline
-1. Verifică periodic regulile de recurență \\
-2. Generează instanțe noi de evenimente \\
-3. Salvează evenimentele în baza de date \\
-4. Le activează la ora programată \\
+Flux de date & 1 & Utilizatorul introduce datele de înregistrare sau logare și le trimite sistemului \\
 \hline
-\end{tabular}
-
-\subsection{Verificare MFA / OTP}
-
-
-\textbf{Descriere:} Verificarea în doi pași prin cod OTP trimis pe email.
-
-\textbf{Actor:} Utilizator (principal)
-
-\textbf{Flux principal:}
-
-\begin{tabular}{l l}
+Flux de date & 2 & Utilizatorul introduce codul primit pe adresa de mail electronică și îl trimite sistemului \\
 \hline
-\textbf{Utilizator} & \textbf{Sistem} \\
+Flux de date & 3 & Utilizatorul introduce numele unei categorii de eveniment în bara de căutare și trimite sistemului \\
 \hline
-1. Este redirecționat la pagina OTP & 2. Afișează emailul mascat și câmpul pentru cod \\
-3. Introduce codul & 4. Validează codul [A1] \\
- & 5. Activează contul / returnează token \\
- & 6. Redirecționează către dashboard \\
+Control & 4 & Sistemul marchează utilizatorul ca fiind prezent la evenimentul activ \\
 \hline
-\end{tabular}
-
-\subsection{Ștergere Utilizator}
-
-
-\textbf{Descriere:} Adminul poate șterge definitiv un cont de utilizator din sistem, inclusiv toate înregistrările de prezență asociate acestuia. Datorită caracterului ireversibil al acțiunii, sistemul solicită confirmări multiple.
-
-\textbf{Actor:} Admin (principal)
-
-\textbf{Eveniment declanșator:} Adminul selectează un utilizator din listă și alege opțiunea „Șterge cont”.
-
-\textbf{Precondiții:} Adminul este autentificat și utilizatorul țintă există în sistem.
-
-\textbf{Postcondiții:} Contul utilizatorului împreună cu toate datele asociate (prezențe, istoric etc.) sunt șterse definitiv din baza de date.
-
-\textbf{Flux principal:}
-
-\begin{tabular}{l l}
+Control & 5 & Sistemul autorizează accesul utilizatorului \\
 \hline
-\textbf{Admin} & \textbf{Sistem} \\
+Control & 6 & Sistemul verifică datele introduse de utilizator \\
 \hline
-1. Selectează utilizatorul și alege „Șterge cont” & 2. Afișează fereastra de confirmare inițială \\
-3. Confirmă acțiunea [A1] & 4. Verifică din nou existența utilizatorului [A2] \\
- & 5. Șterge toate înregistrările de prezență asociate \\
- & 6. Șterge contul utilizatorului \\
- & 7. Afișează mesaj de succes „Contul a fost șters definitiv” \\
+Temporare & 7 & Sistemul creează evenimente în baza timpului setat de administrator \\
+\hline
+Temporare & 8 & Sistemul deschide prezența la evenimente dacă fereastra de prezență coincide cu timpul actual \\
 \hline
 \end{tabular}
+\label{tab:evenimente-sistem}
+\end{table}
 
-\textbf{Fluxuri alternative:}
+\subsection{Diagrame de secvență de sistem}
 
-\textbf{[A1] Adminul anulează ștergerea:}  
-Adminul apasă butonul „Anulează”. Sistemul închide fereastra de confirmare și fluxul se termină fără nicio modificare.
+Aceste diagrame descriu interacțiunea dintre actori și sistemul software. Interacțiunea e descrisă de mesaje, care la rândul lor reprezintă comunicarea dintre două obiecte.
+Urmează să prezint conceptele diagramei de secvențe și a sintaxei în limbajul UML.
+\newline
 
-\textbf{[A2] Utilizatorul nu mai există (eroare de concurență):}  
-Sistemul afișează mesajul „Utilizatorul nu mai există sau a fost deja șters” și revine la lista de utilizatori.
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\textwidth]{assets/prezentare-diag-secvente.png}
+\caption{Prezentarea diagramelor de secvență de sistem}
+\label{fig:prezentare-diag-secvente}
+\end{figure}
 
+Așadar, acestea sunt diagramele de secvență de sistem pe care le-am făcut în urma analizei soluției mele.
+\newline
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{assets/ssd-creare-cont.png}
+\caption{Diagrama de secvență — Creare cont}
+\label{fig:ssd-creare-cont}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{assets/ssd-creare-evenimente.png}
+\caption{Diagrama de secvență — Creare evenimente}
+\label{fig:ssd-creare-evenimente}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{assets/ssd-inregistrare-prezenta.png}
+\caption{Diagrama de secvență — Înregistrare prezență}
+\label{fig:ssd-inregistrare-prezenta}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{assets/ssd-vizualizare-prezenta.png}
+\caption{Diagrama de secvență — Vizualizare prezență}
+\label{fig:ssd-vizualizare-prezenta}
+\end{figure}
 
 
 
