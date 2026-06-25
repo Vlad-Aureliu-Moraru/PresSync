@@ -19,10 +19,10 @@
 
   &.unread {
     border-left: 3px solid var(--accent);
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--panel-bg);
 
     &.clickable:hover {
-      background: rgba(255, 255, 255, 0.06);
+      background: var(--bg-hover);
     }
   }
 
@@ -49,13 +49,13 @@
   }
 
   .attendance_reminder & {
-    color: #3498db;
-    background: rgba(52, 152, 219, 0.12);
+    color: var(--info);
+    background: var(--info-bg);
   }
 
   .category_update & {
-    color: #f39c12;
-    background: rgba(243, 156, 18, 0.12);
+    color: var(--warning);
+    background: var(--warning-bg);
   }
 
   .success & {

@@ -6,9 +6,9 @@
   z-index: 1000;
   width: 100%;
   border-bottom: 1px solid var(--border);
-  background: rgba(10, 10, 10, 0.85);
+  background: var(--navbar-bg);
   backdrop-filter: blur(12px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  box-shadow: var(--shadow-md);
 }
 
 @media (min-width: 1024px) {
@@ -114,9 +114,9 @@
   align-items: center;
   gap: 0.4rem;
   padding: 0.45rem 1rem;
-  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  border: 1.5px solid var(--border-light);
   border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--panel-bg);
   color: var(--text-primary);
   font-family: inherit;
   font-size: 0.8125rem;
@@ -127,10 +127,10 @@
   letter-spacing: 0.01em;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--bg-hover);
     border-color: var(--accent);
     color: var(--accent);
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.06);
+    box-shadow: var(--glow-effect);
   }
 
   &:active {
@@ -143,7 +143,6 @@
   height: 16px;
   flex-shrink: 0;
 }
-
 .notification-wrapper {
   position: relative;
   display: flex;
@@ -218,7 +217,7 @@
 }
 
 @media (min-width: 769px) {
-  .logout-btn {
+.logout-btn {
     padding: 0.45rem 0.85rem;
     font-size: 0.875rem;
   }
@@ -270,7 +269,7 @@
 /* ── Mobile Menu Dropdown ── */
 .mobile-menu {
   border-top: 1px solid var(--border);
-  background: rgba(10, 10, 10, 0.95);
+  background: var(--mobile-menu-bg);
   backdrop-filter: blur(12px);
   animation: menuSlideIn 0.2s ease-out;
 }

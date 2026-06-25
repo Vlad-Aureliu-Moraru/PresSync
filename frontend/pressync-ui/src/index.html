@@ -2,6 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <script>
+    (function() {
+      var theme = localStorage.getItem('pressync-theme');
+      if (!theme) {
+        theme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      }
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
   <title>Pressync — Smart Attendance</title>
   <meta name="description" content="Pressync is an educational attendance tracking system for students and professors.">
   <base href="/">

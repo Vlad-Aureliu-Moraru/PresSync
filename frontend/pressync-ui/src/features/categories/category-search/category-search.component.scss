@@ -72,7 +72,7 @@
     font-size: 1.125rem;
     font-family: var(--ps-font);
     transition: all var(--ps-transition);
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+    box-shadow: var(--shadow-card);
 
     &::placeholder {
       color: var(--text-muted);
@@ -140,10 +140,10 @@
 
   &:hover, &:focus {
     outline: none;
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--panel-bg);
     border-color: var(--accent);
     transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    box-shadow: var(--shadow-lg);
 
     .category-action svg {
       color: var(--accent);
@@ -227,15 +227,15 @@
   }
 
   &.edit-btn:hover {
-    color: #3498db;
-    background: rgba(52, 152, 219, 0.1);
-    border-color: rgba(52, 152, 219, 0.2);
+    color: var(--info);
+    background: var(--info-bg);
+    border-color: var(--info-bg);
   }
 
   &.delete-btn:hover {
     color: var(--error);
     background: var(--error-bg);
-    border-color: rgba(231, 76, 60, 0.2);
+    border-color: var(--error-bg);
   }
 }
 
@@ -321,8 +321,8 @@
 .spinner {
   width: 40px;
   height: 40px;
-  border: 4px solid rgba(255, 255, 255, 0.08);
-  border-top-color: rgba(255, 255, 255, 0.4);
+  border: 4px solid var(--spinner-track);
+  border-top-color: var(--spinner-fill);
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin: 0 auto 1.5rem;

@@ -18,7 +18,7 @@ textarea,
 }
 
 :root {
-  /* ── New unified palette (60-30-10) ── */
+  /* ── Dark theme (default) ── */
   --bg-primary: #0a0a0a;
   --bg-secondary: #161616;
   --bg-tertiary: #1e1e1e;
@@ -38,12 +38,41 @@ textarea,
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.5);
   --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.5);
   --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.6);
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.5);
 
   /* Status colors (kept for clarity) */
   --error: #e74c3c;
   --error-bg: rgba(231, 76, 60, 0.1);
   --success: #2ecc71;
   --success-bg: rgba(46, 204, 113, 0.1);
+
+  /* ── Theme-aware surface tokens ── */
+  --body-gradient: linear-gradient(160deg, #0a0a0a 0%, #121212 50%, #0a0a0a 100%);
+  --navbar-bg: rgba(10, 10, 10, 0.85);
+  --mobile-menu-bg: rgba(10, 10, 10, 0.95);
+  --toast-bg: rgba(22, 22, 22, 0.95);
+  --modal-backdrop-bg: rgba(0, 0, 0, 0.7);
+  --modal-header-bg: rgba(255, 255, 255, 0.03);
+
+  /* Auth spinner */
+  --spinner-track: rgba(255, 255, 255, 0.08);
+  --spinner-fill: rgba(255, 255, 255, 0.4);
+
+  /* Form panel tokens */
+  --panel-bg: rgba(255, 255, 255, 0.02);
+  --slider-track-bg: rgba(255, 255, 255, 0.1);
+  --timeline-track-bg: rgba(255, 255, 255, 0.06);
+  --timeline-gradient: linear-gradient(to right, var(--accent), rgba(255, 255, 255, 0.3));
+  --toggle-off-bg: rgba(255, 255, 255, 0.12);
+
+  /* Notification type colors */
+  --info: #3498db;
+  --info-bg: rgba(52, 152, 219, 0.12);
+  --warning: #f39c12;
+  --warning-bg: rgba(243, 156, 18, 0.12);
+
+  /* Skeleton shimmer */
+  --skeleton-shimmer: linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 75%);
 
   /* ── Legacy aliases (backward-compatible) ── */
   --primary-color: var(--bg-primary);
@@ -83,12 +112,63 @@ textarea,
   --ps-font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
+/* ── Light theme ── */
+html[data-theme="light"] {
+  --bg-primary: #ffffff;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #f5f5f7;
+  --bg-hover: #f0f0f0;
+
+  --text-primary: #1c1c1e;
+  --text-secondary: rgba(0, 0, 0, 0.5);
+  --text-muted: rgba(0, 0, 0, 0.35);
+
+  --border: rgba(0, 0, 0, 0.08);
+  --border-light: rgba(0, 0, 0, 0.12);
+  --border-focus: rgba(0, 0, 0, 0.2);
+
+  --accent: #1c1c1e;
+  --accent-hover: #333333;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.1);
+  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.06);
+
+  --glow-effect: 0 0 10px rgba(0, 0, 0, 0.06);
+
+  --body-gradient: #ffffff;
+  --navbar-bg: rgba(255, 255, 255, 0.9);
+  --mobile-menu-bg: rgba(255, 255, 255, 0.98);
+  --toast-bg: rgba(255, 255, 255, 0.96);
+  --modal-backdrop-bg: rgba(0, 0, 0, 0.3);
+  --modal-header-bg: rgba(0, 0, 0, 0.02);
+
+  --spinner-track: rgba(0, 0, 0, 0.08);
+  --spinner-fill: rgba(0, 0, 0, 0.25);
+
+  --panel-bg: rgba(0, 0, 0, 0.02);
+  --slider-track-bg: rgba(0, 0, 0, 0.08);
+  --timeline-track-bg: rgba(0, 0, 0, 0.05);
+  --timeline-gradient: linear-gradient(to right, var(--accent), rgba(0, 0, 0, 0.12));
+  --toggle-off-bg: rgba(0, 0, 0, 0.12);
+
+  /* Notification type colors */
+  --info: #3498db;
+  --info-bg: rgba(52, 152, 219, 0.12);
+  --warning: #f39c12;
+  --warning-bg: rgba(243, 156, 18, 0.12);
+
+  /* Skeleton shimmer */
+  --skeleton-shimmer: linear-gradient(90deg, rgba(0,0,0,0.04) 25%, rgba(0,0,0,0.08) 50%, rgba(0,0,0,0.04) 75%);
+}
+
 html,
 body {
   height: 100%;
   overflow-x: hidden;
   font-family: var(--ps-font);
-  background: linear-gradient(160deg, #0a0a0a 0%, #121212 50%, #0a0a0a 100%);
+  background: var(--body-gradient);
   color: var(--text-primary);
 }
 
@@ -128,7 +208,7 @@ a {
   align-items: center;
   justify-content: center;
   padding: 1.25rem;
-  background: rgba(0, 0, 0, 0.7);
+  background: var(--modal-backdrop-bg);
   backdrop-filter: blur(8px);
 }
 
@@ -166,7 +246,7 @@ a {
   justify-content: space-between;
   padding: 1rem 1.25rem;
   border-bottom: 1px solid var(--border);
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--modal-header-bg);
 }
 
 @media (max-width: 768px) {

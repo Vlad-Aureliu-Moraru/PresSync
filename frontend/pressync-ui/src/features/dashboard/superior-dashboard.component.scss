@@ -173,7 +173,7 @@
 
   &:focus {
     border-color: var(--ps-border-focus);
-    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08);
+    box-shadow: var(--glow-effect);
   }
 }
 
@@ -183,7 +183,7 @@
   border-radius: var(--ps-radius);
   overflow-y: auto;
   flex: 1;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  box-shadow: var(--shadow-card);
 }
 
 @media (max-width: 768px) {
@@ -237,7 +237,7 @@
   }
 
   tr:hover td {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--panel-bg);
   }
 }
 
@@ -359,7 +359,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--bg-hover);
   color: var(--text-secondary);
   border: 1px solid var(--border-light);
 }
@@ -377,7 +377,7 @@
   transition: all var(--ps-transition);
 
   &:hover {
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--bg-hover);
     border-color: var(--border-focus);
   }
 }
@@ -404,8 +404,8 @@
 .spinner {
   width: 40px;
   height: 40px;
-  border: 4px solid rgba(255, 255, 255, 0.08);
-  border-top-color: rgba(255, 255, 255, 0.4);
+  border: 4px solid var(--spinner-track);
+  border-top-color: var(--spinner-fill);
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin: 0 auto 1.5rem;
@@ -461,7 +461,7 @@
   border-radius: var(--ps-radius);
   border: 1px solid var(--ps-border);
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  box-shadow: var(--shadow-card);
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -502,7 +502,7 @@
   transition: background var(--ps-transition);
 
   &:hover {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--panel-bg);
   }
 
   &:last-child {

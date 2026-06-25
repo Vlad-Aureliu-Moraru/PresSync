@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './core/layout/navbar/navbar.component';
 import { TransientNotificationComponent } from './shared/components/transient-notification/transient-notification.component';
 import { AttendanceService } from './core/services/attendance.service';
+import { ThemeService } from './core/services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -12,6 +13,7 @@ import { AttendanceService } from './core/services/attendance.service';
 })
 export class App implements OnInit, OnDestroy {
   private attendanceService = inject(AttendanceService);
+  readonly themeService = inject(ThemeService);
 
   protected title = 'pressync-ui';
 

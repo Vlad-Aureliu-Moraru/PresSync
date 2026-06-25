@@ -25,9 +25,9 @@
   padding: 0.9rem 1rem;
   border-radius: 14px;
   border: 1px solid var(--border);
-  background: rgba(22, 22, 22, 0.95);
+  background: var(--toast-bg);
   color: var(--ps-text);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+  box-shadow: var(--shadow-lg);
   animation: toast-slide 0.3s ease-out;
 
   &.success {

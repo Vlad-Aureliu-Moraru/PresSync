@@ -150,20 +150,26 @@
         </div>
       </div>
 
-      <div class="form-group">
-        <label for="attendanceDuration">Duration <span class="required">*</span></label>
-        <div class="slider-group">
-          <input type="range" id="attendanceDuration" formControlName="attendanceDuration" min="5" max="60" step="5">
-          <span class="slider-value">{{ f['attendanceDuration'].value }} min</span>
-        </div>
-        <div class="slider-labels">
-          <span>5 min</span>
-          <span>60 min</span>
-        </div>
-        @if (f['attendanceDuration'].errors?.['min'] && f['attendanceDuration'].touched) {
-          <small class="error-text">Minimum duration is 5 minutes.</small>
+      @if (f['attendanceTimeStart'].value) {
+        @if (attendanceDurationMax() <= 5) {
+          <small class="error-text">Attendance must open before the event ends.</small>
+        } @else {
+          <div class="form-group">
+            <label for="attendanceDuration">Duration <span class="required">*</span></label>
+            <div class="slider-group">
+              <input type="range" id="attendanceDuration" formControlName="attendanceDuration" min="5" [max]="attendanceDurationMax()" step="5">
+              <span class="slider-value">{{ f['attendanceDuration'].value }} min</span>
+            </div>
+            <div class="slider-labels">
+              <span>5 min</span>
+              <span>{{ attendanceDurationMax() }} min</span>
+            </div>
+            @if (f['attendanceDuration'].errors?.['min'] && f['attendanceDuration'].touched) {
+              <small class="error-text">Minimum duration is 5 minutes.</small>
+            }
+          </div>
         }
-      </div>
+      }
     </div>
 
     <div class="form-actions">

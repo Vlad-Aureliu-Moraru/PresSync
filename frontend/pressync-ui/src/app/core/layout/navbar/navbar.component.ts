@@ -6,7 +6,6 @@ import { AuthService } from '../../auth/auth';
 import { CategoryCreateComponent } from '../../../../features/admin/category-create/category-create.component';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { NotificationPanelComponent } from '../../../shared/components/notification-panel/notification-panel.component';
-
 @Component({
   selector: 'app-navbar',
   standalone: true,

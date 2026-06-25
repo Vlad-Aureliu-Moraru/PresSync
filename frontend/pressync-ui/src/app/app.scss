@@ -5,7 +5,44 @@
 }
 
 @media (min-width: 1024px) {
-  .app-main {
+.theme-toggle {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  opacity: 0.6;
+  box-shadow: var(--shadow-md);
+
+  &:hover {
+    opacity: 1;
+    color: var(--accent);
+    border-color: var(--accent);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.theme-toggle-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.app-main {
     flex: 1;
     min-height: 0;
     overflow: hidden;

@@ -48,6 +48,9 @@ export class CategoryEditComponent implements OnInit {
   errorMessage = '';
 
   constructor() {
+    this.categoryForm.get('endTime')?.valueChanges.subscribe(() => this.clampDuration());
+    this.categoryForm.get('attendanceTimeStart')?.valueChanges.subscribe(() => this.clampDuration());
+
     effect(() => {
       const repeatable = this.isRepeatable();
       const repeatableTypeCtrl = this.categoryForm.get('repeatableType');
@@ -96,23 +99,42 @@ export class CategoryEditComponent implements OnInit {
     return this.categoryForm.controls;
   }
 
+  attendanceDurationMax(): number {
+    const end = this.f['endTime']?.value;
+    const attStart = this.f['attendanceTimeStart']?.value;
+    if (!end || !attStart) return 60;
+    const available = this.toMins(end) - this.toMins(attStart);
+    return Math.max(5, available);
+  }
+
+  private clampDuration(): void {
+    const max = this.attendanceDurationMax();
+    const durationCtrl = this.categoryForm.get('attendanceDuration');
+    if (durationCtrl && durationCtrl.value > max) {
+      durationCtrl.setValue(max);
+    }
+  }
+
+  private toMins(t: string): number {
+    const [h, m] = t.split(':').map(Number);
+    return h * 60 + m;
+  }
+
   attendanceOffsetPercent(): number {
     const start = this.categoryForm.get('startingTime')?.value;
     const end = this.categoryForm.get('endTime')?.value;
     const attStart = this.categoryForm.get('attendanceTimeStart')?.value;
     if (!start || !end || !attStart) return 0;
-    const toMins = (t: string) => { const [h, m] = t.split(':').map(Number); return h * 60 + m; };
-    const dur = toMins(end) - toMins(start);
+    const dur = this.toMins(end) - this.toMins(start);
     if (dur <= 0) return 0;
-    return Math.max(0, Math.min(100, (toMins(start) - toMins(attStart)) / dur * 100));
+    return Math.max(0, Math.min(100, (this.toMins(start) - this.toMins(attStart)) / dur * 100));
   }
 
   attendanceOffsetLabel(): string {
     const start = this.categoryForm.get('startingTime')?.value;
     const attStart = this.categoryForm.get('attendanceTimeStart')?.value;
     if (!start || !attStart) return '';
-    const toMins = (t: string) => { const [h, m] = t.split(':').map(Number); return h * 60 + m; };
-    const diff = toMins(start) - toMins(attStart);
+    const diff = this.toMins(start) - this.toMins(attStart);
     if (diff <= 0) return '';
     return `${diff} min before`;
   }
