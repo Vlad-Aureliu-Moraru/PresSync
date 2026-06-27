@@ -29,16 +29,17 @@ public class DailyLoaderScheduler {
     private final TodayScheduleCache cache;
 
     @Scheduled(cron = "0 0 0  * * *")
+    @Transactional
     public void loadDailyEvents() {
         fillTodaySchedule();
     }
 
     @EventListener(ApplicationReadyEvent.class)
+    @Transactional
     public void onStart(){
         fillTodaySchedule();
     }
 
-    @Transactional
     public void fillTodaySchedule() {
         eventRepository.archiveAllActiveEvents();
         List<EventCategory> eventCategoryList = this.eventCategoryRepository.findAllWithConfigs();
@@ -87,6 +88,7 @@ public class DailyLoaderScheduler {
     }
 
     @EventListener
+    @Transactional
     public void onCategoryChanged(EventCategoryChangedEvent event){
         log.info("Scheduler received change for {}", event.category().getName());
         fillTodaySchedule();
