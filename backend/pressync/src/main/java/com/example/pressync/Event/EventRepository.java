@@ -17,6 +17,10 @@ public interface EventRepository extends JpaRepository<Event,Integer> {
     @Query("UPDATE Event e SET e.active=false ")
     void deactivateAllEvents();
 
+    @Modifying
+    @Query("UPDATE Event e SET e.active = false, e.archived = true WHERE e.active = true")
+    void archiveAllActiveEvents();
+
     @Query(value = "SELECT e.* FROM event e " +
             "JOIN categorie_eveniment ec ON e.event_category_id = ec.id " +
             "WHERE e.active = true " +

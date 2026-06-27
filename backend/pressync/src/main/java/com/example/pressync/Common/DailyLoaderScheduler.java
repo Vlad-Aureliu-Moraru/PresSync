@@ -6,6 +6,7 @@ import com.example.pressync.EventCategory.Model.EventCategory;
 import com.example.pressync.EventCategory.Model.EventCategoryChangedEvent;
 import com.example.pressync.EventCategory.Model.RepeatsOnSpecificDay;
 import com.example.pressync.EventCategoryConfig.Model.EventCategoryConfig;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +38,9 @@ public class DailyLoaderScheduler {
         fillTodaySchedule();
     }
 
+    @Transactional
     public void fillTodaySchedule() {
+        eventRepository.archiveAllActiveEvents();
         List<EventCategory> eventCategoryList = this.eventCategoryRepository.findAllWithConfigs();
         LocalDate baseDate = LocalDate.now();
         List<EventCategory> todayEvents = new ArrayList<>();
