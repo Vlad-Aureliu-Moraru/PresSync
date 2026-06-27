@@ -1,7 +1,7 @@
 export type NotificationType = 'attendance_reminder' | 'category_update' | 'success' | 'error' | 'system';
 
 export interface NotificationItem {
-  id: string;
+  id: number;
   type: NotificationType;
   title: string;
   message?: string;

@@ -16,21 +16,63 @@
 \usepackage{multicol,multirow}
 \usepackage{enumitem}
 
-\include{custom-lst-style}
+\input{custom-lst-style}
 
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{1\baselineskip}
+\hbadness=10000
+\vbadness=10000
+\hfuzz=100pt
+\vfuzz=100pt
+\raggedbottom
+
+\makeatletter
+\renewcommand{\ps@PageNormale}{%
+  \renewcommand{\@oddhead}{}%
+  \renewcommand{\@evenhead}{}%
+  \renewcommand{\@oddfoot}{\hfil\thepage\hfil}%
+  \renewcommand{\@evenfoot}{\hfil\thepage\hfil}%
+}
+\renewcommand{\ps@PageSpeciale}{%
+  \renewcommand{\@oddhead}{}%
+  \renewcommand{\@evenhead}{}%
+  \renewcommand{\@oddfoot}{\hfil\thepage\hfil}%
+  \renewcommand{\@evenfoot}{\hfil\thepage\hfil}%
+}
+\makeatother
 
 \facultatea{Matematică și Informatică}
 \specializarea{Informatică}
 \teza{licență}
-\titlu{PresSync — Sistem Autonom de Gestiune a Prezenței \\ bazat pe Conectivitate Wi-Fi la Nivelul Stratului 2}
+\titlu{Aplicatie software de pontare a participantilor la
+evenimente}
 \gradDidacticCP{Conf. univ. dr.}
-\coordonatorPrincipal{Constantin-Claudiu Gava}
+\coordonatorPrincipal{Puchianu
+Crenguța-Mădălina}
 \autor{Moraru Vlad}
 \data{2026}
 
 \begin{document}
+\hbadness=10000
+\vbadness=10000
+\hfuzz=100pt
+\vfuzz=100pt
+\raggedbottom
+
+\makeatletter
+\renewcommand{\ps@PageNormale}{%
+  \renewcommand{\@oddhead}{}%
+  \renewcommand{\@evenhead}{}%
+  \renewcommand{\@oddfoot}{\hfil\thepage\hfil}%
+  \renewcommand{\@evenfoot}{\hfil\thepage\hfil}%
+}
+\renewcommand{\ps@PageSpeciale}{%
+  \renewcommand{\@oddhead}{}%
+  \renewcommand{\@evenhead}{}%
+  \renewcommand{\@oddfoot}{\hfil\thepage\hfil}%
+  \renewcommand{\@evenfoot}{\hfil\thepage\hfil}%
+}
+\makeatother
 \maketitle
 
 \pagenumbering{roman}
@@ -493,6 +535,7 @@ Utilizatorul apasă „Nu acum” sau „Anulează”. Sistemul îl redirecțion
 
 \textbf{Actor:} Admin (principal)
 \textbf{Flux principal:}
+\newline
 \begin{tabular}{l l}
 \hline
 \textbf{Admin} & \textbf{Sistem} \\
@@ -509,9 +552,8 @@ Utilizatorul apasă „Nu acum” sau „Anulează”. Sistemul îl redirecțion
 \textbf{[A1] Date invalide:} Sistemul marchează câmpurile greșite.  \newline
 \textbf{[A2] Conflict de orar:} Sistemul avertizează despre suprapunere și permite modificarea.
 \newpage
-\newline
 De asemenea, aici trebuie să includem și diagrama cazurilor de utilizare care reprezintă actorii, cazurile de utilizare și legăturile dintre toate elementele. Tipurile de relații sunt prezentate în tabelul de mai jos.
-\newline
+
 
 \begin{figure}[htbp]
 \centering
@@ -520,7 +562,6 @@ De asemenea, aici trebuie să includem și diagrama cazurilor de utilizare care 
 \label{fig:tipuri-relatii-uc}
 \end{figure}
 
-\newline
 
 \begin{figure}[htbp]
 \centering
@@ -539,10 +580,9 @@ Evenimentele de sistem apar datorită acțiunilor actorilor asupra sistemului so
 \end{itemize}
 
 După ce am analizat cazurile de utilizare am dedus următoarele evenimente de sistem:
-
+\newpage
 \begin{table}[htbp]
 \centering
-\caption{Evenimente de sistem identificate}
 \begin{tabular}{|l|l|p{0.5\textwidth}|}
 \hline
 \textbf{Tip} & \textbf{Nr.} & \textbf{Descriere} \\
@@ -564,6 +604,8 @@ Temporare & 7 & Sistemul creează evenimente în baza timpului setat de administ
 Temporare & 8 & Sistemul deschide prezența la evenimente dacă fereastra de prezență coincide cu timpul actual \\
 \hline
 \end{tabular}
+\newline
+\caption{Evenimente de sistem identificate}
 \label{tab:evenimente-sistem}
 \end{table}
 
@@ -610,11 +652,300 @@ Așadar, acestea sunt diagramele de secvență de sistem pe care le-am făcut î
 \caption{Diagrama de secvență — Vizualizare prezență}
 \label{fig:ssd-vizualizare-prezenta}
 \end{figure}
+\newpage
+//start processing from here
+
+Diagrama de context a sistemului este descrisa de actinile actorilor asupra sistemului si operatiile efectuate de acesta.
+\newline
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{assets/ContextDiagram.png}
+\caption{Diagrama de context}
+\label{fig:context-diagram}
+\end{figure}
+
+\newpage
+\section{Modelul domeniului}
+Crearea modelului de domeniu este un alt pas important care are la baza diagrama de clase.
+Diagrama de Clase este bazata pe urmatoarele concepte: Clasele sunt reprezentarea unui grup cu atribute similare si cu operatii similare.Atributele sunt informatii detinute de clase si pot lua anumite valori.Operatiile sunt functii sau schimbari ce pot fi aplicate.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{assets/imagineExplicareRelatiiModelulDomeniului.png}
+\caption{Explicarea relațiilor în modelul domeniului}
+\label{fig:explicare-relatii-model}
+\end{figure}
+
+Pentru a realiza diagrama trebuie sa identificam substantivele din descrierea problemei , ca mai apoi sa le transformam in clase sau atribute.Astfel , dupa analiza descrierii problemei am construit digrama de clase prezentata mai jos.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{assets/DomainModelClassDiagram.png}
+\caption{Diagrama de clase a modelului domeniului}
+\label{fig:domain-model-class-diagram}
+\end{figure}
+
+\chapter{Proiectarea si implementarea aplicatiei}
+Inca o activitate de baza , si foarte importanta atunci cand construim o solutie la nivel conceptual. Acest stagiu este o urmare identificarii si descrierii cerintelor pe care le am identificat mai sus.Tot aici construim arhitectura software a sistemului.
+\section{Arhitecturi si stiluir arhitecturale}
+Aici reprezentam modelul de organizare a sistemelor software.Modelul este compus din componentele sistemului si relatiile dintre componente impreuna cu mediul in care se afla si principiile care realizeaza proiectarea si evolutia arhitecturii.
+
+Acest stagiu ne ajuta sa intelegem constructia , managementul si evolutia unui sistem software.
+
+Stilurile arhitecturale sunt bazate pe un vocabular de proiectare diferite constrangeri asupra modului de folosire a vocabularului si descrierea semanticii.
+Sunt o variatie de stiluri , in sectiunea de mai jos voi prezenta cateva stiluri arhitecturale pe scurt.
+\begin{itemize}
+    \item \textbf{Stilul arhitectural contucte si filtre} Filtrele sunt folosite pentru citirea fluxurilor de date , si conductele pentru transmiterea datelor.Acest stil este reutilizabil si permite ca mai multe procese sa fie indeplinite simultan.Dezavantajul principal este organizarea dificila a calcului.
+    \item \textbf{Stilul arhitectural client-server}Acest stil stil separa procesele in doua tipuri \textit{procese client }  si \textit{procese server}. Aceste procese colaboreaza ca sa realizeze o activitate.Avantajul este ca clientii sunt independenti si ofera un control mai stabil asupra resurselor oferite de server.
+    \item \textbf{Stilul arhitectural bazat pe evenimente}.Comunicarea componentelor evidentiaza evenimentele.Deci o componenta transmite un semnal catre alta componenta in legatura aparitiei unui eveniment la inregistrarea acestuia.
+    \item \textbf{Stilul arhitectural pe straturi}Acesta este structurat pe nivele , fiecare nivel ofera servicii nivelului superior si actioneaza ca client pentru nivelul inferior.Avantajul este reutilizarea usoara.
+    \item \textbf{Stilul Model-View-Controller}Acesta se bazeaza pe izolarea componentelor logice fata de cele ce tin de interfata utilizatorului.Astfel aplicatia devine mult mai usor de modificat pentru ca nu afecteaza alte nivele. 
+    \end{itemize}
+
+    \section{Modele de proiectare de atrubuire a responsabilitatilor}
+    Aceste modele sunt folosite pentru a descrie principiile fundametale de proiectare orientata spre obiecte si atribuire a responsabilitatilor claselor.Responsabilitatile sunt obligatii pe care o clasa o are.
+    Mai jos urmeaza sa enumar cateva modele de proiectare folosite in construirea solutiei mele si problemele pe care aceaste le rezolva.
+    \newline
+    \textbf{Command-Query Separation (CQS)} este modelul arhitectural principal al aplicației. Acesta separă operațiile de modificare a stării sistemului (comenzi) de cele de citire (interogări). Interfața \texttt{Command<E,T>} definește metoda \texttt{execute(E entity)} pentru operații de tip CREATE, UPDATE, DELETE, iar interfața \texttt{Query<I,O>} definește metoda \texttt{execute(I input)} pentru operații de tip GET. Implementări concrete precum \texttt{CreateEventCategoryCommand}, \texttt{UpdateEventCommand} și \texttt{GetAllEventsQuery} sunt organizate în pachetele \texttt{CommandHandlers} și \texttt{QueryHandlers}. Acest model asigură separarea clară a responsabilităților și previne efectele secundare în operațiile de citire, fiind o concretizare a principiului \textit{High Cohesion} din GRASP.
+
+    \textbf{Strategy Pattern} este utilizat pentru gestionarea recurenței evenimentelor. Enum-ul \texttt{RepeatableType} definește strategiile suportate: \texttt{DAILY}, \texttt{WEEKLY}, \texttt{BIWEEKLY}, \texttt{MONTHLY} și \texttt{YEARLY}. În clasa \texttt{EventCategoryConfigService}, metoda \texttt{nextCandidateDate()} selectează strategia corespunzătoare printr-un \texttt{switch}, iar în \texttt{DailyLoaderScheduler}, metoda \texttt{shouldRunToday()} decide dacă o categorie de eveniment trebuie să ruleze într-o anumită zi. Acest model permite adăugarea de noi tipuri de recurență fără a modifica codul existent (\textit{Open/Closed Principle}).
+
+    \textbf{Observer Pattern} este implementat prin mecanismul de evenimente al Spring Framework. Clasa \texttt{EventCategoryChangedEvent} este un eveniment publicat de 
+    \newline
+    \texttt{CreateEventCategoryCommand} prin \texttt{ApplicationEventPublisher} atunci când o categorie de eveniment este modificată. 
+    \newline
+    Ascultătorul \texttt{DailyLoaderScheduler} reacționează prin adnotarea \texttt{@EventListener} și reîncarcă programul zilnic, asigurând desincronizarea componentelor (\textit{Low Coupling}).
+
+    \textbf{Chain of Responsibility} este folosit de Spring Security pentru procesarea cererilor HTTP. Filtrul \texttt{JwtAuthenticationFilter} face parte din lanțul de securitate și este poziționat înaintea filtrului \texttt{UsernamePasswordAuthenticationFilter}. Acesta extrage token-ul JWT din antetul cererii, îl validează și, dacă este valid, autentifică utilizatorul în contextul de securitate; în caz contrar, cererea este transmisă mai departe în lanț.
+
+    \textbf{Adapter Pattern} este utilizat pentru integrarea entității \texttt{User} cu Spring Security. Clasa \texttt{User} implementează interfața \texttt{UserDetails} și definește metodele \texttt{getAuthorities()}, \texttt{isAccountNonExpired()} și \texttt{isEnabled()}, adaptând modelul intern al utilizatorului la sistemul de autentificare al framework-ului (\textit{Protected Variations}).
+
+    \textbf{Repository Pattern} este implementat prin Spring Data JPA. \newline Interfețe precum \texttt{UserRepository}, \texttt{EventRepository} și \newline \texttt{EventCategoryRepository} extind \texttt{JpaRepository} și oferă operații standard de acces la date, precum și metode personalizate prin adnotări \texttt{@Query}, abstractizând stratul de persistență (\textit{Indirection}).
+
+    \textbf{Facade Pattern} se regăsește în serviciile aplicației, precum \texttt{AuthenticationService} și \texttt{EventCategoryConfigService}. Acestea expun o interfață simplificată pentru operații complexe, coordonând mai multe componente interne și ascunzând detalii de implementare (\textit{Pure Fabrication}).
+
+    \textbf{Singleton Pattern} este asigurat implicit de containerul Spring prin adnotările \texttt{@Service} și \texttt{@Component}. Clasa \texttt{TodayScheduleCache} este un exemplu explicit — un cache volatile partajat la nivelul întregii aplicații, care stochează programul evenimentelor din ziua curentă.
+
+    \textbf{DTO Pattern} este folosit pentru transferul datelor între straturile aplicației. Clase precum \texttt{CreateEventCategoryRequest}, \texttt{EventCategoryGetDTO}, \texttt{AttendanceGetDTO} și \texttt{UserCreateDTO} asigură că entitățile interne nu sunt expuse direct către exterior, protejând integritatea datelor și permițând validări separate (\textit{Protected Variations}).
+    \newpage
+    \section{Diagrame de interactiune}
+    Diagramele de interactiune sunt folosite pentru a descrie modul in care interactioneaza componentele intre ele intr-un caz de utilizare.Ele se impart in doua tipuri : de secventa si de comunicare.Diagramele de secventa arata ordinea transmiterii mesajelor ,fiind mai flexibila decat cealalta.In continuare urmeaza sa prezint diagramele pentru cateva cazuri de utilizare.
+
+\subsection{Creare Cont}
+    
+    \begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{assets/CreareCont.png}
+\caption{Diagrama de interacțiune — Creare cont}
+\label{fig:interactiune-creare-cont}
+\end{figure}
+
+Conform diagramei de secventa, pentru implementarea acestui caz de utilizare am folosit clasa AuthentificationController pentru a separa fluxul de control in mai multe bucati mai usor de gestionat.Aceasta clasa se foloseste de AuthentificationService pentru a valida datale si pentru a crea obiectul de tip User.
+AuthentificationController contine metoda register(userCreateDTO) care apeleaza 
+AuthentificationService.registerUser.
+\newline
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=1\textwidth]{assets/ScreenShotsAuthBackEnd/AuthController.png}
+\caption{Implementare AuthenticationController}
+\label{fig:auth-controller}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=1.1\textwidth]{assets/ScreenShotsAuthBackEnd/AuthService.png}
+\caption{Implementare AuthenticationService}
+\label{fig:auth-service}
+\end{figure}
+
+ In AutheticationService validam datele mai intai si dupa creen obiectul de tip User conform figurii 4.1  
+ \newline
+ In imaginile de mai jos putem veeda interfata grafica. In prima utilizatorul introduce un nume sau prenume gresit , in a doua utilizatorul introuce un email gresit si in ultima o parola prea scurta
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{assets/ScreenShotsUIFrontEnd/CleanUI.png}
+\caption{Interfața de înregistrare — formularul gol}
+\label{fig:signup-clean}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{assets/ScreenShotsUIFrontEnd/invalidNameError.png}
+\caption{Interfața de înregistrare — eroare nume invalid}
+\label{fig:signup-invalid-name}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{assets/ScreenShotsUIFrontEnd/invalidGmailError.png}
+\caption{Interfața de înregistrare — eroare email invalid}
+\label{fig:signup-invalid-email}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{assets/ScreenShotsUIFrontEnd/shortPasswordError.png}
+\caption{Interfața de înregistrare — eroare parolă prea scurtă}
+\label{fig:signup-short-password}
+\end{figure}
+
+
+\newpage
+\subsection{Creare Evenimente}
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{assets/CreareEvenimente.png}
+\caption{Diagrama de interacțiune — Creare evenimente}
+\label{fig:interactiune-creare-evenimente}
+\end{figure}
+
+Pentru acest caz de utilizare am implementat componenta frontend CreateCategoryComponent care apeleaza dupa completarea cu succes a formularului endpointul de tip POST eventCategory/{data}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=1\textwidth]{assets/ScreenShotsCreateCategoryBackend/ControllerBackend.png}
+\caption{Implementare EventCategoryController}
+\label{fig:event-category-controller}
+\end{figure}
+
+
+Controllerul la randul sau apeleaza metoda execute a clasei CreateEventCategoryCommand
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=1\textwidth]{assets/ScreenShotsCreateCategoryBackend/CommandBackend.png}
+\caption{Implementare CreateEventCategoryCommand}
+\label{fig:event-category-command}
+\end{figure}
+\newpage
+Aceasta clasa creaza obiectul de tip EventCategory si valideaza atat configul , adica partea ce tine de programarea evenimentelor urmatoare , sa nu se ciocneasca cu alte evenimente, atat si ca datele introduse sa fie valide.
+In continuare prezint interfata grafica pentru acest caz de utilizare impreuna cu toate erorile pe care aceasta le poate afisa.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.8\textwidth]{assets/ScreenShotsCreateCategoryBackend/CreateButtonFrontend.png}
+\caption{Interfața de creare categorii — butonul de creare}
+\label{fig:category-create-button}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.8\textwidth]{assets/ScreenShotsCreateCategoryBackend/CreatePaneFrontend.png}
+\caption{Interfața de creare categorii — panoul de creare}
+\label{fig:category-create-pane}
+\end{figure}
+
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{assets/ScreenShotsCreateCategoryBackend/FirstErrorFrontEnd.png}
+\caption{Interfața de creare categorii — eroare 1}
+\label{fig:category-error-1}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{assets/ScreenShotsCreateCategoryBackend/SecondErrorFrontend.png}
+\caption{Interfața de creare categorii — eroare 2}
+\label{fig:category-error-2}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{assets/ScreenShotsCreateCategoryBackend/ThirdErrorFrontEnd.png}
+\caption{Interfața de creare categorii — eroare 3}
+\label{fig:category-error-3}
+\end{figure}
+
+
+\newpage
+\subsection{Inregistrare Prezenta}
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{assets/InregistrarePrezenta.png}
+\caption{Diagrama de interacțiune — Înregistrare prezență}
+\label{fig:interactiune-inregistrare-prezenta}
+\end{figure}
+
+Pentru a implementa acest caz de utilizare , am creat un serviciu in frontend care verifica daca exista evenimente active cu fereastra de prezenta ce coincide cu timpul actual. Daca acestea coincid si utilizatorul este autentificat , serviciul face un apel la  clasa AttendanceController din backend , care apeleaza la randul ei CreateAttendanceCommand.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=1\textwidth]{assets/ScreenShotsAttendance/AttendanceController.png}
+\caption{Implementare AttendanceController}
+\label{fig:attendance-controller}
+\end{figure}
+
+
+CreateAttendanceCommand , cauta eventimentul activ , care poate fi unic , si verifica daca exista utilizatorul cu id-ul oferit de frontend. Dupa ce toate verificarile au fost cu succes prezenta este salvata folosind AttendanceRepository cu ajutorul metodei save()
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=1\textwidth]{assets/ScreenShotsAttendance/AttendanceCommand.png}
+\caption{Implementare CreateAttendanceCommand}
+\label{fig:attendance-command}
+\end{figure} 
+
+
+\newpage
+\subsection{Vizualizare prezenta cu statistici}
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{assets/VizualizarePrezentaCuStatistici.png}
+\caption{Diagrama de interacțiune — Vizualizare prezență cu statistici}
+\label{fig:interactiune-vizualizare-prezenta}
+\end{figure}
+
+Acest caz de utilizare a fost implementat in urmatorul mod. Utilizatorul cauta evenimentul la care vrea sa vada prezenta , folosind CategorySearchComponent. Dupa selectarea evenimentului dorit este afisat un panel care prezinta statistica prezentelor la acel eveniment cu ajutorul lui CategoryStatsComponent. 
+
+\newline
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{assets/ScreenShotsViewAttendance/screenshotAttendanceAdmin.png}
+\caption{Vizualizare prezență — Admin}
+\label{fig:attendance-admin}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{assets/ScreenShotsViewAttendance/screenshotFrontEndWeekly.png}
+\caption{Vizualizare prezență — Săptămânal}
+\label{fig:attendance-weekly}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{assets/ScreenShotsViewAttendance/screenshot-FrontEndDaily.png}
+\caption{Vizualizare prezență — Zilnic}
+\label{fig:attendance-daily}
+\end{figure}
+
+
+Acest panel foloseste EventCategoryService din frontend pentru a lua datele din baza de date prin intermediul functiei getEventCategory(id) al clasei EventCategoryController.
+
+\newline
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=1\textwidth]{assets/ScreenShotsViewAttendance/screenshotControllerCode.png}
+\caption{Implementare EventCategoryController — getEventCategory}
+\label{fig:event-category-controller-get}
+\end{figure} 
 
 
 
-\bibliographystyle{unsrt}
+Pentru a extrage statistica din backend , CategoryStatsComponent apeleaza metodata getCategoryStats din EventCategoryController care foloseste AttendanceController pentru a calcula statistica pentru evenimentul cu id-ul dat , prin intermediul clasei GetEventStatsQuery. Acest query apeleaza metoda countAttendancePerEventByCategory al lui AttendanceRepository care returneaza numarul de prezente pentru categoria selectata
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=1\textwidth]{assets/ScreenShotsViewAttendance/screenshotQuerryCode.png}
+\caption{Implementare GetEventStatsQuery}
+\label{fig:event-stats-query}
+\end{figure}
+
+% Bibliografia este dezactivată până la adăugarea surselor în refs.bib.
+% \bibliographystyle{unsrt}
 \setlength{\baselineskip}{\normalbaselineskip}
 \setlength{\parskip}{0pt}
-\bibliography{refs}
+% \bibliography{refs}
 \end{document}

@@ -162,7 +162,7 @@
   }
 
   <div class="flex-1 min-w-0">
-    <header class="bg-slate-900/60 backdrop-blur-2xl border-b border-slate-700/50 sticky top-0 z-10 shadow-2xl">
+    <header class="bg-header backdrop-blur-2xl border-b border-header sticky top-0 z-10 shadow-2xl">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div class="flex items-center justify-between gap-4 flex-wrap">
           <div class="flex items-center gap-4">
@@ -205,7 +205,7 @@
               </svg>
             </div>
             <div>
-              <h1 class="text-lg font-bold text-white flex items-center gap-2">
+              <h1 class="text-lg font-bold text-header-foreground flex items-center gap-2">
                 attendance.sys
                 <svg
                   class="w-4 h-4 text-emerald-400"
@@ -221,7 +221,7 @@
                   <path d="M5 12h14" />
                 </svg>
               </h1>
-              <p class="text-xs text-slate-500">
+              <p class="text-xs text-header-muted">
                 <span class="text-emerald-500">$</span> user session active
               </p>
             </div>
@@ -232,7 +232,7 @@
               <span class="absolute left-4 top-1/2 -translate-y-1/2 text-emerald-500">$</span>
               <input
                 type="text"
-                class="w-full bg-slate-950/50 backdrop-blur-xl border border-slate-700/50 rounded-lg pl-8 pr-4 py-2 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20 transition-all"
+                class="w-full bg-header-input backdrop-blur-xl border border-header rounded-lg pl-8 pr-4 py-2 text-sm text-header-foreground placeholder:text-header-muted focus:outline-none focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20 transition-all"
                 placeholder="search_records"
               />
             </div>
@@ -259,7 +259,7 @@
 
           <button
             type="button"
-            class="flex items-center gap-2 px-4 py-2 text-sm text-emerald-400 bg-slate-800/50 backdrop-blur-xl hover:bg-slate-800/80 rounded-lg transition-all border border-slate-700/50"
+            class="flex items-center gap-2 px-4 py-2 text-sm text-emerald-400 bg-header-button backdrop-blur-xl hover:bg-[var(--header-button-hover-bg)] rounded-lg transition-all border border-header"
           >
             <svg
               class="w-4 h-4"

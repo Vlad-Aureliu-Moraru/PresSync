@@ -13,11 +13,11 @@ import { NotificationCardComponent } from '../../../app/shared/components/notifi
 export class NotificationHistoryComponent {
   readonly notificationService = inject(NotificationService);
 
-  onMarkRead(id: string): void {
+  onMarkRead(id: number): void {
     this.notificationService.markAsRead(id);
   }
 
-  onDismiss(id: string): void {
+  onDismiss(id: number): void {
     this.notificationService.dismiss(id);
   }
 }

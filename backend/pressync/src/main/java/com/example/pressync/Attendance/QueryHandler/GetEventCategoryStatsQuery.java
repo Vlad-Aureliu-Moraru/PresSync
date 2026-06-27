@@ -24,7 +24,8 @@ public class GetEventCategoryStatsQuery implements Query<Integer, EventCategoryS
         List<EventAttendanceSummary> summaries = attendanceRepository.getEventAttendanceSummariesByCategory(categoryId);
 
         if (counts == null || counts.isEmpty()) {
-            return ResponseEntity.ok(new EventCategoryStatsDTO(0L, 0L, 0L, 0L, 0L, summaries));
+            return ResponseEntity.ok(new EventCategoryStatsDTO(0L,
+                    0L, 0L, 0L, 0L, summaries));
         }
 
         long max = Long.MIN_VALUE;

@@ -12,8 +12,8 @@ import { NotificationItem } from '../../models/notification';
 export class NotificationCardComponent {
   @Input({ required: true }) notification!: NotificationItem;
   @Input() compact = false;
-  @Output() markRead = new EventEmitter<string>();
-  @Output() dismiss = new EventEmitter<string>();
+  @Output() markRead = new EventEmitter<number>();
+  @Output() dismiss = new EventEmitter<number>();
 
   get iconPath(): string {
     switch (this.notification.type) {

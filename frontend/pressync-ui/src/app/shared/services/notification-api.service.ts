@@ -20,7 +20,7 @@ export class NotificationApiService {
     return this.http.get<NotificationItem[]>(`${this.apiUrl}/unread`);
   }
 
-  markAsRead(id: string): Observable<void> {
+  markAsRead(id: number): Observable<void> {
     return this.http.put<void>(`${this.apiUrl}/${id}/read`, {});
   }
 
@@ -28,7 +28,11 @@ export class NotificationApiService {
     return this.http.put<void>(`${this.apiUrl}/read-all`, {});
   }
 
-  dismiss(id: string): Observable<void> {
+  create(notification: Omit<NotificationItem, 'id' | 'timestamp'>): Observable<NotificationItem> {
+    return this.http.post<NotificationItem>(this.apiUrl, notification);
+  }
+
+  dismiss(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }

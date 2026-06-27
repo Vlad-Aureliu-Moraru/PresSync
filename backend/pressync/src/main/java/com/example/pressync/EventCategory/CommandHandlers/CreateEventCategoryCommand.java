@@ -30,7 +30,6 @@ public class CreateEventCategoryCommand implements Command<CreateEventCategoryRe
     @Override
     @Transactional
     public ResponseEntity<String> execute(CreateEventCategoryRequest request) {
-
         EventCategory entity = new EventCategory();
         entity.setName(request.name());
         entity.setStartingTime(request.startingTime());
@@ -38,7 +37,6 @@ public class CreateEventCategoryCommand implements Command<CreateEventCategoryRe
         entity.setAttendanceTimeStart(request.attendanceTimeStart());
         entity.setAttendanceDuration(request.attendanceDuration());
         entity.setRepeatable(request.repeatable());
-
         if (Boolean.TRUE.equals(request.repeatable())) {
             EventCategoryConfig config;
             if (request.configId() != null) {

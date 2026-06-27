@@ -22,7 +22,8 @@ public class CreateAttendanceCommand implements Command<User,String> {
     @Override
     public ResponseEntity<String> execute(User user) {
         Attendance attendance = new Attendance();
-        Event event = eventRepository.findFirstByActiveTrue().orElseThrow(()-> new IllegalArgumentException("There is no active event for now"));
+        Event event = eventRepository.findFirstByActiveTrue().orElseThrow(()->
+                new IllegalArgumentException("There is no active event for now"));
         LocalTime now = LocalTime.now().truncatedTo(ChronoUnit.MINUTES);
 
         if (attendanceRepository.existsByUserIdAndEventId(user.getId(), event.getId())) {
@@ -34,7 +35,8 @@ public class CreateAttendanceCommand implements Command<User,String> {
         LocalTime endWindow = startWindow.plusMinutes(duration);
 
         if (now.isBefore(startWindow)) {
-            throw new IllegalArgumentException("Too early! Attendance for " + event.getEventCategory().getName() + " starts at " + startWindow);
+            throw new IllegalArgumentException("Too early! Attendance for " +
+                    event.getEventCategory().getName() + " starts at " + startWindow);
         }
 
         if (now.isAfter(endWindow)) {

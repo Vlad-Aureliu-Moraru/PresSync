@@ -25,11 +25,11 @@ export class NotificationPanelComponent {
     event.stopPropagation();
   }
 
-  onMarkRead(id: string): void {
+  onMarkRead(id: number): void {
     this.notificationService.markAsRead(id);
   }
 
-  onDismiss(id: string): void {
+  onDismiss(id: number): void {
     this.notificationService.dismiss(id);
   }
 
