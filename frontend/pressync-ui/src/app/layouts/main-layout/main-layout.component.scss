@@ -1,0 +1,109 @@
+.sidebar-panel {
+  background: var(--sidebar-bg);
+  color: var(--sidebar-foreground);
+  border-color: var(--sidebar-border);
+}
+
+.sidebar-logo-box {
+  background: var(--sidebar-accent);
+  border-color: var(--sidebar-ring);
+}
+
+.sidebar-logo-icon {
+  color: var(--sidebar-primary);
+}
+
+.sidebar-link {
+  color: color-mix(in srgb, var(--sidebar-foreground) 80%, transparent);
+  transition: background 0.2s, color 0.2s;
+
+  &:hover {
+    background: color-mix(in srgb, var(--sidebar-accent) 70%, transparent);
+    color: var(--sidebar-foreground);
+  }
+}
+
+.sidebar-link-active {
+  background: var(--sidebar-accent) !important;
+  color: var(--sidebar-foreground) !important;
+  font-weight: 500;
+}
+
+.sidebar-mobile-close-btn {
+  border-color: var(--sidebar-border);
+  color: var(--sidebar-foreground);
+
+  &:hover {
+    background: var(--sidebar-accent);
+  }
+}
+
+.header-bar {
+  background: var(--header-bg);
+  border-bottom-color: var(--header-border);
+}
+
+.header-title {
+  color: var(--header-foreground);
+}
+
+.header-muted {
+  color: var(--header-muted);
+}
+
+.header-input {
+  background: var(--header-input-bg);
+  border-color: var(--header-border);
+  color: var(--header-foreground);
+
+  &::placeholder {
+    color: var(--header-muted);
+  }
+
+  &:focus {
+    border-color: rgba(16, 185, 129, 0.5);
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+    outline: none;
+  }
+}
+
+.header-exit-btn {
+  background: var(--header-button-bg);
+  border-color: var(--header-border);
+  color: #34d399;
+  transition: background 0.2s;
+
+  &:hover {
+    background: var(--header-button-hover-bg);
+  }
+}
+
+.mobile-menu-btn {
+  background: var(--card-surface);
+  border-color: var(--border);
+  color: var(--card-foreground);
+}
+
+.accent-box {
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+.accent-icon {
+  color: #34d399;
+}
+
+.accent-dollar {
+  color: #10b981;
+}
+
+.accent-search-btn {
+  color: #34d399;
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.3);
+  box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.1);
+
+  &:hover {
+    background: rgba(16, 185, 129, 0.2);
+  }
+}

@@ -75,6 +75,7 @@ export class MfaValidateComponent implements OnInit {
 
           this.authService.setToken(res.token);
           sessionStorage.removeItem('pressync_mfa_data');
+          this.attendanceService.stopMonitoring();
           this.attendanceService.startMonitoring();
 
           const role = this.authService.getUserRole();

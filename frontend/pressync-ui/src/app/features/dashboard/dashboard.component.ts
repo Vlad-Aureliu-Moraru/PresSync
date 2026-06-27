@@ -11,7 +11,8 @@ type ScheduleItem = {
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  templateUrl: './dashboard.component.html'
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
   user = signal({ name: 'Alex', surname: 'Morgan' });

@@ -3,6 +3,7 @@ import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/ro
 import { CommonModule } from '@angular/common';
 import { filter } from 'rxjs/operators';
 import { AuthService } from '../../auth/auth';
+import { AttendanceService } from '../../services/attendance.service';
 import { CategoryCreateComponent } from '../../../../features/admin/category-create/category-create.component';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { NotificationPanelComponent } from '../../../shared/components/notification-panel/notification-panel.component';
@@ -17,6 +18,7 @@ export class NavbarComponent {
   private router = inject(Router);
   readonly authService = inject(AuthService);
   readonly notificationService = inject(NotificationService);
+  private attendanceService = inject(AttendanceService);
 
   isNotificationPanelOpen = signal(false);
   isMobileMenuOpen = signal(false);
@@ -46,6 +48,7 @@ export class NavbarComponent {
   }
 
   onLogout(): void {
+    this.attendanceService.stopMonitoring();
     this.authService.logout();
     this.router.navigate(['/login']);
   }

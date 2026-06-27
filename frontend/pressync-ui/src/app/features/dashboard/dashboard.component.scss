@@ -1,0 +1,54 @@
+.card-surface {
+  background: var(--card-surface);
+  border-color: var(--card-border);
+}
+
+.card-solid {
+  background: var(--card-bg-solid);
+  border-color: var(--card-border);
+}
+
+.card-foreground {
+  color: var(--card-foreground);
+}
+
+.card-muted {
+  color: var(--card-muted);
+}
+
+.status-live {
+  background: rgba(16, 185, 129, 0.1);
+  color: #34d399;
+}
+
+.status-upcoming {
+  background: rgba(59, 130, 246, 0.1);
+  color: #60a5fa;
+}
+
+.status-completed {
+  background: rgba(51, 65, 85, 0.6);
+  color: #cbd5e1;
+}
+
+.stat-present {
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.2);
+  color: #a7f3d0;
+}
+
+.stat-absent {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.2);
+  color: #fecaca;
+}
+
+.stat-rate {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: rgba(59, 130, 246, 0.2);
+  color: #bfdbfe;
+}
+
+.accent-icon {
+  color: #34d399;
+}

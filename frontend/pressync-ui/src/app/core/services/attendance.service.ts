@@ -45,6 +45,7 @@ export class AttendanceService {
   private timers: ReturnType<typeof setTimeout>[] = [];
   private scheduleRefreshTimer: ReturnType<typeof setTimeout> | null = null;
   private monitoringStarted = false;
+  private markingInProgress = false;
 
   constructor() {
     effect(() => {
@@ -82,6 +83,8 @@ export class AttendanceService {
 
   stopMonitoring(): void {
     this.monitoringStarted = false;
+    this.markingInProgress = false;
+    this.markState.set('idle');
     this.clearTimers();
     if (this.scheduleRefreshTimer) {
       clearTimeout(this.scheduleRefreshTimer);
@@ -130,11 +133,23 @@ export class AttendanceService {
   private attemptMark(): void {
     if (!this.auth.isAuthenticated()) return;
     if (this.markState() === 'marked') return;
+    if (this.markingInProgress) return;
 
+    this.markingInProgress = true;
     this.markState.set('loading');
     this.markAttendance().subscribe({
-      next: () => this.markState.set('marked'),
-      error: () => this.markState.set('idle')
+      next: () => {
+        this.markingInProgress = false;
+        this.markState.set('marked');
+      },
+      error: (err) => {
+        this.markingInProgress = false;
+        if (err.status === 400 && err.error?.message?.includes('already exists')) {
+          this.markState.set('marked');
+        } else {
+          this.markState.set('idle');
+        }
+      }
     });
   }
 

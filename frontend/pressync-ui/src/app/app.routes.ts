@@ -10,6 +10,7 @@ import { UserAttendanceComponent } from '../features/admin/user-attendance/user-
 import { NotificationHistoryComponent } from '../features/notifications/notification-history/notification-history.component';
 import { roleGuard } from './core/guards/role.guard';
 import { authGuard } from './core/guards/auth.guard';
+import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -22,5 +23,15 @@ export const routes: Routes = [
   { path: 'admin', redirectTo: '/superior-dashboard', pathMatch: 'full' },
   { path: 'admin/users/:id/attendance', component: UserAttendanceComponent, canActivate: [roleGuard] },
   { path: 'notifications', component: NotificationHistoryComponent, canActivate: [authGuard] },
-  { path: '', redirectTo: '/login', pathMatch: 'full' }
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  {
+    path: 'new',
+    component: MainLayoutComponent,
+    children: [
+      {
+        path: 'dashboard',
+        loadComponent: () => import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent)
+      }
+    ]
+  }
 ];

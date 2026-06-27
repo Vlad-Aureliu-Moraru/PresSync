@@ -67,6 +67,7 @@ export class LoginComponent {
           }
 
           this.authService.setToken(res.token);
+          this.attendanceService.stopMonitoring();
           this.attendanceService.startMonitoring();
           this.navigateByRole();
         },

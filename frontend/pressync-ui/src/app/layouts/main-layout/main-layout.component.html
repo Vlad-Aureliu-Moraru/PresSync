@@ -1,15 +1,15 @@
-<div class="min-h-screen bg-background text-foreground flex">
+<div class="min-h-screen flex">
   @if (isSidebarOpen()) {
     <div class="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm md:hidden" (click)="toggleSidebar()"></div>
   }
 
   <aside
-    class="hidden md:flex w-64 flex-col border-r border-border bg-sidebar text-sidebar-foreground"
+    class="sidebar-panel hidden md:flex w-64 flex-col border-r"
   >
-    <div class="h-16 flex items-center px-6 border-b border-sidebar-border">
-      <div class="w-9 h-9 rounded-xl border border-sidebar-ring bg-sidebar-accent flex items-center justify-center">
+    <div class="h-16 flex items-center px-6 border-b">
+      <div class="sidebar-logo-box w-9 h-9 rounded-xl border flex items-center justify-center">
         <svg
-          class="w-5 h-5 text-sidebar-primary"
+          class="sidebar-logo-icon w-5 h-5"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -28,11 +28,11 @@
     <nav class="flex-1 px-4 py-6 space-y-1">
       <a
         routerLink="/dashboard"
-        routerLinkActive="bg-sidebar-accent text-sidebar-foreground"
-        class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-sidebar-foreground/80 hover:bg-sidebar-accent/70 transition"
+        routerLinkActive="sidebar-link-active"
+        class="sidebar-link flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition"
       >
         <svg
-          class="w-4 h-4 text-sidebar-primary"
+          class="sidebar-logo-icon w-4 h-4"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -48,11 +48,11 @@
       </a>
       <a
         routerLink="/search"
-        routerLinkActive="bg-sidebar-accent text-sidebar-foreground"
-        class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-sidebar-foreground/80 hover:bg-sidebar-accent/70 transition"
+        routerLinkActive="sidebar-link-active"
+        class="sidebar-link flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition"
       >
         <svg
-          class="w-4 h-4 text-sidebar-primary"
+          class="sidebar-logo-icon w-4 h-4"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -71,13 +71,13 @@
 
   @if (isSidebarOpen()) {
     <aside
-      class="fixed inset-y-0 left-0 z-50 w-64 flex flex-col border-r border-border bg-sidebar text-sidebar-foreground md:hidden"
+      class="sidebar-panel fixed inset-y-0 left-0 z-50 w-64 flex flex-col border-r md:hidden"
     >
-      <div class="h-16 flex items-center justify-between px-6 border-b border-sidebar-border">
+      <div class="h-16 flex items-center justify-between px-6 border-b">
         <div class="flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl border border-sidebar-ring bg-sidebar-accent flex items-center justify-center">
+          <div class="sidebar-logo-box w-9 h-9 rounded-xl border flex items-center justify-center">
             <svg
-              class="w-5 h-5 text-sidebar-primary"
+              class="sidebar-logo-icon w-5 h-5"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -94,7 +94,7 @@
         </div>
         <button
           type="button"
-          class="inline-flex items-center justify-center rounded-lg border border-border bg-card px-2 py-1 text-xs text-foreground"
+          class="sidebar-mobile-close-btn inline-flex items-center justify-center rounded-lg border px-2 py-1 text-xs"
           (click)="toggleSidebar()"
         >
           <span class="sr-only">Close menu</span>
@@ -117,12 +117,12 @@
       <nav class="flex-1 px-4 py-6 space-y-1">
         <a
           routerLink="/dashboard"
-          routerLinkActive="bg-sidebar-accent text-sidebar-foreground"
-          class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-sidebar-foreground/80 hover:bg-sidebar-accent/70 transition"
+          routerLinkActive="sidebar-link-active"
+          class="sidebar-link flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition"
           (click)="toggleSidebar()"
         >
           <svg
-            class="w-4 h-4 text-sidebar-primary"
+            class="sidebar-logo-icon w-4 h-4"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -138,12 +138,12 @@
         </a>
         <a
           routerLink="/search"
-          routerLinkActive="bg-sidebar-accent text-sidebar-foreground"
-          class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-sidebar-foreground/80 hover:bg-sidebar-accent/70 transition"
+          routerLinkActive="sidebar-link-active"
+          class="sidebar-link flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition"
           (click)="toggleSidebar()"
         >
           <svg
-            class="w-4 h-4 text-sidebar-primary"
+            class="sidebar-logo-icon w-4 h-4"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -162,13 +162,13 @@
   }
 
   <div class="flex-1 min-w-0">
-    <header class="bg-header backdrop-blur-2xl border-b border-header sticky top-0 z-10 shadow-2xl">
+    <header class="header-bar backdrop-blur-2xl border-b sticky top-0 z-10 shadow-2xl">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div class="flex items-center justify-between gap-4 flex-wrap">
           <div class="flex items-center gap-4">
             <button
               type="button"
-              class="md:hidden inline-flex items-center justify-center rounded-lg border border-border bg-card px-3 py-2 text-xs text-foreground"
+              class="mobile-menu-btn md:hidden inline-flex items-center justify-center rounded-lg border px-3 py-2 text-xs"
               (click)="toggleSidebar()"
             >
               <span class="sr-only">Toggle menu</span>
@@ -187,9 +187,9 @@
                 <path d="M4 18h16" />
               </svg>
             </button>
-            <div class="w-10 h-10 bg-emerald-500/10 backdrop-blur-xl rounded-xl flex items-center justify-center border border-emerald-500/30">
+            <div class="accent-box w-10 h-10 backdrop-blur-xl rounded-xl flex items-center justify-center border">
               <svg
-                class="w-5 h-5 text-emerald-400"
+                class="accent-icon w-5 h-5"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -205,10 +205,10 @@
               </svg>
             </div>
             <div>
-              <h1 class="text-lg font-bold text-header-foreground flex items-center gap-2">
+              <h1 class="header-title text-lg font-bold flex items-center gap-2">
                 attendance.sys
                 <svg
-                  class="w-4 h-4 text-emerald-400"
+                  class="accent-icon w-4 h-4"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -221,24 +221,24 @@
                   <path d="M5 12h14" />
                 </svg>
               </h1>
-              <p class="text-xs text-header-muted">
-                <span class="text-emerald-500">$</span> user session active
+              <p class="header-muted text-xs">
+                <span class="accent-dollar">$</span> user session active
               </p>
             </div>
           </div>
 
           <div class="flex items-center gap-2 flex-1 max-w-md">
             <div class="relative flex-1">
-              <span class="absolute left-4 top-1/2 -translate-y-1/2 text-emerald-500">$</span>
+              <span class="accent-dollar absolute left-4 top-1/2 -translate-y-1/2">$</span>
               <input
                 type="text"
-                class="w-full bg-header-input backdrop-blur-xl border border-header rounded-lg pl-8 pr-4 py-2 text-sm text-header-foreground placeholder:text-header-muted focus:outline-none focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20 transition-all"
+                class="header-input w-full backdrop-blur-xl border rounded-lg pl-8 pr-4 py-2 text-sm transition-all"
                 placeholder="search_records"
               />
             </div>
             <button
               type="button"
-              class="flex items-center gap-2 px-4 py-2 text-sm text-emerald-400 bg-emerald-500/10 backdrop-blur-xl hover:bg-emerald-500/20 rounded-lg transition-all border border-emerald-500/30 shadow-lg shadow-emerald-500/10"
+              class="accent-search-btn flex items-center gap-2 px-4 py-2 text-sm backdrop-blur-xl rounded-lg transition-all border"
             >
               <svg
                 class="w-4 h-4"
@@ -259,7 +259,7 @@
 
           <button
             type="button"
-            class="flex items-center gap-2 px-4 py-2 text-sm text-emerald-400 bg-header-button backdrop-blur-xl hover:bg-[var(--header-button-hover-bg)] rounded-lg transition-all border border-header"
+            class="header-exit-btn flex items-center gap-2 px-4 py-2 text-sm backdrop-blur-xl rounded-lg transition-all border"
           >
             <svg
               class="w-4 h-4"

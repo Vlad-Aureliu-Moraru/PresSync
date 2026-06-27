@@ -1,85 +1,82 @@
 <section class="space-y-6">
-  <div class="bg-card backdrop-blur-2xl border border-card rounded-2xl p-6 shadow-xl">
+  <div class="card-surface backdrop-blur-2xl border rounded-2xl p-6 shadow-xl">
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
       <div>
-        <p class="text-xs uppercase tracking-[0.25em] text-card-muted">welcome back</p>
-        <h2 class="text-2xl md:text-3xl font-bold text-card-foreground">
+        <p class="card-muted text-xs uppercase tracking-[0.25em]">welcome back</p>
+        <h2 class="card-foreground text-2xl md:text-3xl font-bold">
           {{ user().name }} {{ user().surname }}
         </h2>
-        <p class="text-sm text-card-muted mt-2">
-          <span class="text-emerald-500">$</span> ready to compile today's attendance
+        <p class="card-muted text-sm mt-2">
+          <span class="accent-icon">$</span> ready to compile today's attendance
         </p>
       </div>
       <div class="flex flex-wrap gap-3">
-        <div class="bg-card-solid border border-card rounded-xl px-4 py-3">
-          <div class="text-xs text-card-muted">status</div>
-          <div class="text-sm font-semibold text-emerald-400">online</div>
+        <div class="card-solid border rounded-xl px-4 py-3">
+          <div class="card-muted text-xs">status</div>
+          <div class="accent-icon text-sm font-semibold">online</div>
         </div>
-        <div class="bg-card-solid border border-card rounded-xl px-4 py-3">
-          <div class="text-xs text-card-muted">role</div>
-          <div class="text-sm font-semibold text-card-foreground">student</div>
+        <div class="card-solid border rounded-xl px-4 py-3">
+          <div class="card-muted text-xs">role</div>
+          <div class="card-foreground text-sm font-semibold">student</div>
         </div>
       </div>
     </div>
   </div>
 
   <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-    <div class="md:col-span-2 xl:col-span-2 bg-card backdrop-blur-2xl border border-card rounded-2xl p-6 shadow-xl">
+    <div class="md:col-span-2 xl:col-span-2 card-surface backdrop-blur-2xl border rounded-2xl p-6 shadow-xl">
       <div class="flex items-center justify-between mb-4">
-        <h3 class="text-lg font-bold text-card-foreground">Today's events</h3>
-        <span class="text-xs text-card-muted">schedule</span>
+        <h3 class="card-foreground text-lg font-bold">Today's events</h3>
+        <span class="card-muted text-xs">schedule</span>
       </div>
       <div class="space-y-4">
         @for (event of todaySchedule(); track event.id) {
-          <div class="flex items-center justify-between gap-4 bg-card-solid border border-card rounded-xl px-4 py-3">
+          <div class="card-solid border rounded-xl px-4 py-3 flex items-center justify-between gap-4">
             <div>
-              <p class="text-sm font-semibold text-card-foreground">{{ event.title }}</p>
-              <p class="text-xs text-card-muted">{{ event.location }}</p>
+              <p class="card-foreground text-sm font-semibold">{{ event.title }}</p>
+              <p class="card-muted text-xs">{{ event.location }}</p>
             </div>
             <div class="flex items-center gap-4">
-              <span class="text-xs text-card-muted">{{ event.time }}</span>
+              <span class="card-muted text-xs">{{ event.time }}</span>
               <span
                 class="rounded-full px-3 py-1 text-xs font-semibold"
-                [class.bg-emerald-500/10]="event.status === 'live'"
-                [class.text-emerald-400]="event.status === 'live'"
-                [class.bg-blue-500/10]="event.status === 'upcoming'"
-                [class.text-blue-400]="event.status === 'upcoming'"
-                [class.bg-slate-700/60]="event.status === 'completed'"
-                [class.text-slate-300]="event.status === 'completed'"
+                [class.status-live]="event.status === 'live'"
+                [class.status-upcoming]="event.status === 'upcoming'"
+                [class.status-completed]="event.status === 'completed'"
               >
                 {{ event.status }}
               </span>
             </div>
           </div>
         } @empty {
-          <div class="rounded-xl border border-dashed border-card p-4 text-sm text-card-muted">
+          <div class="rounded-xl border border-dashed border-current p-4 text-sm card-muted">
             No events scheduled for today.
           </div>
         }
       </div>
     </div>
 
-    <div class="bg-card backdrop-blur-2xl border border-card rounded-2xl p-6 shadow-xl">
+    <div class="card-surface backdrop-blur-2xl border rounded-2xl p-6 shadow-xl">
       <div class="flex items-center justify-between mb-4">
-        <h3 class="text-lg font-bold text-card-foreground">Statistics</h3>
-        <span class="text-xs text-card-muted">summary</span>
+        <h3 class="card-foreground text-lg font-bold">Statistics</h3>
+        <span class="card-muted text-xs">summary</span>
       </div>
       <div class="space-y-4">
-        <div class="flex items-center justify-between rounded-xl border border-card bg-card-solid px-4 py-3">
-          <span class="text-xs text-card-muted">Total classes</span>
-          <span class="text-lg font-semibold text-card-foreground">64</span>
+        <div class="card-solid border rounded-xl px-4 py-3 flex items-center justify-between">
+          <span class="card-muted text-xs">Total classes</span>
+          <span class="card-foreground text-lg font-semibold">64</span>
         </div>
-        <div class="flex items-center justify-between rounded-xl border border-emerald-500/20 bg-emerald-500/10 px-4 py-3">
-          <span class="text-xs text-emerald-200">Present</span>
-          <span class="text-lg font-semibold text-emerald-200">58</span>
+        <div class="stat-present flex items-center justify-between rounded-xl border px-4 py-3">
+          <span class="text-xs">Present</span>
+          <span class="text-lg font-semibold">58</span>
         </div>
-        <div class="flex items-center justify-between rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3">
-          <span class="text-xs text-red-200">Absent</span>
-          <span class="text-lg font-semibold text-red-200">6</span>
+        <div class="stat-absent flex items-center justify-between rounded-xl border px-4 py-3">
+          <span class="text-xs">Absent</span>
+          <span class="text-lg font-semibold">6</span>
         </div>
-        <div class="flex items-center justify-between rounded-xl border border-blue-500/20 bg-blue-500/10 px-4 py-3">
-          <span class="text-xs text-blue-200">Attendance rate</span>
-          <span class="text-lg font-semibold text-blue-200">90.6%</span>
+        <div class="stat-rate flex items-center justify-between rounded-xl border px-4 py-3">
+          <span class="text-xs">Attendance rate</span>
+          <span class="text-lg font-semibold">90.6%</span>
         </div>
       </div>
     </div>
