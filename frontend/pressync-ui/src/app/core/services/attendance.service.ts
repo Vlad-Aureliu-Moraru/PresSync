@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../auth/auth';
 import { EventCategoryService, EventCategory } from './event-category.service';
+import { NotificationService } from '../../shared/services/notification.service';
 
 export interface AttendanceRecord {
   id: number;
@@ -39,6 +40,7 @@ export class AttendanceService {
   private http = inject(HttpClient);
   private auth = inject(AuthService);
   private eventCategoryService = inject(EventCategoryService);
+  private notificationService = inject(NotificationService);
 
   readonly markState = signal<MarkState>('idle');
 
@@ -141,6 +143,7 @@ export class AttendanceService {
       next: () => {
         this.markingInProgress = false;
         this.markState.set('marked');
+        this.notificationService.showFlash('success', 'Attendance marked!', 'You have been successfully checked in.');
       },
       error: (err) => {
         this.markingInProgress = false;
