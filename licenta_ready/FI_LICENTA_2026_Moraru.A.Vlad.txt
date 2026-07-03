@@ -1,0 +1,17 @@
+autor*:"Moraru A Vlad"
+titlu*:"Aplicație software de pontare a participanților la evenimente"
+facultate*:"Matematica si Informatica"
+domeniu*:"Informatica"
+specializare*:"Informatica"
+limba*:"Română"
+conducator1*:"Puchianu Crenguța-Mădălina"
+conducator2:""
+rezumat*:"Lucrarea de licență propune și dezvoltă PresSync, un sistem software de pontare a participanților la evenimente, bazat pe o abordare inedită: validarea prezenței fizice reale prin conectivitate Wi-Fi la nivelul Stratului 2 (Data Link Layer) al modelului OSI, în locul metodelor tradiționale (cartele magnetice, coduri QR, tracking GPS).
+Capitolul 2 analizează comparativ soluțiile existente de pe piață și identifică limitările fiecăreia — costuri ridicate, risc de fraudă prin delegarea token-ului de autentificare sau dependența de conexiune externă. Pe baza acestei analize este fundamentată arhitectural alegerea PresSync: un router configurat ca portal captiv, ale cărui unde radio sunt atenuate natural de pereții clădirii, transformând spațiul fizic într-o barieră antifraudă. Sunt definite și cele cinci obiective ale sistemului (O1–O5): funcționare autonomă fără internet, automatizarea recurenței evenimentelor, securizare prin JWT, procesare concurentă prin separarea comandă-interogare (CQS) și generarea de statistici în timp real.
+Capitolul 3 detaliază cerințele funcționale și nefuncționale, actorii sistemului (Admin, Moderator, User), cazurile de utilizare principale (creare cont, creare evenimente, înregistrare și vizualizare prezență) și modelul de domeniu, ilustrate prin diagrame UML de cazuri de utilizare, secvențe de sistem și clase.
+Capitolul 4 prezintă implementarea tehnică: backend în Java/Spring Boot, frontend React, bază de date PostgreSQL/MySQL, autentificare JWT și o arhitectură bazată pe patternuri de proiectare — Command-Query Separation, Strategy (pentru recurența evenimentelor), Observer (evenimente Spring), Chain of Responsibility (filtre de securitate), Repository, Facade, Singleton și DTO. Sunt incluse capturi de interfață, fragmente de cod și diagrame de interacțiune pentru cazurile de utilizare cheie.
+Capitolul 5 conchide că validarea prezenței prin proprietățile fizice ale semnalului Wi-Fi reprezintă o alternativă viabilă, sigură și accesibilă din punct de vedere economic, testată cu succes pe toate cazurile de utilizare definite."
+termeni_cheie*:"Prezenta"
+an*:"2026"
+fisier*:"LICENTA_2026_Moraru.A.Vlad.pdf"
+cod_specializare*:"L080101"
