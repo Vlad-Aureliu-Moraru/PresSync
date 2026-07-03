@@ -12,7 +12,7 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name="EventCategoryConfig")
+@Table(name="ConfigurariEveniment")
 @AllArgsConstructor
 @NoArgsConstructor
 public class EventCategoryConfig {

@@ -21,8 +21,8 @@ public interface EventRepository extends JpaRepository<Event,Integer> {
     @Query("UPDATE Event e SET e.active = false, e.archived = true WHERE e.active = true")
     void archiveAllActiveEvents();
 
-    @Query(value = "SELECT e.* FROM event e " +
-            "JOIN categorie_eveniment ec ON e.event_category_id = ec.id " +
+    @Query(value = "SELECT e.* FROM evenimente e " +
+            "JOIN categorii_evenimente ec ON e.event_category_id = ec.id " +
             "WHERE e.active = true " +
             "AND HOUR(ec.end_time) = :hour AND MINUTE(ec.end_time) = :minute",
             nativeQuery = true)

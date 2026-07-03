@@ -1,4 +1,4 @@
-CREATE TABLE categorie_eveniment
+CREATE TABLE categorii_evenimente
 (
     id                      INT AUTO_INCREMENT NOT NULL,
     name                    VARCHAR(255)       NULL,

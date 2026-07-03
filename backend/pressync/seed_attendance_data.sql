@@ -3,17 +3,17 @@
 -- ============================================================
 
 -- 1. Event Category Config
-INSERT INTO event_category_config (repeatable_type, repeats_on_specific_day, base_date)
+INSERT INTO configurari_eveniment (repeatable_type, repeats_on_specific_day, base_date)
 VALUES ('WEEKLY', 'TUE', '2026-06-07');
 SET @config_id = LAST_INSERT_ID();
 
 -- 2. Event Category
-INSERT INTO categorie_eveniment (name, starting_time, end_time, attendance_time_start, attendance_duration, repeatable, config_id)
+INSERT INTO categorii_evenimente (name, starting_time, end_time, attendance_time_start, attendance_duration, repeatable, config_id)
 VALUES ('Demo Daily Lecture', '09:00:00', '10:00:00', '08:55:00', 10, true, @config_id);
 SET @category_id = LAST_INSERT_ID();
 
 -- 3. Ten test users (passwords match their username, e.g. userpass1)
-INSERT INTO utilizator (email, password, name, surname, role, active, failed_login_attempts, mfa_enabled) VALUES
+INSERT INTO utilizatori (email, password, name, surname, role, active, failed_login_attempts, mfa_enabled) VALUES
 ('user1@test.com', '$2b$10$U9F05Ag75nQywl7jdJQdY.b7v8.gXWmJZrR0Re8J8lv7kJaUJ0SGi', 'Alice',   'Johnson',  'USER', true, 0, false),
 ('user2@test.com', '$2b$10$Jlqq/aVVChCTk/8a.W6Z4eGfh9B3aomqQMpGi4UBET5NlFi/sHoT2', 'Bob',     'Smith',    'USER', true, 0, false),
 ('user3@test.com', '$2b$10$n5ahdLWndVJVYqXZ5861wO7BjMUf9LukW6cTgr5AkR7FVVgwhvKNa', 'Carol',   'Williams', 'USER', true, 0, false),
@@ -26,7 +26,7 @@ INSERT INTO utilizator (email, password, name, surname, role, active, failed_log
 ('user10@test.com','$2b$10$NZTZSBQC2JujildyyUCJAerBPwhU8B4h97l8Mm9SMBI5pYwMFsi62', 'Jack',    'Thomas',   'USER', true, 0, false);
 
 -- 4. Ten events spanning 10 days (5 archived, 5 active)
-INSERT INTO eveniment (event_category_id, active, archived, date) VALUES
+INSERT INTO evenimente (event_category_id, active, archived, date) VALUES
 (@category_id, false, true,  '2026-06-07'),
 (@category_id, false, true,  '2026-06-08'),
 (@category_id, false, true,  '2026-06-09'),
@@ -39,7 +39,7 @@ INSERT INTO eveniment (event_category_id, active, archived, date) VALUES
 (@category_id, true,  false, '2026-06-16');
 
 -- 5. One hundred attendance records (unique user+event, within valid window)
-INSERT INTO prezenta (user_id, event_id, joined_at) VALUES
+INSERT INTO prezente (user_id, event_id, joined_at) VALUES
 (1, 3, '2026-06-07 09:03:39'),
 (2, 3, '2026-06-07 08:56:48'),
 (3, 3, '2026-06-07 09:00:05'),

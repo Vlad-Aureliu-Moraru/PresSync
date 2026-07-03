@@ -13,7 +13,7 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name="CategorieEveniment")
+@Table(name="CategoriiEvenimente")
 @AllArgsConstructor
 @NoArgsConstructor
 public class EventCategory {

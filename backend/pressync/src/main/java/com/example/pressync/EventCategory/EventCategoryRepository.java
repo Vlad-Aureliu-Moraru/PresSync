@@ -13,7 +13,7 @@ public interface EventCategoryRepository extends JpaRepository<EventCategory, In
     // 1. Added EntityGraph so the Native Query safely fetches the config!
     // 2. Removed the extra '}' at the end of the line.
     @EntityGraph(attributePaths = {"categoryConfig"})
-    @Query(value = "SELECT * FROM categorie_eveniment WHERE HOUR(starting_time) = :hour AND MINUTE(starting_time) = :minute",
+    @Query(value = "SELECT * FROM categorii_evenimente WHERE HOUR(starting_time) = :hour AND MINUTE(starting_time) = :minute",
             nativeQuery = true)
     List<EventCategory> findByStartingTimeNative(@Param("hour") int hour, @Param("minute") int minute);
 
