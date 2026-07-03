@@ -20,6 +20,12 @@ public class EmailService {
         message.setTo(toEmail);
         message.setSubject("Pressync Admin Login OTP");
         message.setText("Your OTP code is: " + otpCode + ". It expires in 5 minutes.");
-        mailSender.send(message);
+
+        try {
+            mailSender.send(message);
+        } catch (Exception e) {
+            System.out.println("WARN - Failed to send OTP email to " + toEmail + ": " + e.getMessage());
+            System.out.println("INFO - OFFLINE OTP for " + toEmail + ": " + otpCode);
+        }
     }
 }
