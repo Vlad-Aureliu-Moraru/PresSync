@@ -1,0 +1,35 @@
+services:
+  backend:
+    build:
+      context: backend/pressync
+      dockerfile: Dockerfile
+    container_name: pressync-backend
+    ports:
+      - "8080:8080"
+    environment:
+      DB_PASSWORD: ${DB_PASSWORD:-vlad2005}
+      MAIL_PASSWORD: ${MAIL_PASSWORD:-isax upvp dpre adck}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-404E635266556J586E3272357538782F413F4428472B4B6250645367566B5970}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@pressync.local}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-admin123}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-}
+    networks:
+      - pressync-net
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: frontend/pressync-ui
+      dockerfile: Dockerfile
+    container_name: pressync-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - pressync-net
+    restart: unless-stopped
+
+networks:
+  pressync-net:
+    driver: bridge

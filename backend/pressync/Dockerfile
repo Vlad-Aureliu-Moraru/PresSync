@@ -6,6 +6,8 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 FROM eclipse-temurin:17-jre-alpine
+LABEL org.opencontainers.image.title="Pressync Backend"
+LABEL org.opencontainers.image.description="Pressync attendance management API"
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 WORKDIR /app
 COPY --from=build --chown=appuser:appgroup /app/target/*.jar app.jar
