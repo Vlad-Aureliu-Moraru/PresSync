@@ -16,18 +16,18 @@
 	3. `[~done]`Diagrama de clase a modelului domeniului 
 
 4. Proiectarea si implementarea aplicatiei
-	1. `[done]`Proiectarea bazei de date 
-	2. `[]`Tehnologii folosite
-	3. `[]`Diagrame de interactiuni
+	1. `[done]`Proiectarea bazei de date
+	2. `[done]`Tehnologii folosite
+	3. `[doing]`Diagrame de interactiuni
 	4. `[doing]`Diagrame de clase software
-	5. Secvente de cod
+	5. `[doing]`Secvente de cod
 
 5. Concluzii
-	1. Contributii proprii
+	1. `[]`Contributii proprii
 6. Anexe
-	1. Manualul de utilizare a aplicatiei
-	2. alte anexe?
-7. Bibliografie
+	1. `[]`Manualul de utilizare a aplicatiei
+	2. `[]`alte anexe?
+7. `[done]`Bibliografie
 
 
 

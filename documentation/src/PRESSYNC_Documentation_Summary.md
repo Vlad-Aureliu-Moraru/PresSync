@@ -125,9 +125,9 @@ documentation/
 
 | File | Description |
 |------|-------------|
-| `Codebase.md` | Codebase docs for Attendance Module: CQRS, Java listings (controller, handlers, repos). ~447 lines. |
-| `database-schema.md` | DB schema with Mermaid ERD. 5 tables: User, CategorieEveniment, EventCategoryConfig, Eveniment, Prezenta. |
-| `ThePressync Secret SauceNote` | Architecture core idea: OpenWRT + captive portal on Raspberry Pi, no internet required. |
+| `Codebase.md` (moved to `src/`) | Codebase docs for Attendance Module: CQRS, Java listings (controller, handlers, repos). ~447 lines. |
+| `database-schema.md` (moved to `src/`) | DB schema with Mermaid ERD. 5 tables: User, CategorieEveniment, EventCategoryConfig, Eveniment, Prezenta. |
+| `ThePressync Secret SauceNote` (moved to `src/`) | Architecture core idea: OpenWRT + captive portal on Raspberry Pi, no internet required. |
 
 ---
 

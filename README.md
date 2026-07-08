@@ -15,6 +15,7 @@ The system integrates event scheduling, recurring event generation, real-time pr
 * Manual presence registration
 * Personal statistics dashboard
 * Secure account storage using hashed passwords
+* Multi-Factor Authentication (MFA) via email OTP for privileged accounts
 * Multi-device support via university network login
 
 ### 🛠 Admin Features
@@ -58,7 +59,7 @@ Attendance is linked to event instances, not categories — ensuring accurate st
 * **Spring Boot 3+**
 * **Java 17+**
 * **Spring Data JPA**
-* **Spring Security (JWT optional)**
+* **Spring Security (JWT + MFA/OTP)**
 * **MariaDB / MySQL**
 * **Hibernate 6**
 * **Maven**
@@ -98,9 +99,9 @@ Relationships:
 
 ## 📊 Roadmap
 
-* [ ] JWT authentication
+* [x] JWT authentication with MFA/OTP support
 * [ ] Student QR-based quick registration
-* [ ] Email notifications for event updates
+* [x] Email notifications for event updates and OTP delivery
 * [ ] Reports export: PDF / CSV
 * [ ] Admin dashboard improvements
 * [ ] Mobile-friendly frontend UI
