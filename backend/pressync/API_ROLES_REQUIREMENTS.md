@@ -73,7 +73,7 @@ The system recognizes three primary roles, each with increasing levels of author
 ## 4. Implementation Notes
 
 > [!NOTE]
-> Authorization is currently verified via JWT claims. In a future update, these requirements should be enforced using Spring Security's `@PreAuthorize` annotations on the controller methods or via `requestMatchers` in `SecurityConfig.java`.
+> Authorization is enforced via Spring Security's `@PreAuthorize` annotations on all controller methods. `SecurityConfig` enables method-security with `@EnableMethodSecurity` and uses a stateless JWT filter. See `API_DOCUMENTATION.md` for the exact endpoint-to-role mapping.
 
 > [!IMPORTANT]
 > A "MODERATOR" can manage events for any category but cannot delete event categories or create new ones; these are reserved for "ADMIN" to maintain top-level organizational structure.

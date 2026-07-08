@@ -18,16 +18,16 @@ to audit and modify global settings.
 ----------
 
 ## Improvements to be done
-- **[EXISTING] Externalized Configuration**: Move all hardcoded variables into `application.properties` or environment variables for better environment parity. (Currently done for CORS origins and JWT secret key; still hardcoded: JWT expiration in `JWTService`, allowed CORS headers list.)
-- **[EXISTING] Enhanced Security Monitoring**: Implement a `SecurityAuditLog` component to track all configuration changes and authentication failures centrally.
-- **[EXISTING] Performance Tuning**: Optimize the `CorsConfigurationSource` to use more specific path-based configurations rather than a catch-all registry.
-- **[NEW] Add Security Headers**: Configure `X-Content-Type-Options`, `X-Frame-Options`, and a `Content-Security-Policy` header to harden the application against common web attacks.
-- **[NEW] Expand Allowed CORS Headers**: Currently only `Authorization` and `Content-Type` are allowed. Add common headers like `X-Requested-With` to prevent frontend frameworks from triggering CORS errors.
-- **[NEW] Add Specific Exception Handlers**: The `GlobalExceptionHandler` is missing handlers for `MethodArgumentNotValidException`, `HttpMessageNotReadableException`, and `MissingServletRequestParameterException`. Validation errors fall through to the generic `Exception` handler.
+- **[LOW] Externalized Configuration**: Move all hardcoded variables into `application.properties` or environment variables for better environment parity. (Currently done for CORS origins and JWT secret key; still hardcoded: JWT expiration in `JWTService`, allowed CORS headers list.)
+- **[LOW] Enhanced Security Monitoring**: Implement a `SecurityAuditLog` component to track all configuration changes and authentication failures centrally.
+- **[LOW] Performance Tuning**: Optimize the `CorsConfigurationSource` to use more specific path-based configurations rather than a catch-all registry.
+- **[MEDIUM] Add Security Headers**: Configure `X-Content-Type-Options`, `X-Frame-Options`, and a `Content-Security-Policy` header to harden the application against common web attacks.
+- **[LOW] Expand Allowed CORS Headers**: Currently only `Authorization` and `Content-Type` are allowed. Add common headers like `X-Requested-With` to prevent frontend frameworks from triggering CORS errors.
+- **[MEDIUM] Add Specific Exception Handlers**: The `GlobalExceptionHandler` is missing handlers for `MethodArgumentNotValidException`, `HttpMessageNotReadableException`, and `MissingServletRequestParameterException`. Validation errors fall through to the generic `Exception` handler.
 
 ## Mistakes that have to be solved
-- **[NEW] Exception Message Leak**: `GlobalExceptionHandler.handleGlobalException` returns `"An unexpected error occurred: " + ex.getMessage()`, which can leak internal implementation details (SQL errors, stack fragments, server paths) to API clients in production.
-- **[EXISTING] CSRF Vulnerability**: CSRF protection is currently disabled via `.csrf(AbstractHttpConfigurer::disable)` (line 43). While acceptable for a stateless REST API, an analysis should be performed to ensure no session-based vectors are present.
+- **[MEDIUM] Exception Message Leak**: `GlobalExceptionHandler.handleGlobalException` returns `"An unexpected error occurred: " + ex.getMessage()`, which can leak internal implementation details (SQL errors, stack fragments, server paths) to API clients in production.
+- **[LOW] CSRF Vulnerability**: CSRF protection is currently disabled via `.csrf(AbstractHttpConfigurer::disable)` (line 43). While acceptable for a stateless REST API, an analysis should be performed to ensure no session-based vectors are present.
 
 ## SOLVED
-- **[EXISTING → SOLVED] Hardcoded CORS Policy**: CORS origins were previously hardcoded but are now externalized via `@Value("${app.cors.allowed-origins:http://localhost:4200,http://localhost:5173}")`, making deployments across environments straightforward.
+- **[SOLVED] Hardcoded CORS Policy**: CORS origins were previously hardcoded but are now externalized via `@Value("${app.cors.allowed-origins:http://localhost:4200,http://localhost:5173}")`, making deployments across environments straightforward.

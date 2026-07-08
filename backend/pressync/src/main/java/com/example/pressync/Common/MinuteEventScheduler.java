@@ -14,6 +14,12 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 
+/**
+ * Scheduled service that runs every minute to start and end events for categories
+ * that are due today. Uses {@link TodayScheduleCache} to avoid querying the database
+ * on every tick. Starts a new event when the current time matches the category's
+ * starting time, and archives it when the end time is reached.
+ */
 @Service
 @RequiredArgsConstructor
 public class MinuteEventScheduler {

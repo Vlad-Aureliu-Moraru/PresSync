@@ -14,7 +14,7 @@ public class GetEventCategoryQuery implements Query<Integer,EventCategory> {
     }
     @Override
     public ResponseEntity<EventCategory> execute(Integer input) {
-       EventCategory found =  eventCategoryRepository.findById(input).orElse(null);
+       EventCategory found =  eventCategoryRepository.findByIdWithDetails(input).orElse(null);
        if(found == null){
             throw new IllegalArgumentException("Event category with id " + input + " does not exist.");
        }

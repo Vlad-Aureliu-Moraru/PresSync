@@ -13,24 +13,22 @@ Separating user management and authentication into its own module provides a cen
 
 ----------
 
-## Improvements that were done
-- **Granular RBAC**: Implement field-level and path-level Role-Based Access Control as specified in the `API_ROLES_REQUIREMENTS.md`.
-- **Account Security**: Add a mechanism for account lockout after several failed login attempts to prevent brute-force attacks.
-- **Audit Logs**: Implement a user activity logging system to track sensitive changes (e.g., password changes or role modifications).
-- **MFA Support**: Add Multi-Factor Authentication (MFA) to increase security for administrative accounts.
-
 ## Improvements to be done
-- **[NEW] Fix Data Loss in UpdateUserCommand**: `UpdateUserCommand` creates a **new** `User()` instance and copies fields manually instead of mutating the fetched `foundUser`. Any field not explicitly copied (e.g., `createdAt`, `updatedAt`, or future additions) will be lost or overwritten with defaults.
-- **[NEW] Add @Valid on Request Bodies**: Add `@Valid` annotation on `UserUpdateRequestDTO` and `AuthenticationRequest` in controllers to enforce validation constraints.
-- **[NEW] Implement Soft Delete**: Replace hard delete with soft delete (setting `active=false` or a `deletedAt` timestamp) to prevent foreign key constraint violations when users have related `Attendance` records.
-- **[NEW] Self-Deletion Prevention**: Add a check to prevent an admin from deleting their own account.
-- **[NEW] Password Strength Validation**: Add complexity requirements beyond minimum length (e.g., uppercase, digit, special character).
-- **[NEW] Rate Limiting on Auth Endpoints**: Add rate limiting on `/auth/login`, `/auth/register`, and `/auth/verify-otp` to mitigate brute force and enumeration attacks.
+- **[MEDIUM] Granular RBAC**: Implement field-level and path-level Role-Based Access Control as specified in the `API_ROLES_REQUIREMENTS.md`.
+- **[MEDIUM] Account Security**: Add a mechanism for account lockout after several failed login attempts to prevent brute-force attacks.
+- **[LOW] Audit Logs**: Implement a user activity logging system to track sensitive changes (e.g., password changes or role modifications).
+- **[MEDIUM] MFA Support**: Add Multi-Factor Authentication (MFA) to increase security for administrative accounts.
+- **[CRITICAL] Fix Data Loss in UpdateUserCommand**: `UpdateUserCommand` creates a **new** `User()` instance and copies fields manually instead of mutating the fetched `foundUser`. Any field not explicitly copied (e.g., `createdAt`, `updatedAt`, or future additions) will be lost or overwritten with defaults.
+- **[LOW] Add @Valid on Request Bodies**: Add `@Valid` annotation on `UserUpdateRequestDTO` and `AuthenticationRequest` in controllers to enforce validation constraints.
+- **[MEDIUM] Implement Soft Delete**: Replace hard delete with soft delete (setting `active=false` or a `deletedAt` timestamp) to prevent foreign key constraint violations when users have related `Attendance` records.
+- **[LOW] Self-Deletion Prevention**: Add a check to prevent an admin from deleting their own account.
+- **[LOW] Password Strength Validation**: Add complexity requirements beyond minimum length (e.g., uppercase, digit, special character).
+- **[MEDIUM] Rate Limiting on Auth Endpoints**: Add rate limiting on `/auth/login`, `/auth/register`, and `/auth/verify-otp` to mitigate brute force and enumeration attacks.
 
 ## Mistakes that have to be solved
-- **[NEW] UpdateUserCommand Uses orElse(null)**: `userRepository.findById(id).orElse(null)` followed by a manual null check should be `orElseThrow()`.
-- **[NEW] Hard Delete Without FK Check**: `DeleteUserCommand` performs a hard delete without checking for related `Attendance` records, which will cause a foreign key constraint violation.
+- **[LOW] UpdateUserCommand Uses orElse(null)**: `userRepository.findById(id).orElse(null)` followed by a manual null check should be `orElseThrow()`.
+- **[CRITICAL] Hard Delete Without FK Check**: `DeleteUserCommand` performs a hard delete without checking for related `Attendance` records, which will cause a foreign key constraint violation.
 
 ## SOLVED
-- **[EXISTING → SOLVED] Role Update Lock**: The `resolveUpdatedRole` method in `UpdateUserCommand` correctly checks if the authenticated user has the `ADMIN` role and allows role changes for admins. The previous issue where the previous role was hardcoded has been resolved.
-- **[EXISTING → SOLVED] Validation Consistency**: `UserValidator` now checks email uniqueness globally in both overloads — the `validate(name, surname, email, userId)` version allows the same user to keep their email, while `validate(name, surname, email)` (used for registration) throws if the email is already in use by any account. This prevents unhelpful DB constraint violations.
+- **[SOLVED] Role Update Lock**: The `resolveUpdatedRole` method in `UpdateUserCommand` correctly checks if the authenticated user has the `ADMIN` role and allows role changes for admins. The previous issue where the previous role was hardcoded has been resolved.
+- **[SOLVED] Validation Consistency**: `UserValidator` now checks email uniqueness globally in both overloads — the `validate(name, surname, email, userId)` version allows the same user to keep their email, while `validate(name, surname, email)` (used for registration) throws if the email is already in use by any account. This prevents unhelpful DB constraint violations.

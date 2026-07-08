@@ -2,7 +2,9 @@ package com.example.pressync.EventCategory.Model;
 
 import com.example.pressync.Event.Model.Event;
 import com.example.pressync.EventCategoryConfig.Model.EventCategoryConfig;
+import com.example.pressync.User.Model.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -43,6 +45,12 @@ public class EventCategory {
 
     @Column(name = "date")
     private LocalDate specificDate;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "created_by")
+    @JsonIgnoreProperties({"password", "authorities", "accountNonExpired", "accountNonLocked", "credentialsNonExpired", "enabled", "username", "mfaCode", "mfaExpiry", "failedLoginAttempts", "accountLockedUntil", "active", "mfaEnabled"})
+    @ToString.Exclude
+    private User createdBy;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "config_id")

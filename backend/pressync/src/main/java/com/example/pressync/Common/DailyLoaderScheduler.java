@@ -20,6 +20,12 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Scheduled service that runs daily at midnight to determine which event categories
+ * are due for today. Updates the {@link TodayScheduleCache} with the resulting list.
+ * Also listens for {@link EventCategoryChangedEvent} to refresh the cache immediately
+ * when categories are created or modified.
+ */
 @Service
 @RequiredArgsConstructor
 public class DailyLoaderScheduler {

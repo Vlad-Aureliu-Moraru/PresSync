@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface EventCategoryRepository extends JpaRepository<EventCategory, Integer> {
 
@@ -17,9 +18,12 @@ public interface EventCategoryRepository extends JpaRepository<EventCategory, In
             nativeQuery = true)
     List<EventCategory> findByStartingTimeNative(@Param("hour") int hour, @Param("minute") int minute);
 
-    // Our perfectly optimized JPQL query
-    @Query("SELECT c FROM EventCategory c LEFT JOIN FETCH c.categoryConfig")
+    @EntityGraph(attributePaths = {"categoryConfig", "createdBy"})
+    @Query("SELECT c FROM EventCategory c LEFT JOIN FETCH c.categoryConfig LEFT JOIN FETCH c.createdBy")
     List<EventCategory> findAllWithConfigs();
+
+    @Query("SELECT c FROM EventCategory c LEFT JOIN FETCH c.categoryConfig LEFT JOIN FETCH c.createdBy WHERE c.id = :id")
+    Optional<EventCategory> findByIdWithDetails(@Param("id") Integer id);
 
     long countByCategoryConfig_Id(Integer configId);
 

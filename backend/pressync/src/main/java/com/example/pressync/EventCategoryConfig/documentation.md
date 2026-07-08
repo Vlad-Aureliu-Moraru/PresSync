@@ -16,15 +16,15 @@ and update scheduling logic independently from the base category details.
 ----------
 
 ## Improvements to be done
-- **[NEW] Replace @Data with @Getter + @Setter**: `@Data` on the `EventCategoryConfig` entity generates `equals`/`hashCode` including the `@OneToMany categories` collection. This can cause infinite recursion, performance issues, and unintended lazy loading during collection operations.
-- **[NEW] Add orphanRemoval = true**: The `@OneToMany(mappedBy = "categoryConfig", cascade = CascadeType.ALL)` mapping lacks `orphanRemoval = true`. When a category is removed from the `categories` list, it becomes orphaned rather than deleted.
-- **[NEW] Orphan Config Cleanup Service**: When a config is unlinked from all categories (e.g., via update from `repeatable=true` to `false`), the config remains in the database. Add a cleanup mechanism to remove orphaned config rows.
+- **[MEDIUM] Replace @Data with @Getter + @Setter**: `@Data` on the `EventCategoryConfig` entity generates `equals`/`hashCode` including the `@OneToMany categories` collection. This can cause infinite recursion, performance issues, and unintended lazy loading during collection operations.
+- **[LOW] Add orphanRemoval = true**: The `@OneToMany(mappedBy = "categoryConfig", cascade = CascadeType.ALL)` mapping lacks `orphanRemoval = true`. When a category is removed from the `categories` list, it becomes orphaned rather than deleted.
+- **[LOW] Orphan Config Cleanup Service**: When a config is unlinked from all categories (e.g., via update from `repeatable=true` to `false`), the config remains in the database. Add a cleanup mechanism to remove orphaned config rows.
 
 ## Mistakes that have to be solved
-- **[NEW] Monthly Preview Logic Bug**: `previewOccurrences` for `MONTHLY` uses `plusMonths(1)` which preserves day-of-month, not day-of-week. A config like "the 2nd Monday of every month" cannot be represented correctly — if the base date's day-of-week doesn't match `repeatsOnSpecificDay` in a given month, that entire month is skipped.
-- **[NEW] Performance in Preview Loop**: For `MONTHLY` recurrence with a `repeatsOnSpecificDay`, `previewOccurrences` may loop through many months (skipping most) to find matching dates, causing degraded performance with large `limit` values.
+- **[MEDIUM] Monthly Preview Logic Bug**: `previewOccurrences` for `MONTHLY` uses `plusMonths(1)` which preserves day-of-month, not day-of-week. A config like "the 2nd Monday of every month" cannot be represented correctly — if the base date's day-of-week doesn't match `repeatsOnSpecificDay` in a given month, that entire month is skipped.
+- **[LOW] Performance in Preview Loop**: For `MONTHLY` recurrence with a `repeatsOnSpecificDay`, `previewOccurrences` may loop through many months (skipping most) to find matching dates, causing degraded performance with large `limit` values.
 
 ## SOLVED
-- **Rule Previewer**: Implemented a preview utility that returns upcoming occurrences from a config for UI validation.
-- **Coupling Over-Engineering (Interim)**: Enforced a 1:1 logical constraint in the service layer to prevent config reuse while the schema remains unchanged.
-- **Incomplete Validation**: Added validation to ensure `baseDate` aligns with `repeatsOnSpecificDay` and required fields are present.
+- **[SOLVED] Rule Previewer**: Implemented a preview utility that returns upcoming occurrences from a config for UI validation.
+- **[SOLVED] Coupling Over-Engineering (Interim)**: Enforced a 1:1 logical constraint in the service layer to prevent config reuse while the schema remains unchanged.
+- **[SOLVED] Incomplete Validation**: Added validation to ensure `baseDate` aligns with `repeatsOnSpecificDay` and required fields are present.

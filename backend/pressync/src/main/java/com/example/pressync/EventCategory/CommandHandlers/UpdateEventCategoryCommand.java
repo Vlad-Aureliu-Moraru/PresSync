@@ -11,8 +11,12 @@ import com.example.pressync.EventCategoryConfig.Model.EventCategoryConfig;
 import com.example.pressync.EventCategory.Model.EventCategoryChangedEvent;
 import com.example.pressync.EventCategory.Model.RepeatableType;
 import com.example.pressync.EventCategory.Model.RepeatsOnSpecificDay;
+import com.example.pressync.User.Model.User;
+import com.example.pressync.User.Model.UserRoles;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Time;
@@ -42,6 +46,13 @@ public class UpdateEventCategoryCommand implements Command<EventCategoryUpdateDT
         
         EventCategory eventCategory = eventCategoryRepository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Event category with id " + id + " does not exist."));
+
+        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        boolean isAdmin = currentUser.getRole() == UserRoles.ADMIN;
+        boolean isOwner = eventCategory.getCreatedBy() != null && eventCategory.getCreatedBy().getId().equals(currentUser.getId());
+        if (!isAdmin && !isOwner) {
+            throw new AccessDeniedException("Only the creator or an admin can edit this category.");
+        }
 
         eventCategory.setName(request.name());
         eventCategory.setStartingTime(request.startingTime());

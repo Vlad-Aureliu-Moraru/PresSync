@@ -10,10 +10,12 @@ import com.example.pressync.EventCategory.Model.DTO.CreateEventCategoryRequest;
 import com.example.pressync.EventCategoryConfig.EventCategoryConfigRepository;
 import com.example.pressync.EventCategoryConfig.EventCategoryConfigService;
 import com.example.pressync.EventCategoryConfig.Model.EventCategoryConfig;
+import com.example.pressync.User.Model.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Time;
@@ -62,6 +64,8 @@ public class CreateEventCategoryCommand implements Command<CreateEventCategoryRe
             throw new IllegalArgumentException("Coliding with something");
         };
 
+        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        entity.setCreatedBy(currentUser);
 
         eventCategoryRepository.save(entity);
         applicationEventPublisher.publishEvent(new EventCategoryChangedEvent(entity));

@@ -15,7 +15,7 @@ public class GetAllEventCategoriesQuerry implements Query<Void, List<EventCatego
     }
     @Override
     public ResponseEntity<List<EventCategory>> execute(Void input) {
-        List<EventCategory> eventCategories = eventCategoryRepository.findAll().stream().toList();
+        List<EventCategory> eventCategories = eventCategoryRepository.findAllWithConfigs().stream().toList();
         return ResponseEntity.ok().body(eventCategories);
     }
 }
