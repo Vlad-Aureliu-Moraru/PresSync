@@ -1,7 +1,7 @@
 package com.example.pressync.Attendance.QueryHandler;
 
 import com.example.pressync.Attendance.AttendanceRepository;
-import com.example.pressync.Attendance.Model.Attendance;
+import com.example.pressync.Attendance.Model.AttendanceGetDTO;
 import com.example.pressync.Query;
 import com.example.pressync.User.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,17 +12,18 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class GetAttendanceByUserIdQuery implements Query<Integer, List<Attendance>> {
+public class GetAttendanceByUserIdQuery implements Query<Integer, List<AttendanceGetDTO>> {
     private final AttendanceRepository attendanceRepository;
     private final UserRepository userRepository;
 
 
     @Override
-    public ResponseEntity<List<Attendance>> execute(Integer input) {
+    public ResponseEntity<List<AttendanceGetDTO>> execute(Integer input) {
         if (!userRepository.existsById(input)) {
             throw new IllegalArgumentException("User does not exist");
         }
-        List<Attendance> list= attendanceRepository.findAllByUserId(input);
+        List<AttendanceGetDTO> list = attendanceRepository.findAllByUserIdWithDetails(input)
+                .stream().map(AttendanceGetDTO::new).toList();
         return ResponseEntity.ok().body(list);
     }
 }

@@ -49,7 +49,7 @@ public class MinuteEventScheduler {
         }
     }
     private void startEvent(EventCategory cat){
-        eventRepository.archiveAllActiveEvents();
+        eventRepository.archiveByCategory(cat.getId());
         Event event = new Event();
         event.setEventCategory(cat);
         event.setActive(true);

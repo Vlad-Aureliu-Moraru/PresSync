@@ -28,4 +28,13 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Integer>
 
     @Query("SELECT a FROM Attendance a JOIN FETCH a.user JOIN FETCH a.event e JOIN FETCH e.eventCategory ec WHERE ec.id = :categoryId AND a.user.id = :userId ORDER BY e.date ASC, a.joinedAt ASC")
     List<Attendance> findAllByUserIdAndEventCategoryIdWithDetails(@Param("userId") Integer userId, @Param("categoryId") Integer categoryId);
+
+    @Query("SELECT a FROM Attendance a JOIN FETCH a.user JOIN FETCH a.event")
+    List<Attendance> findAllWithDetails();
+
+    @Query("SELECT a FROM Attendance a JOIN FETCH a.user JOIN FETCH a.event WHERE a.user.id = :userId")
+    List<Attendance> findAllByUserIdWithDetails(@Param("userId") Integer userId);
+
+    @Query("SELECT a FROM Attendance a JOIN FETCH a.user JOIN FETCH a.event WHERE a.id = :id")
+    java.util.Optional<Attendance> findByIdWithDetails(@Param("id") Integer id);
 }

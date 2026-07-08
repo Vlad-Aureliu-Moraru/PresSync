@@ -14,7 +14,7 @@ public interface EventRepository extends JpaRepository<Event,Integer> {
     Optional<Event> findFirstByActiveTrue();
 
     @Modifying
-    @Query("UPDATE Event e SET e.active=false ")
+    @Query("UPDATE Event e SET e.active=false WHERE e.active=true")
     void deactivateAllEvents();
 
     @Modifying
@@ -38,6 +38,9 @@ public interface EventRepository extends JpaRepository<Event,Integer> {
 
     @Query("SELECT e FROM Event e JOIN FETCH e.eventCategory c JOIN FETCH c.categoryConfig")
     List<Event> findAllWithCategoriesAndConfigs();
+
+    @Query("SELECT e FROM Event e JOIN FETCH e.eventCategory WHERE e.eventCategory.id = :catId")
+    List<Event> findAllByEventCategoryIdWithCategory(@Param("catId") Integer catId);
 
     List<Event> findAllByEventCategoryId(Integer input);
 }

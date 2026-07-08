@@ -39,7 +39,7 @@ public class AttendanceController {
 
     @GetMapping("/user/{userId}/category/{categoryId}")
     @PreAuthorize("hasAnyRole('ADMIN','MODERATOR') or #userId == principal.id")
-    public ResponseEntity<List<Attendance>> getAttendanceByUserIdAndCategoryId(@PathVariable int userId, @PathVariable int categoryId) {
+    public ResponseEntity<List<AttendanceGetDTO>> getAttendanceByUserIdAndCategoryId(@PathVariable int userId, @PathVariable int categoryId) {
         return getAttendanceByUserIdAndCategoryIdQuery.execute(new GetAttendanceByUserIdAndCategoryIdQuery.AttendanceByUserAndCategoryInput(userId, categoryId));
     }
 
@@ -51,13 +51,13 @@ public class AttendanceController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','MODERATOR')")
-    public ResponseEntity<Attendance> getAttendanceById(@PathVariable int id) {
+    public ResponseEntity<AttendanceGetDTO> getAttendanceById(@PathVariable int id) {
         return getAttendanceByIdQuery.execute(id);
     }
 
     @GetMapping("/user/{userId}")
     @PreAuthorize("hasAnyRole('ADMIN','MODERATOR') or #userId == principal.id")
-    public ResponseEntity<List<Attendance>> getAttendanceByUserID(@PathVariable int userId) {
+    public ResponseEntity<List<AttendanceGetDTO>> getAttendanceByUserID(@PathVariable int userId) {
         return getAttendanceByUserIdQuery.execute(userId);
     }
 

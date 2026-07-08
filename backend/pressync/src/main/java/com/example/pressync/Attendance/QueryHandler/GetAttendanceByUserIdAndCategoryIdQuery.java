@@ -1,7 +1,7 @@
 package com.example.pressync.Attendance.QueryHandler;
 
 import com.example.pressync.Attendance.AttendanceRepository;
-import com.example.pressync.Attendance.Model.Attendance;
+import com.example.pressync.Attendance.Model.AttendanceGetDTO;
 import com.example.pressync.EventCategory.EventCategoryRepository;
 import com.example.pressync.Query;
 import com.example.pressync.User.UserRepository;
@@ -13,13 +13,13 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class GetAttendanceByUserIdAndCategoryIdQuery implements Query<GetAttendanceByUserIdAndCategoryIdQuery.AttendanceByUserAndCategoryInput, List<Attendance>> {
+public class GetAttendanceByUserIdAndCategoryIdQuery implements Query<GetAttendanceByUserIdAndCategoryIdQuery.AttendanceByUserAndCategoryInput, List<AttendanceGetDTO>> {
     private final AttendanceRepository attendanceRepository;
     private final UserRepository userRepository;
     private final EventCategoryRepository eventCategoryRepository;
 
     @Override
-    public ResponseEntity<List<Attendance>> execute(AttendanceByUserAndCategoryInput input) {
+    public ResponseEntity<List<AttendanceGetDTO>> execute(AttendanceByUserAndCategoryInput input) {
         if (!userRepository.existsById(input.userId())) {
             throw new IllegalArgumentException("User does not exist");
         }
@@ -27,7 +27,8 @@ public class GetAttendanceByUserIdAndCategoryIdQuery implements Query<GetAttenda
             throw new IllegalArgumentException("Event category does not exist");
         }
 
-        List<Attendance> list = attendanceRepository.findAllByUserIdAndEventEventCategoryId(input.userId(), input.categoryId());
+        List<AttendanceGetDTO> list = attendanceRepository.findAllByUserIdAndEventCategoryIdWithDetails(input.userId(), input.categoryId())
+                .stream().map(AttendanceGetDTO::new).toList();
         return ResponseEntity.ok().body(list);
     }
 

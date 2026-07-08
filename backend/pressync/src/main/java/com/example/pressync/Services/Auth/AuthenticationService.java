@@ -62,7 +62,7 @@ public class AuthenticationService {
         );
 
         var user = repository.findByEmail(request.email())
-                .orElseThrow();
+                .orElseThrow(() -> new BadCredentialsException("Invalid credentials"));
 
         if (user.getRole() != UserRoles.USER) {
             String otpCode = generateOtpCode();

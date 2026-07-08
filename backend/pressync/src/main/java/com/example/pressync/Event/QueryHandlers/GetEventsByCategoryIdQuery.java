@@ -16,7 +16,7 @@ public class GetEventsByCategoryIdQuery implements Query<Integer, List<EventGetD
 
     @Override
     public ResponseEntity<List<EventGetDTO>> execute(Integer input) {
-        List<EventGetDTO> events = eventRepository.findAllByEventCategoryId(input)
+        List<EventGetDTO> events = eventRepository.findAllByEventCategoryIdWithCategory(input)
                 .stream()
                 .map(EventGetDTO::new)
                 .toList();
