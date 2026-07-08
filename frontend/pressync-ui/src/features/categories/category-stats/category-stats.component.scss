@@ -364,3 +364,140 @@
     overflow: hidden;
   }
 }
+
+/* Export section */
+.export-section {
+  padding: 0 2.5rem 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .export-section {
+    padding: 0 1.25rem 1.25rem;
+  }
+}
+
+.export-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.25rem;
+  border: 1px solid var(--ps-border);
+  border-radius: var(--ps-radius);
+  background: var(--panel-bg);
+  color: var(--ps-text);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--ps-transition);
+
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  &:hover {
+    background: var(--bg-hover);
+    border-color: var(--accent-action);
+    color: var(--accent-action);
+  }
+}
+
+/* Export dialog */
+.export-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.export-dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--secondary-bg);
+  border: 1px solid var(--ps-border);
+  border-radius: var(--ps-radius);
+  padding: 2rem;
+  z-index: 1000;
+  min-width: 320px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+
+  h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--ps-text);
+  }
+
+  p {
+    margin: 0 0 1.5rem;
+    color: var(--ps-text-muted);
+    font-size: 0.9rem;
+  }
+}
+
+.export-actions {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.export-option-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--ps-border);
+  border-radius: var(--ps-radius);
+  background: var(--panel-bg);
+  color: var(--ps-text);
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--ps-transition);
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  &:hover:not(:disabled) {
+    background: var(--bg-hover);
+    border-color: var(--accent-action);
+    color: var(--accent-action);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.cancel-btn {
+  width: 100%;
+  padding: 0.55rem;
+  border: none;
+  border-radius: var(--ps-radius);
+  background: transparent;
+  color: var(--ps-text-muted);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: color var(--ps-transition);
+
+  &:hover {
+    color: var(--ps-text);
+  }
+}
+
+.small-spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--spinner-track);
+  border-top-color: var(--spinner-fill);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}

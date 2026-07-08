@@ -4,13 +4,14 @@ import { Router } from '@angular/router';
 import { EventCategoryService, EventCategory } from '../../../app/core/services/event-category.service';
 import { AuthService } from '../../../app/core/auth/auth';
 import { NotificationService } from '../../../app/shared/services/notification.service';
+import { CategoryCreateComponent } from '../../admin/category-create/category-create.component';
 import { CategoryEditComponent } from '../../admin/category-edit/category-edit.component';
 import { ConfirmDialogComponent } from '../../../app/shared/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-category-search',
   standalone: true,
-  imports: [CommonModule, CategoryEditComponent, ConfirmDialogComponent],
+  imports: [CommonModule, CategoryCreateComponent, CategoryEditComponent, ConfirmDialogComponent],
   templateUrl: './category-search.component.html',
   styleUrls: ['./category-search.component.scss'],
 })
@@ -24,6 +25,7 @@ export class CategorySearchComponent implements OnInit {
   searchQuery = signal<string>('');
   isLoading = signal<boolean>(true);
   errorMessage = signal<string>('');
+  currentUserId = signal<number | null>(this.authService.getUserId());
 
   filteredCategories = computed(() => {
     const query = this.searchQuery().toLowerCase().trim();
@@ -37,11 +39,18 @@ export class CategorySearchComponent implements OnInit {
 
   editingCategory = signal<EventCategory | null>(null);
   deletingCategory = signal<EventCategory | null>(null);
+  creatingCategory = signal(false);
   isDeleting = signal(false);
 
   get deleteMessage(): string {
     const cat = this.deletingCategory();
     return cat ? `Are you sure you want to delete "${cat.name}"? This action cannot be undone.` : '';
+  }
+
+  canEditOrDelete(category: EventCategory): boolean {
+    if (this.authService.isAdmin()) return true;
+    if (category.createdBy && category.createdBy.id === this.currentUserId()) return true;
+    return false;
   }
 
   ngOnInit(): void {
@@ -69,6 +78,19 @@ export class CategorySearchComponent implements OnInit {
 
   goToStats(id: number): void {
     this.router.navigate(['/category-stats', id]);
+  }
+
+  openCreateModal(): void {
+    this.creatingCategory.set(true);
+  }
+
+  closeCreateModal(): void {
+    this.creatingCategory.set(false);
+  }
+
+  onCategoryCreated(): void {
+    this.closeCreateModal();
+    this.fetchCategories();
   }
 
   openEditModal(category: EventCategory): void {

@@ -64,4 +64,8 @@ export class AuthService {
     const role = this.getUserRole();
     return role === 'ADMIN' || role === 'MODERATOR';
   }
+
+  isAdmin(): boolean {
+    return this.getUserRole() === 'ADMIN';
+  }
 }

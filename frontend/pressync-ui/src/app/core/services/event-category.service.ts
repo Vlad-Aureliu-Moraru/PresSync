@@ -19,6 +19,7 @@ export interface EventCategory {
   repeatable: boolean;
   specificDate?: string;
   categoryConfig?: CategoryConfig;
+  createdBy?: { id: number; email: string; name: string; surname: string } | null;
 }
 
 export interface CreateEventCategoryRequest {

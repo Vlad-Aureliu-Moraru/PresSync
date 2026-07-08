@@ -130,6 +130,9 @@
                           <span class="meta-line">{{ event.specificDate | date:'MMM d' }}</span>
                         }
                         <span class="meta-line">{{ event.attendanceTimeStart | slice:0:5 }} · {{ event.attendanceDuration }}min</span>
+                        @if (event.createdBy) {
+                          <span class="meta-line">by {{ event.createdBy.email }}</span>
+                        }
                       </div>
                     </div>
                   </div>

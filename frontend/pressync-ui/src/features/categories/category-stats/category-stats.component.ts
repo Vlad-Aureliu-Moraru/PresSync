@@ -5,6 +5,7 @@ import { AttendanceService, EventCategoryStatsDTO, AttendanceRecord } from '../.
 import { EventCategoryService, EventCategory } from '../../../app/core/services/event-category.service';
 import { AuthService } from '../../../app/core/auth/auth';
 import { BarChartComponent, BarChartItem } from '../../../app/shared/components/bar-chart/bar-chart.component';
+import { NotificationService } from '../../../app/shared/services/notification.service';
 
 @Component({
   selector: 'app-category-stats',
@@ -18,6 +19,7 @@ export class CategoryStatsComponent implements OnInit {
   private attendanceService = inject(AttendanceService);
   private eventCategoryService = inject(EventCategoryService);
   private authService = inject(AuthService);
+  private notificationService = inject(NotificationService);
 
   category = signal<EventCategory | null>(null);
   stats = signal<EventCategoryStatsDTO | null>(null);
@@ -27,6 +29,8 @@ export class CategoryStatsComponent implements OnInit {
 
   isAdminOrMod = computed(() => this.authService.isAdminOrModerator());
   userId = computed(() => this.authService.getUserId());
+  showExportDialog = signal(false);
+  exporting = signal(false);
 
   chartData = computed<BarChartItem[]>(() => {
     const s = this.stats();
@@ -68,6 +72,35 @@ export class CategoryStatsComponent implements OnInit {
       this.errorMessage.set('Invalid category ID.');
       this.isLoading.set(false);
     }
+  }
+
+  exportReport(format: 'csv' | 'pdf'): void {
+    const categoryId = this.route.snapshot.paramMap.get('id');
+    if (!categoryId) return;
+
+    this.exporting.set(true);
+    this.attendanceService.exportReport(categoryId, format).subscribe({
+      next: (response) => {
+        const blob = response.body!;
+        const disposition = response.headers.get('Content-Disposition') || '';
+        const match = disposition.match(/filename="?(.+?)"?$/);
+        const filename = match ? match[1] : `report-${categoryId}.${format}`;
+
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        a.click();
+        URL.revokeObjectURL(url);
+
+        this.exporting.set(false);
+        this.showExportDialog.set(false);
+      },
+      error: () => {
+        this.exporting.set(false);
+        this.notificationService.showFlash('error', 'Export failed', 'Could not generate the report.');
+      }
+    });
   }
 
   private fetchData(id: string): void {

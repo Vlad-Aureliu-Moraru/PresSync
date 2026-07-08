@@ -1,5 +1,5 @@
 import { Injectable, inject, signal, effect } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../auth/auth';
@@ -72,6 +72,14 @@ export class AttendanceService {
 
   getUserCategoryAttendance(userId: number | string, categoryId: number | string): Observable<AttendanceRecord[]> {
     return this.http.get<AttendanceRecord[]>(`${environment.apiUrl}/attendance/user/${userId}/category/${categoryId}`);
+  }
+
+  exportReport(categoryId: number | string, format: 'csv' | 'pdf'): Observable<HttpResponse<Blob>> {
+    return this.http.get(`${environment.apiUrl}/attendance/report/category/${categoryId}`, {
+      params: { format },
+      responseType: 'blob',
+      observe: 'response',
+    });
   }
 
   startMonitoring(): void {
