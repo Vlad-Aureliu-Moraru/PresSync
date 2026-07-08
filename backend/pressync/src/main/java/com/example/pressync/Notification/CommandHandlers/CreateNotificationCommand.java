@@ -8,6 +8,7 @@ import com.example.pressync.Notification.NotificationRepository;
 import com.example.pressync.User.Model.User;
 import com.example.pressync.User.UserRepository;
 import org.springframework.http.ResponseEntity;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -23,6 +24,7 @@ public class CreateNotificationCommand implements Command<CreateNotificationComm
     }
 
     @Override
+    @Transactional
     public ResponseEntity<NotificationGetDTO> execute(CreateNotificationInput input) {
         User user = userRepository.findById(input.userId())
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));

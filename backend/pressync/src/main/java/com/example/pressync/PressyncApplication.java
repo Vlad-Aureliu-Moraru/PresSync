@@ -13,7 +13,6 @@ public class PressyncApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(PressyncApplication.class, args);
-        System.out.println("PressyncApplication started");
         log.info("Pressync application started");
     }
 }

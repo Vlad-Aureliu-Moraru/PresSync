@@ -29,6 +29,6 @@ public class EventCategoryGetDTO {
         this.attendanceDuration = eventCategory.getAttendanceDuration();
         this.repeatable = eventCategory.getRepeatable();
         this.specificDate = eventCategory.getSpecificDate();
-//        this.categoryConfig = eventCategory.getCategoryConfig();
+        this.categoryConfig = eventCategory.getCategoryConfig();
     }
 }

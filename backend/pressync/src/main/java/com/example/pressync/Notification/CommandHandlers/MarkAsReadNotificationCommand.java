@@ -4,6 +4,7 @@ import com.example.pressync.Command;
 import com.example.pressync.Notification.Model.Notification;
 import com.example.pressync.Notification.NotificationRepository;
 import org.springframework.http.ResponseEntity;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,6 +16,7 @@ public class MarkAsReadNotificationCommand implements Command<MarkAsReadNotifica
     }
 
     @Override
+    @Transactional
     public ResponseEntity<String> execute(MarkAsReadInput input) {
         Notification notification = notificationRepository.findById(input.notificationId())
                 .orElseThrow(() -> new IllegalArgumentException("Notification not found"));

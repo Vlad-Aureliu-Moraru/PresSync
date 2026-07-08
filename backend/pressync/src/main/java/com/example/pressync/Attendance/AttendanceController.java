@@ -87,6 +87,9 @@ public class AttendanceController {
         boolean isAdminOrMod = currentUser.getRole() == UserRoles.ADMIN || currentUser.getRole() == UserRoles.MODERATOR;
         ResponseEntity<AttendanceReportDTO> response = getAttendanceReportQuery.execute(categoryId, currentUser.getId(), isAdminOrMod);
         AttendanceReportDTO report = response.getBody();
+        if (report == null) {
+            return ResponseEntity.noContent().build();
+        }
 
         byte[] data;
         String extension;

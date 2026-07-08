@@ -7,6 +7,7 @@ import com.example.pressync.EventCategory.EventCategoryRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,6 +20,7 @@ public class CreateEventCommand implements Command<Event,String> {
         this.eventCategoryRepository = eventCategoryRepository;
     }
     @Override
+    @Transactional
     public ResponseEntity<String> execute(Event entity) {
         int eventCategoryId = entity.getEventCategory().getId();
         eventCategoryRepository.findById(eventCategoryId).orElseThrow(() -> new IllegalArgumentException("Event Category Not Found"));

@@ -6,6 +6,7 @@ import com.example.pressync.Attendance.Model.AttendanceUpdateDTO;
 import com.example.pressync.Command;
 import com.example.pressync.Event.EventRepository;
 import com.example.pressync.User.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ public class UpdateAttendanceCommand implements Command<AttendanceUpdateDTO,Stri
     private final UserRepository userRepository;
 
     @Override
+    @Transactional
     public ResponseEntity<String> execute(AttendanceUpdateDTO attendanceUpdateDTO) {
         int id = attendanceUpdateDTO.getId();
         Attendance existing = attendanceRepository.findById(id)

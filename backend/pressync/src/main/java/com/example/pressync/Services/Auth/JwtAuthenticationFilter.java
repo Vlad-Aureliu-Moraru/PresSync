@@ -61,13 +61,29 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             }
         } catch (ExpiredJwtException e) {
-            log.debug("JWT token expired: {}", e.getMessage());
+            log.warn("JWT token expired: {}", e.getMessage());
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+            response.getWriter().write("{\"status\":401,\"message\":\"Your session has expired. Please login again.\"}");
+            return;
         } catch (SignatureException e) {
-            log.debug("JWT signature invalid: {}", e.getMessage());
+            log.warn("JWT signature invalid: {}", e.getMessage());
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            response.setContentType("application/json");
+            response.getWriter().write("{\"status\":403,\"message\":\"Invalid token signature.\"}");
+            return;
         } catch (MalformedJwtException e) {
-            log.debug("JWT token malformed: {}", e.getMessage());
+            log.warn("JWT token malformed: {}", e.getMessage());
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+            response.getWriter().write("{\"status\":401,\"message\":\"Invalid token.\"}");
+            return;
         } catch (Exception e) {
-            log.debug("JWT authentication failed: {}", e.getMessage());
+            log.warn("JWT authentication failed: {}", e.getMessage());
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+            response.getWriter().write("{\"status\":401,\"message\":\"Authentication failed.\"}");
+            return;
         }
 
         filterChain.doFilter(request, response);

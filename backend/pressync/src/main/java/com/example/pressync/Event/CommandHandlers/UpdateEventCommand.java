@@ -5,6 +5,7 @@ import com.example.pressync.Event.EventRepository;
 import com.example.pressync.Event.Model.Event;
 import com.example.pressync.Event.Model.EventPutDTO;
 import org.springframework.http.ResponseEntity;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,6 +17,7 @@ public class UpdateEventCommand implements Command<EventPutDTO,String> {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<String> execute(EventPutDTO entity) {
         int id = entity.getId();
         Event existingEvent = eventRepository.findById(id).orElse(null);

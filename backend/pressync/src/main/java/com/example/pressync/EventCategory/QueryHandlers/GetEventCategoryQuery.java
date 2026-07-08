@@ -1,23 +1,22 @@
 package com.example.pressync.EventCategory.QueryHandlers;
 
 import com.example.pressync.EventCategory.EventCategoryRepository;
-import com.example.pressync.EventCategory.Model.EventCategory;
+import com.example.pressync.EventCategory.Model.DTO.EventCategoryGetDTO;
 import com.example.pressync.Query;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
-public class GetEventCategoryQuery implements Query<Integer,EventCategory> {
-    private EventCategoryRepository eventCategoryRepository;
+public class GetEventCategoryQuery implements Query<Integer, EventCategoryGetDTO> {
+    private final EventCategoryRepository eventCategoryRepository;
     public GetEventCategoryQuery(EventCategoryRepository eventCategoryRepository) {
         this.eventCategoryRepository = eventCategoryRepository;
     }
     @Override
-    public ResponseEntity<EventCategory> execute(Integer input) {
-       EventCategory found =  eventCategoryRepository.findByIdWithDetails(input).orElse(null);
-       if(found == null){
-            throw new IllegalArgumentException("Event category with id " + input + " does not exist.");
-       }
-       return ResponseEntity.ok().body(found);
+    public ResponseEntity<EventCategoryGetDTO> execute(Integer input) {
+        EventCategoryGetDTO dto = eventCategoryRepository.findByIdWithDetails(input)
+                .map(EventCategoryGetDTO::new)
+                .orElseThrow(() -> new IllegalArgumentException("Event category with id " + input + " does not exist."));
+        return ResponseEntity.ok(dto);
     }
 }

@@ -4,6 +4,7 @@ import com.example.pressync.Command;
 import com.example.pressync.Event.EventRepository;
 import com.example.pressync.Event.Model.Event;
 import org.springframework.http.ResponseEntity;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,6 +14,7 @@ public class DeleteEventCommand implements Command<Integer,String> {
         this.eventRepository = eventRepository;
     }
     @Override
+    @Transactional
     public ResponseEntity<String> execute(Integer id) {
         Event event = eventRepository.findById(id).orElse(null);
         if (event == null) {

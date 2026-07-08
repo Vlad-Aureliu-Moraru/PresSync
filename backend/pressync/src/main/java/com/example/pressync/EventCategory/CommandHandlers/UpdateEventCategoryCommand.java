@@ -17,6 +17,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.sql.Time;
@@ -40,6 +41,7 @@ public class UpdateEventCategoryCommand implements Command<EventCategoryUpdateDT
     }
 
     @Override
+    @Transactional
     public ResponseEntity<String> execute(EventCategoryUpdateDTO dto) {
         int id = dto.getId();
         UpdateEventCategoryRequest request = dto.getRequest();

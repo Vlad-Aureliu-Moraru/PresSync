@@ -3,8 +3,8 @@ package com.example.pressync.EventCategory;
 import com.example.pressync.EventCategory.CommandHandlers.CreateEventCategoryCommand;
 import com.example.pressync.EventCategory.CommandHandlers.DeleteEventCategoryCommand;
 import com.example.pressync.EventCategory.CommandHandlers.UpdateEventCategoryCommand;
-import com.example.pressync.EventCategory.Model.EventCategory;
 import com.example.pressync.EventCategory.Model.DTO.CreateEventCategoryRequest;
+import com.example.pressync.EventCategory.Model.DTO.EventCategoryGetDTO;
 import com.example.pressync.EventCategory.Model.DTO.UpdateEventCategoryRequest;
 import com.example.pressync.EventCategory.Model.EventCategoryUpdateDTO;
 import com.example.pressync.EventCategory.QueryHandlers.GetAllEventCategoriesQuerry;
@@ -31,29 +31,26 @@ public class EventCategoryController {
 
     @GetMapping
     @PreAuthorize("hasAnyRole('USER','MODERATOR','ADMIN')")
-    public ResponseEntity<List<EventCategory>> getAllEventCategories(){
+    public ResponseEntity<List<EventCategoryGetDTO>> getAllEventCategories(){
         return getAllEventCategoriesQuerry.execute(null);
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('USER','MODERATOR','ADMIN')")
-    public ResponseEntity<EventCategory> getEventCategory(@PathVariable int id){
+    public ResponseEntity<EventCategoryGetDTO> getEventCategory(@PathVariable int id){
         return getEventCategoryQuery.execute(id);
     }
 
     @GetMapping("/today")
     @PreAuthorize("hasAnyRole('USER','MODERATOR','ADMIN')")
-    public ResponseEntity<List<EventCategory>> getEventCategoriesDueToday(){
+    public ResponseEntity<List<EventCategoryGetDTO>> getEventCategoriesDueToday(){
         return getEventCategoryDueTodayQuery.execute(null);
     }
 
-    @PostMapping("/create")
+    @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN','MODERATOR')")
     public ResponseEntity<String> addEventCategory(@RequestBody CreateEventCategoryRequest eventCategoryRequest){
       return   createEventCategoryCommand.execute(eventCategoryRequest);
-
-
-
     }
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','MODERATOR')")

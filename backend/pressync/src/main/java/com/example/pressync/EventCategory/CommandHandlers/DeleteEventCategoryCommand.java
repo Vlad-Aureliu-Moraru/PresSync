@@ -11,6 +11,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,6 +20,7 @@ public class DeleteEventCategoryCommand implements Command<Integer, String> {
     private final EventCategoryRepository eventCategoryRepository;
     private final ApplicationEventPublisher applicationEventPublisher;
     @Override
+    @Transactional
     public ResponseEntity<String> execute(Integer entity) {
         EventCategory found = eventCategoryRepository.findById(entity)
                 .orElseThrow(() -> new IllegalArgumentException("Event category with id " + entity + " does not exist."));

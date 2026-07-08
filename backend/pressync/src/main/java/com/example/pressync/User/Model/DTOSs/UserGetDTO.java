@@ -20,7 +20,14 @@ public class UserGetDTO {
         this.id = user.getId();
         this.name = user.getName();
         this.surname = user.getSurname();
-        this.email = user.getEmail();
+        this.email = maskEmail(user.getEmail());
         this.role = user.getRole().toString();
+    }
+
+    private static String maskEmail(String email) {
+        if (email == null || !email.contains("@")) return email;
+        int atIndex = email.indexOf('@');
+        if (atIndex <= 1) return email;
+        return email.charAt(0) + "****" + email.substring(atIndex - 1);
     }
 }

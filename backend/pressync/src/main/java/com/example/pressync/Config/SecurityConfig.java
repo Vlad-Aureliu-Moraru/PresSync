@@ -35,9 +35,12 @@ public class SecurityConfig {
     @Value("${app.cors.allowed-origins:http://localhost:4200,http://localhost:5173}")
     private String allowedOrigins;
 
+    @Value("${app.bcrypt.strength:10}")
+    private int bcryptStrength;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder(bcryptStrength);
     }
 
     @Bean

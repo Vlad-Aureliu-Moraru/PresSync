@@ -6,6 +6,7 @@ import com.example.pressync.Command;
 import com.example.pressync.Event.EventRepository;
 import com.example.pressync.Event.Model.Event;
 import com.example.pressync.User.Model.User;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ public class CreateAttendanceCommand implements Command<User,String> {
     private final EventRepository eventRepository;
 
     @Override
+    @Transactional
     public ResponseEntity<String> execute(User user) {
         Attendance attendance = new Attendance();
         Event event = eventRepository.findFirstByActiveTrue().orElseThrow(()->

@@ -53,7 +53,7 @@ public class ReportExportService {
             }
         }
 
-        return sb.toString().getBytes();
+        return sb.toString().getBytes(java.nio.charset.StandardCharsets.UTF_8);
     }
 
     public byte[] generatePdf(AttendanceReportDTO report) {

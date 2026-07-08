@@ -3,6 +3,7 @@ package com.example.pressync.Notification.CommandHandlers;
 import com.example.pressync.Command;
 import com.example.pressync.Notification.NotificationRepository;
 import org.springframework.http.ResponseEntity;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,6 +15,7 @@ public class MarkAllAsReadNotificationCommand implements Command<Integer, String
     }
 
     @Override
+    @Transactional
     public ResponseEntity<String> execute(Integer userId) {
         notificationRepository.markAllAsReadByUserId(userId);
         return ResponseEntity.ok().body("All marked as read");

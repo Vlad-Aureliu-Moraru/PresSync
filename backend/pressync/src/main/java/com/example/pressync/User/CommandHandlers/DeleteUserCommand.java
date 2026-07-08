@@ -4,6 +4,7 @@ import com.example.pressync.Command;
 import com.example.pressync.User.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 public class DeleteUserCommand implements Command<Integer,String> {
     private final UserRepository userRepository;
     @Override
+    @Transactional
     public ResponseEntity<String> execute(Integer entity) {
         if (!userRepository.existsById(entity)) {
             throw new IllegalArgumentException("User does not exist");
