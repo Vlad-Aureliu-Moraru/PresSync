@@ -13,6 +13,7 @@ import com.example.pressync.EventCategory.Model.RepeatableType;
 import com.example.pressync.EventCategory.Model.RepeatsOnSpecificDay;
 import com.example.pressync.User.Model.User;
 import com.example.pressync.User.Model.UserRoles;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -42,6 +43,7 @@ public class UpdateEventCategoryCommand implements Command<EventCategoryUpdateDT
 
     @Override
     @Transactional
+    @CacheEvict(value = "eventCategories", allEntries = true)
     public ResponseEntity<String> execute(EventCategoryUpdateDTO dto) {
         int id = dto.getId();
         UpdateEventCategoryRequest request = dto.getRequest();

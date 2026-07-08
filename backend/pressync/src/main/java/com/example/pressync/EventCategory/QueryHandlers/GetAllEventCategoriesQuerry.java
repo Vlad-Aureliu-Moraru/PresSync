@@ -3,6 +3,7 @@ package com.example.pressync.EventCategory.QueryHandlers;
 import com.example.pressync.EventCategory.EventCategoryRepository;
 import com.example.pressync.EventCategory.Model.DTO.EventCategoryGetDTO;
 import com.example.pressync.Query;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ public class GetAllEventCategoriesQuerry implements Query<Void, List<EventCatego
         this.eventCategoryRepository = eventCategoryRepository;
     }
     @Override
+    @Cacheable(value = "eventCategories", unless = "#result == null || #result.isEmpty()")
     public ResponseEntity<List<EventCategoryGetDTO>> execute(Void input) {
         List<EventCategoryGetDTO> dtos = eventCategoryRepository.findAllWithConfigs().stream()
                 .map(EventCategoryGetDTO::new).toList();

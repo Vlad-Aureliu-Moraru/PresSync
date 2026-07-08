@@ -12,6 +12,7 @@ import com.example.pressync.EventCategoryConfig.EventCategoryConfigService;
 import com.example.pressync.EventCategoryConfig.Model.EventCategoryConfig;
 import com.example.pressync.User.Model.User;
 import jakarta.transaction.Transactional;
+import org.springframework.cache.annotation.CacheEvict;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +32,7 @@ public class CreateEventCategoryCommand implements Command<CreateEventCategoryRe
     private final ApplicationEventPublisher applicationEventPublisher;
     @Override
     @Transactional
+    @CacheEvict(value = "eventCategories", allEntries = true)
     public ResponseEntity<String> execute(CreateEventCategoryRequest request) {
         EventCategory entity = new EventCategory();
         entity.setName(request.name());

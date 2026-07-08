@@ -7,6 +7,7 @@ import com.example.pressync.EventCategory.Model.EventCategoryChangedEvent;
 import com.example.pressync.User.Model.User;
 import com.example.pressync.User.Model.UserRoles;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -21,6 +22,7 @@ public class DeleteEventCategoryCommand implements Command<Integer, String> {
     private final ApplicationEventPublisher applicationEventPublisher;
     @Override
     @Transactional
+    @CacheEvict(value = "eventCategories", allEntries = true)
     public ResponseEntity<String> execute(Integer entity) {
         EventCategory found = eventCategoryRepository.findById(entity)
                 .orElseThrow(() -> new IllegalArgumentException("Event category with id " + entity + " does not exist."));
